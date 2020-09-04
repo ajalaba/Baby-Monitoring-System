@@ -42,7 +42,7 @@ app.get('/api/test', (req, res) => {
 
 
 const Device = require('./models/device');
-
+const User = require('./models/user');
 
 app.get('/api/devices', (req, res) => {
     console.log("Entered api/devices");
@@ -112,3 +112,82 @@ app.post('/api/send-command', (req, res) => {
     "sensor_data" : { "acceleration" : { "value" : 7.6, "unit" : "m/s^2"}, "temperature" : {"value" : 36, "unit" : "C"}, "sound" : { "sound_peak_dB" : 64, "sound_avg_dB" : 34}}
 }
 */
+
+
+
+app.post('/api/registration', (req, res) => {
+    const { name, password, isAdmin } = req.body;
+    User.find({}, (err, users) => {
+        console.log("users");
+        console.log(users);
+    });
+    User.findOne({"name":name}, (err, result) => {
+        if(err)
+        return err;
+        console.log("Result");
+        console.log(result);
+        if(result!=null)
+        {
+            res.send("Error!!! User already exists");
+        }
+        else
+        {
+            const newUser = new User({
+                name: name,
+                password,
+                isAdmin
+            });
+            newUser.save(err => {
+                return err
+                ? res.send(err)
+                : res.json({
+                success: true,
+                message: 'Created new user'
+                });
+            });
+        }
+    });
+    
+});
+
+app.post('/api/authenticate', (req, res) => {
+    const { name, password} = req.body;
+    console.log("suthenticate name:"+name);
+    console.log("authenticate password:"+password);
+    
+    User.findOne({"name":name}, (err, result) => {
+        if(err)
+        return err;
+        console.log("Result");
+        console.log(result);
+        if(result==null)
+        {
+            res.send("Error:(User doesn't exist)The User in not in the Registration Database");
+        }
+        else
+        {
+            if(result.password==password)
+            {
+                console.log("password else");
+                return res.json({
+                    success: true,
+                    message: 'Authenticated successfully',
+                    isAdmin: result.isAdmin}
+                );                
+            }
+            else
+            {
+                res.send("Error: Password is incorrect");
+            }
+        }
+    });
+});
+
+app.get('/api/users/:user/devices', (req, res) => {
+    const { user } = req.params;
+    Device.find({ "user_name": user }, (err, devices) => {
+    return err
+    ? res.send(err)
+    : res.send(devices);
+    });
+});
