@@ -77,7 +77,18 @@ $.get(`${API_URL}/devices`).then(response => {
             console.error(`Error: ${error}`);
         });
 
+        
 
+        // $('#device-data1').append(`
+        // <tr>
+        // <td>${sensorData.acceleration.accel_value}</td>
+        // <td>${sensorData.acceleration.unit}</td>
+        // <td>${sensorData.temperature.temp_value}</td>
+        // <td>${sensorData.temperature.unit}</td>
+        // <td>${sensorData.sound.sound_peak_dB}</td>
+        // <td>${sensorData.sound.sound_avg_dB}</td>
+        // </tr>
+        // `);
 
 // $.get(`${API_URL}/devices`).then(response => {
 //     response.forEach((device) => {
@@ -116,15 +127,15 @@ adddeviceapp.controller('formCtrl',function($scope)
     $scope.username="";
     $scope.name="";
     $scope.save = function() {
-        const user = $scope.username;
-        const devicename = $scope.name;
-        console.log("username: "+user);
-        console.log("name: "+name);
-        const sensorData = [];
+        const user_name = $scope.username;
+        const device_name = $scope.name;
+        console.log("username: "+user_name);
+        console.log("name: "+device_name);
+        const sensor_data = [];
         const body = {
-        devicename,
-        user,
-        sensorData
+        device_name,
+        user_name,
+        sensor_data
         };
         $.post(`${API_URL}/devices`, body)
         .then(response => {
@@ -141,31 +152,7 @@ adddeviceapp.controller('formCtrl',function($scope)
 
 
 
-var sendcommandapp = angular.module('sendcommandapp',[]);
 
-sendcommandapp.controller('formCtrl',function($scope)
-{
-    $scope.deviceId="";
-    $scope.command="";
-    $scope.send= function() {
-        const deviceId = $scope.deviceId;
-    const command = $scope.command;
-    console.log("send-commad entered"+deviceId+command);
-    $.post(`${MQTT_URL}/send-command`, { "deviceId":deviceId, "command":command })
-    .then((response) =>{
-        console.log("response");
-        console.log(response);
-    if (response.success) 
-    {
-        $('#message').append(`<p>${response}</p>`);
-    }
-    else
-    {
-        $('#message').append(`<p class="alert alert-danger">${response}</p>`);
-    }
-    });
-}
-});
 
 $('#send-command').on('click', function() { 
     const command = $('#command').val(); 

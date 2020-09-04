@@ -17,9 +17,7 @@ app.listen(port, () => {
 app.get('/', function (req, res) {
     res.sendFile(`${base}/device-list.html`);
     });
-app.get('/device-data', function (req, res) {
-    res.sendFile(`${base}/device-data.html`);
-    });
+
 app.get('/register-device', function (req, res) {
     res.sendFile(`${base}/register-device.html`);
     });

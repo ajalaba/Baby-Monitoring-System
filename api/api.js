@@ -81,6 +81,7 @@ app.get('/api/devices/:deviceId/device-history', (req, res) => {
     Device.findOne({"_id": deviceId }, (err, devices) => {
     console.log(devices);
     const { sensor_data } = devices;
+    console.log(sensor_data);
     return err
     ? res.send(err)
     : res.send(sensor_data);
