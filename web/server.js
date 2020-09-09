@@ -27,7 +27,7 @@ app.get('/send-command', (req, res) => {
 app.get('/humid', (req, res) => {
     res.sendFile(`${base}/humid.html`);
 });
-app.get('/humid', (req, res) => {
+app.get('/infrared', (req, res) => {
     res.sendFile(`${base}/infrared.html`);
 });
 app.get('*', (req, res) => {
