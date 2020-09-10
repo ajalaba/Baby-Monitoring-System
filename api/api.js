@@ -462,7 +462,7 @@ app.post('/api/registration', (req, res) => {
 */
 app.get('/api/users/:user/devices', (req, res) => {
     const { user } = req.params;
-    Device.find({ "user": user }, (err, devices) => {
+    Device.find({ "user_name": user }, (err, devices) => {
     return err
     ? res.send(err)
     : res.send(devices);
