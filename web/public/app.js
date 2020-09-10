@@ -52,7 +52,7 @@ var currentDevice;
             <tr data-device-id=${device._id}>
             <td>${device.user_name}</td>
             <td>${device.device_name}</td>
-            <td><button id="sensorbtn">Data</button></td>
+            <td><button id="sensorbtn">Sensors</button></td>
             </tr>`
             );
             //device_list.push(device.device_name);
@@ -216,12 +216,12 @@ var currentDevice;
             const path = window.location.pathname;
                     
             //users should login before tgey can see other pages
-            // if (path !== '/login' && path !== '/registration') {
-            //     location.href = '/login'; 
-            // }
+            if (path !== '/login' && path !== '/registration') {
+                location.href = '/login'; 
+            }
         }
 
-        function getTempData() {
+        function getTempData(){
             var temp = currentDevice.temp_data;
             
             return temp;

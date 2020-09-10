@@ -7,49 +7,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
-<title>Temperature Data</title>
+<title>Accelerometer Data</title>
 </head>
 <body>
-    <h1>Temperature Data</h1> 
+    <h1>Accelerometer Data</h1> 
   <div class="container">
-    <div id="navbar"></div>
+    <div id="navbar"></div>  
   </div>
   <div class="container">
     <form>
+        
         <p></p> 
-        <button style="background-color:chartreuse; border-color: chartreuse; color:black;" class="btn btn-success" onclick="updateChart()">Update</button>
+        <button style="background-color:crimson; border-color: crimson; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
     </form>
     <canvas id="IRChart"></canvas> 
     
   </div>
-  
-  
+   
   <script>
     let myChart = document.getElementById('IRChart').getContext('2d');
-    
-    function getData() { 
+
+    function getData() {
+          
         return Math.random() * 100;
     }
-
-    // function getTempValues() {
-    //   var temp = getTempData();
-    //   var tempValues = [];
-    //   forEach((temp) => {
-    //       tempValues.push(temp.temp_value);
-    //   });
-    //   console.log(tempValues[0]);
-    //   return tempValues;
-    // }
-
-    // function getTempDates() {
-    //   var temp = getTempData();
-    //   var tempDates = [];
-    //   forEach((temp) => {
-    //       tempDates.push(temp.temp_date);
-    //   });
-    //   console.log(tempDates[0]);
-    //   return tempDates;
-    // }
 
     // Global Options
     Chart.defaults.global.defaultFontFamily = 'Lato';
@@ -61,7 +42,7 @@
       data:{
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
           datasets:[{
-            label:'Temperature Data',
+            label:'Accelerometer Data',
             data:[
               getData(), getData(),getData(),getData(),getData(),getData(),getData()
             ],
@@ -77,7 +58,7 @@
           //],
           borderWidth:3,
           borderColor:[
-            'rgba(127, 255, 0, 1)'
+            'rgba(220, 20, 60, 0.6)'
             // 'rgba(0, 99, 132, 0.6)',
             // 'rgba(0, 99, 132, 0.6)',
             // 'rgba(0, 99, 132, 0.6)',
@@ -92,7 +73,7 @@
       options:{
         title:{
           display:true,
-          text:'Temperature Data',
+          text:'Accelerometer Data',
           fontSize:25,
         },
         legend:{
@@ -119,7 +100,7 @@
     function updateChart() {
 
         chart.data.datasets.forEach((datasets) => {
-          datasets.data.push(getData);
+          datasets.data.push(getData());
         })
         chart.update();
     };

@@ -42,6 +42,9 @@ app.get('/sound', (req, res) => {
 app.get('/temp', (req, res) => {
     res.sendFile(`${base}/temp.html`);
 });
+app.get('/accelerometer', (req, res) => {
+    res.sendFile(`${base}/accelerometer.html`);
+});
 app.get('/get-started', (req, res) => {
     res.sendFile(`${base}/get-started.html`);
 });
