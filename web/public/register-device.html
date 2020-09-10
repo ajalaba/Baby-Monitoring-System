@@ -30,6 +30,13 @@
         </span>
         <br>
         <br>
+        <label for="name">Baby Name:</label>
+        <input type="text" class="form-control" name="name" ng-model="baby_name" required>
+        <span style="color:red" ng-show="myForm.baby_name.$dirty && myForm.baby_name.$invalid">
+            <span ng-show="myForm.name.$error.required">Baby name is required.</span>
+        </span>
+        <br>
+        <br>
         <button ng-click="save()" class="btn btn-success" id="add-device" ng-disabled="myForm.user.$dirty && myForm.username.$invalid ||  
         myForm.name.$dirty && myForm.name.$invalid">Save</button>
         <br>

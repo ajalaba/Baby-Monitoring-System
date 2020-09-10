@@ -139,13 +139,15 @@ adddeviceapp.controller('formCtrl',function($scope)
     $scope.save = function() {
         const user_name = $scope.username;
         const device_name = $scope.name;
+        const patient_name = $scope.baby_name;
         console.log("username: "+user_name);
         console.log("name: "+device_name);
+        console.log("Baby name: "+patient_name);
         const sensor_data = [];
         const body = {
         device_name,
         user_name,
-        sensor_data
+        patient_name,
         };
         $.post(`${API_URL}/devices`, body)
         .then(response => {
