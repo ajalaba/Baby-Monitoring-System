@@ -8,7 +8,6 @@ const response = $.get(`${API_URL}/devices`);
 const isAuthenticated=JSON.parse(localStorage.getItem('isAuthenticated')) || false;
 const currentUser = localStorage.getItem('user');
 var sesnorData;
-
 var currentDevice;
 
 // $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
@@ -53,9 +52,10 @@ var currentDevice;
             <tr data-device-id=${device._id}>
             <td>${device.user_name}</td>
             <td>${device.device_name}</td>
+            <td><button id="sensorbtn">Data</button></td>
             </tr>`
             );
-            // device_list.push(device.device_name);
+            //device_list.push(device.device_name);
             console.log("device list added");
             // $('#device-options').append(
             //     <option value="">${device.user_name}</option> 
@@ -198,6 +198,13 @@ var currentDevice;
             }); 
                 
         });
+        
+        
+
+        $('#devices tbody').on( 'click', 'button', function () {
+            location.href="/sensor-data.html";
+            //alert( "Button clicked");
+        } );
 
         })
         .catch(error => {
@@ -212,10 +219,14 @@ var currentDevice;
             // if (path !== '/login' && path !== '/registration') {
             //     location.href = '/login'; 
             // }
-        } 
+        }
 
-        
-        
+        function getTempData() {
+            var temp = currentDevice.temp_data;
+            
+            return temp;
+            
+        };
 
         // $('#device-data1').append(`
         // <tr>
