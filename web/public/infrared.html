@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="description" content="A frontend dashboard for the BabyMonitor application" />
+<meta name="ADV" content="ADV" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+<title>Infrared Data</title>
+</head>
+<body>
+    <h1>Infrared Data</h1> 
+  <div class="container">
+    <div id="navbar"></div>
+  </div>
+  <div class="container">
+    <form>
+        <p></p> 
+        <button style="background-color: blueviolet; border-color: blueviolet; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
+    </form>
+    <canvas id="IRChart"></canvas> 
+    
+  </div>
+  
+  
+  <script>
+    let myChart = document.getElementById('IRChart').getContext('2d');
+
+    function getData() {
+          
+        return Math.random() * 100;
+    }
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#000';
+
+    let massPopChart = new Chart(IRChart, {
+      type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          datasets:[{
+            label:'Infrared Data',
+            data:[
+              getData(), getData(),getData(),getData(),getData(),getData(),getData()
+            ],
+          //backgroundColor:'green',
+          // backgroundColor:[
+          //   'rgba(0, 99, 132, 0.6)'
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)'
+          //],
+          borderWidth:3,
+          borderColor:[
+            'rgba(138, 43, 226, 0.6)'
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)'
+          ],
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'IR Sensor Data',
+          fontSize:25,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+
+    function updateChart() {
+
+        chart.data.datasets.forEach((datasets) => {
+          datasets.data.push(getData());
+        })
+        chart.update();
+    };
+
+  </script>
+  <div style="text-align: center;", id="footbar"></div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

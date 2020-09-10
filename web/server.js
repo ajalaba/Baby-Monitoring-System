@@ -33,6 +33,12 @@ app.get('/registration', (req, res) => {
 app.get('/humid', (req, res) => {
     res.sendFile(`${base}/humid.html`);
 });
+app.get('/infrared', (req, res) => {
+    res.sendFile(`${base}/infrared.html`);
+});
+app.get('/get-started', (req, res) => {
+    res.sendFile(`${base}/get-started.html`);
+});
 app.get('*', (req, res) => {
     res.sendFile(`${base}/404.html`);
     });
