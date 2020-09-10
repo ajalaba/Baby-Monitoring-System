@@ -5,7 +5,9 @@ mongoose.connect('mongodb+srv://adv:adv123@cluster0.lpmrh.mongodb.net/BabyMonito
 //mongoose.connect('mongodb+srv://deolsatish:debarati@sit209.udjho.mongodb.net/test1');
 // To connect to mongo db dtabase using mongodb shell mongo "mongodb+srv://cluster0.lpmrh.mongodb.net/BabyMonitor>" --username adv
 
+var db = mongoose.connection;
 
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const express = require('express');
 const app = express();
@@ -42,6 +44,8 @@ app.get('/api/test', (req, res) => {
 
 
 const Device = require('./models/device');
+const device = require('./models/device');
+const User = require('./models/user');
 
 
 app.get('/api/devices', (req, res) => {
@@ -61,11 +65,21 @@ app.get('/api/devices', (req, res) => {
     });
 });
 app.post('/api/devices', (req, res) => {
-    const { device_name, user_name, sensor_data } = req.body;
+    const { device_name, user_name, patient_name } = req.body;
+    var device_status= 1;
+    var location_data= [];
+    var temp_data=[];
+    var humidity_data=[];
+    var sound_data=[];
+    var accelerometer_data=[];
+    var infrared_data=[];
     const newDevice = new Device({
     device_name,
     user_name,
-    sensor_data
+    patient_name,
+    temp_data,
+    device_status,
+    location_data
     });
     newDevice.save(err => {
     return err
@@ -88,6 +102,21 @@ app.get('/api/devices/:deviceId/device-history', (req, res) => {
     });
     });
 
+
+    app.get('/api/devices/:device_name/device-history', (req, res) => {
+        const { device_name } = req.params;
+        console.log(device_name);
+        // to test in the browser http://localhost:5000/api/devices/5f50a23d25bb7a03a4af477e/device-history
+        Device.findOne({"device_name": device_name }, (err, devices) => {
+        console.log(devices);
+        const { sensor_data } = devices;
+        console.log(sensor_data);
+        return err
+        ? res.send(err)
+        : res.send(sensor_data);
+        });
+        });
+
 /**
 * @api {post} /api/devices AllDevices Send Command
 * @apiGroup Device
@@ -104,11 +133,227 @@ app.get('/api/devices/:deviceId/device-history', (req, res) => {
 app.post('/api/send-command', (req, res) => { 
     console.log(req.body);
 });
-/*
-{ 
-    "id" : 1,
-    "device_name" : "",
-    "user_name" : "",
-    "sensor_data" : { "acceleration" : { "value" : 7.6, "unit" : "m/s^2"}, "temperature" : {"value" : 36, "unit" : "C"}, "sound" : { "sound_peak_dB" : 64, "sound_avg_dB" : 34}}
+
+
+// { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
+
+app.post('/api/devices/:device_name/temperature', (req, res) => {
+    var temp = req.body;
+    console.log(temp);
+    var d = new Date(temp.date);
+    console.log(d.toString());
+    var { device_name } = req.params;
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+        var {  temp_data } = devices;
+        temp_data.push(temp);
+        console.log("AFter");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        });
+        return err
+        ? res.send(err)
+        : res.send(devices.temp_data);
+        });
+    });
+app.get('/api/devices/:device_name/temperature', (req, res) => {
+          
+        var { device_name } = req.params;
+        
+        Device.findOne({"device_name": device_name }, (err, devices) => {
+            var {  temp_data } = devices;
+            return err
+            ? res.send(err)
+            : res.send(devices.temp_data);
+            });
+});
+
+// { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit": "dB"}
+
+
+app.post('/api/devices/:device_name/sound', (req, res) => {
+    var sound = req.body;
+    console.log(sound);
+    
+    var { device_name } = req.params;
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+        var {  sound_data } = devices;
+        sound_data.push(sound);
+        console.log("AFter");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        return err
+        ? res.send(err)
+        : res.send(devices.sound_data);
+        });
+    });
+app.get('/api/devices/:device_name/sound', (req, res) => {
+          
+        var { device_name } = req.params;
+        Device.findOne({"device_name": device_name }, (err, devices) => {
+            var {  sound_data } = devices;
+            return err
+            ? res.send(err)
+            : res.send(devices.sound_data);
+            });
+});
+
+
+
+
+/**
+* @api {post} /api/registration Adds new Users
+* @apiGroup Users
+* @apiParam {json}:
+* {
+*    "name": "Mary's iPhone",
+*    "password": test123",
+*    "isAdmin":0
+*        
+*}
+* @apiSuccessExample {String} Success-Response:
+*"Created new user" 
+* @apiErrorExample {String} Error-Response:
+*"Error!!! User already exists"
+*/
+
+app.post('/api/registration', (req, res) => {
+    const { name, password, isAdmin } = req.body;
+    User.find({}, (err, users) => {
+        console.log("users");
+        console.log(users);
+    });
+    User.findOne({"name":name}, (err, result) => {
+        if(err)
+        return err;
+        console.log("Result");
+        console.log(result);
+        if(result!=null)
+        {
+            res.send("Error!!! User already exists");
+        }
+        else
+        {
+            const newUser = new User({
+                name: name,
+                password,
+                isAdmin
+            });
+            newUser.save(err => {
+                return err
+                ? res.send(err)
+                : res.json({
+                success: true,
+                message: 'Created new user'
+                });
+            });
+        }
+    });
+    
+});
+/**
+* @api {get} /api/users/:user/devices Returns device for specific user
+* @apiGroup User
+* @apiSuccessExample {String} Success-Response:
+* [
+*    {
+*        "_id": "dsohsdohsdofhsofhosfhsofh",
+*        "name": "Mary's iPhone",
+*        "user": "mary",
+*        "sensorData": [
+*            {
+*                "ts": "1529542230",
+*                "temp": 12,
+*                "loc": 
+*                {
+*                    "lat": -37.84674,
+*                    "lon": 145.115113
+*                }
+*            },
+*            {
+*                "ts": "1529572230",
+*                "temp": 17,
+*                "loc": 
+*                {
+*                    "lat": -37.850026,
+*                    "lon": 145.117683
+*                }
+*            }
+*        ]
+*    }
+*] 
+* @apiErrorExample {json} Error-Response:
+{
+    "Device does not exist"
 }
 */
+app.get('/api/users/:user/devices', (req, res) => {
+    const { user } = req.params;
+    Device.find({ "user": user }, (err, devices) => {
+    return err
+    ? res.send(err)
+    : res.send(devices);
+    });
+});
+
+
+/**
+* @api {post} /api/authenticate Verifies User
+* @apiGroup Users
+* @apiParam {json}:
+* {
+*    "name": "Mary's iPhone",
+*    "password": test123"
+*        
+*}
+* @apiSuccessExample {json} Success-Response:{
+*                    success: true,
+*                    message: 'Authenticated successfully',
+*                    isAdmin: result.isAdmin} 
+* @apiErrorExample {String} Error-Response:
+*Error:(User doesn't exist)The User in not in the Registration Database
+*/
+
+
+
+
+app.post('/api/authenticate', (req, res) => {
+    const { name, password} = req.body;
+    console.log("suthenticate name:"+name);
+    console.log("authenticate password:"+password);
+    
+    User.findOne({"name":name}, (err, result) => {
+        if(err)
+        return err;
+        console.log("Result");
+        console.log(result);
+        if(result==null)
+        {
+            res.send("Error:(User doesn't exist)The User in not in the Registration Database");
+        }
+        else
+        {
+            if(result.password==password)
+            {
+                console.log("password else");
+                return res.json({
+                    success: true,
+                    message: 'Authenticated successfully',
+                    isAdmin: result.isAdmin}
+                );                
+            }
+            else
+            {
+                res.send("Error: Password is incorrect");
+            }
+        }
+    });
+
+    
+});

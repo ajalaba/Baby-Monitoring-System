@@ -24,6 +24,12 @@ app.get('/register-device', function (req, res) {
 app.get('/send-command', (req, res) => {
     res.sendFile(`${base}/send-command.html`);
 });
+app.get('/login', (req, res) => {
+    res.sendFile(`${base}/login.html`);
+});
+app.get('/registration', (req, res) => {
+    res.sendFile(`${base}/registration.html`);
+});
 app.get('/humid', (req, res) => {
     res.sendFile(`${base}/humid.html`);
 });

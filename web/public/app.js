@@ -42,8 +42,9 @@ var sesnorData;
 //             console.error(`Error: ${error}`);
 //         });
 
-$.get(`${API_URL}/devices`).then(response => {
-    response.forEach((device) => {
+        if (currentUser) 
+        {
+            $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {response.forEach((device) => {
             console.log("'#devices tbody'");
             $('#devices tbody').append(`
             <tr data-device-id=${device._id}>
@@ -76,7 +77,16 @@ $.get(`${API_URL}/devices`).then(response => {
         .catch(error => {
             console.error(`Error: ${error}`);
         });
-
+                }
+                else
+                {
+                    const path = window.location.pathname;
+                    
+                    if (path !== '/login')
+                    {
+                        //location.href = '/login';
+                    }
+                }
         
 
         // $('#device-data1').append(`
@@ -164,3 +174,112 @@ $('#send-command').on('click', function() {
 
 
 
+var loginapp=angular.module('loginapp',[]);
+loginapp.controller('formCtrl',function($scope,$http)
+{
+    $scope.username="";
+    $scope.password="";
+    $scope.bool=false;
+    $scope.submit = function() {
+        const user = $scope.username;
+        const password = $scope.password;
+        //console.log("name: "+user);
+        //console.log("password: "+password);
+        $.post(`${API_URL}/authenticate`, { "name":user, "password":password })
+    .then((response) =>{
+        // console.log("response");
+        // console.log(response);
+    if (response.success) 
+    {
+        //console.log("response");
+        //console.log(response);
+        localStorage.setItem('user', user);
+        localStorage.setItem('isAdmin', response.isAdmin);
+        localStorage.setItem('isAuthenticated',true);
+        location.href = '/';
+    }
+    else
+    {
+        $scope.message=response;
+        $scope.bool=true;
+    }
+    });
+        
+    }
+});
+const logout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('isAuthenticated');
+    location.href = '/login';
+    }
+    var registerapp=angular.module('registerapp',[]);
+    registerapp.directive('passwordvalidation', function() {
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attr, mCtrl) {
+                function myValidation(value) {
+                    if (value.length >= 8) {
+                        mCtrl.$setValidity('charE', true);
+                    } else {
+                        mCtrl.$setValidity('charE', false);
+                    }
+                    return value;
+                }
+                mCtrl.$parsers.push(myValidation);
+            }
+        };
+    });
+    registerapp.controller('formCtrl',function($scope)
+    {
+        $scope.username="";
+        $scope.password="";
+        $scope.confirm="";
+        var strength = "";
+        $scope.grade = function() {
+            var size = $scope.password.length;
+            if (size > 12) 
+            {
+              strength = 'strong';
+            } else if (size > 8) 
+            {
+              strength = 'medium';
+            } else 
+            {
+              strength = 'weak';
+            }
+            
+            return strength;
+        }
+        $scope.register = function() {
+        const user = $scope.username;
+        const password = $scope.password;
+        const confirm = $scope.confirm;
+        const isAdmin=false;
+        console.log("name: "+user);
+        console.log("password: "+password);
+        console.log("confirm: "+confirm);
+        $.post(`${API_URL}/authenticate`, { "name":user, "password":password })
+        .then((response) =>{
+            console.log("response");
+            console.log(response);
+            if(password!=confirm)
+            {
+                $(".message").empty();
+                $(".message").append("<p> Your Password and Confirm Password inputs do not match.</p>");
+                //location.href = '/registration';
+            }
+            else
+            {
+                $.post(`${API_URL}/registration`, { "name":user, "password":password, "isAdmin":isAdmin}).then((response) =>{if (response.success) {
+            //location.href = '/login';
+            console.log("registration successfull");
+            }
+            else {
+            $('#message').append(`<p class="alert alert-danger">${response}</p>`);
+        }
+    });
+            
+        }
+    });
+        }
+    });
