@@ -137,6 +137,22 @@ app.post('/api/send-command', (req, res) => {
 
 // { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
 
+/**
+* @api {post} /api/devices/:device_name/temperature inputs temperature data
+* @apiGroup Users
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
+
 app.post('/api/devices/:device_name/temperature', (req, res) => {
     var temp = req.body;
     console.log(temp);
@@ -146,7 +162,6 @@ app.post('/api/devices/:device_name/temperature', (req, res) => {
     Device.findOne({"device_name": device_name }, (err, devices) => {
         var {  temp_data } = devices;
         temp_data.push(temp);
-        console.log("AFter");
         devices.save(err => {
             if(err)
             {
@@ -155,9 +170,21 @@ app.post('/api/devices/:device_name/temperature', (req, res) => {
         });
         return err
         ? res.send(err)
-        : res.send(devices.temp_data);
+        : res.send("Saved Sucessfully");
         });
     });
+
+/**
+* @api {get} /api/devices/:device_name/temperature displays temperature data
+* @apiGroup Users
+* @apiSuccessExample {json} Success-Response:
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_name/temperature', (req, res) => {
           
         var { device_name } = req.params;
@@ -172,6 +199,21 @@ app.get('/api/devices/:device_name/temperature', (req, res) => {
 
 // { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit": "dB"}
 
+/**
+* @api {post} /api/devices/:device_name/sound inputs sound data
+* @apiGroup Users
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit": "dB"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 
 app.post('/api/devices/:device_name/sound', (req, res) => {
     var sound = req.body;
@@ -190,9 +232,20 @@ app.post('/api/devices/:device_name/sound', (req, res) => {
         })
         return err
         ? res.send(err)
-        : res.send(devices.sound_data);
+        : res.send("Saved Sucessfully");
         });
     });
+/**
+* @api {get} /api/devices/:device_name/sound displays sound data
+* @apiGroup Users
+* @apiSuccessExample {json} Success-Response:
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_name/sound', (req, res) => {
           
         var { device_name } = req.params;
@@ -204,6 +257,120 @@ app.get('/api/devices/:device_name/sound', (req, res) => {
             });
 });
 
+
+/**
+* @api {post} /api/devices/:device_name/sound inputs sound data
+* @apiGroup Users
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 20, "unit": "dB"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
+
+
+app.post('/api/devices/:device_name/humidity', (req, res) => {
+    var humid = req.body;
+    console.log(humid);
+    
+    var { device_name } = req.params;
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+        var {  humidity_data } = devices;
+        humidity_data.push(humid);
+        console.log("AFter");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        return err
+        ? res.send(err)
+        : res.send("Saved Sucessfully");
+        });
+    });
+app.get('/api/devices/:device_name/humidity', (req, res) => {
+          
+        var { device_name } = req.params;
+        Device.findOne({"device_name": device_name }, (err, devices) => {
+            var {  humidity_data } = devices;
+            return err
+            ? res.send(err)
+            : res.send(devices.humidity_data);
+            });
+});
+
+
+
+app.post('/api/devices/:device_name/accelerometer', (req, res) => {
+    var acc = req.body;
+    console.log(acc);
+    
+    var { device_name } = req.params;
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+        var {  accelerometer_data } = devices;
+        accelerometer_data.push(acc);
+        console.log("AFter");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        return err
+        ? res.send(err)
+        : res.send("Saved Sucessfully");
+        });
+    });
+app.get('/api/devices/:device_name/accelerometer', (req, res) => {
+          
+        var { device_name } = req.params;
+        Device.findOne({"device_name": device_name }, (err, devices) => {
+            var {  accelerometer_data } = devices;
+            return err
+            ? res.send(err)
+            : res.send(devices.accelerometer_data);
+            });
+});
+
+
+
+app.post('/api/devices/:device_name/infrared', (req, res) => {
+    var inf = req.body;
+    console.log(inf);
+    
+    var { device_name } = req.params;
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+        var {  infrared_data } = devices;
+        infrared_data.push(inf);
+        console.log("AFter");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        return err
+        ? res.send(err)
+        : res.send("Saved Sucessfully");
+        });
+    });
+app.get('/api/devices/:device_name/infrared', (req, res) => {
+          
+        var { device_name } = req.params;
+        Device.findOne({"device_name": device_name }, (err, devices) => {
+            var {  infrared_data } = devices;
+            return err
+            ? res.send(err)
+            : res.send(devices.infrared_data);
+            });
+});
 
 
 
@@ -255,8 +422,8 @@ app.post('/api/registration', (req, res) => {
             });
         }
     });
-    
 });
+
 /**
 * @api {get} /api/users/:user/devices Returns device for specific user
 * @apiGroup User
@@ -327,7 +494,6 @@ app.post('/api/authenticate', (req, res) => {
     const { name, password} = req.body;
     console.log("suthenticate name:"+name);
     console.log("authenticate password:"+password);
-    
     User.findOne({"name":name}, (err, result) => {
         if(err)
         return err;
@@ -354,6 +520,4 @@ app.post('/api/authenticate', (req, res) => {
             }
         }
     });
-
-    
 });
