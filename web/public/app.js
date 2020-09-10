@@ -82,10 +82,10 @@ var sesnorData;
                 {
                     const path = window.location.pathname;
                     
-                    if (path !== '/login')
-                    {
-                        //location.href = '/login';
-                    }
+                    //users should login before tgey can see other pages
+                    // if (path !== '/login' && path !== '/registration') {
+                    //     location.href = '/login'; 
+                    // }
                 }
         
 
