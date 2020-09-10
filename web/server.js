@@ -36,6 +36,12 @@ app.get('/humid', (req, res) => {
 app.get('/infrared', (req, res) => {
     res.sendFile(`${base}/infrared.html`);
 });
+app.get('/sound', (req, res) => {
+    res.sendFile(`${base}/sound.html`);
+});
+app.get('/temp', (req, res) => {
+    res.sendFile(`${base}/temp.html`);
+});
 app.get('/get-started', (req, res) => {
     res.sendFile(`${base}/get-started.html`);
 });
