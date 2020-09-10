@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+<meta charset="utf-8" />
+<meta name="description" content="A frontend dashboard for the BabyMonitor application" />
+<meta name="ADV" content="ADV" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BabyMonitor</title>
+</head>
+<body>
+<h1>Notifications Test</h1>
+<div class="container">
+    <div id="navbar"></div>
+</div>
+    <script>
+        //These functions show notification count in title bar and desktop
+        const notifications = [];
+        
+        //Adds notification
+        function addNotification (notification) {
+            notifications.push(notification);
+            showNotificationCount(notifications.length);
+        }
+        //Removes notification
+        function removeNotification (notification) {
+            notifications.shift();
+            showNotificationCount(notifications.length);
+        }
+        //Shows notification
+        function showNotificationCount (count) {
+            //Looks for: (n)
+            const pattern = /^\(\d\)/;
+
+            if (count === 0 || pattern.test(document.title)) {
+                document.title = document.title.replace(pattern, count === 0 ? "" : "(" + count + ")");
+            } else {
+                document.title = "(" + count + ")" + document.title
+            }
+        }
+        //Desktop notification
+        function showNotification() {
+            const notifcation = new Notification("Notifcations have been enabled", {
+                body: "Working",
+            });
+
+            //When you click on notifcation it will remove notication number at top
+            notifcation.onclick = (e) => {
+                removeNotification();
+            }
+        }
+        
+        //Notification permissions 
+        if (Notification.permission === "granted") {
+            addNotification();
+            showNotification();
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    addNotification();
+                    showNotification();
+                }
+            })
+        }
+        
+        //Shows permission in dev console
+        console.log(Notification.permission);
+    </script>
+
+<div style="text-align: center;", id="footbar"></div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="app.js"></script>
+</body>
