@@ -31,14 +31,25 @@
         return Math.random() * 100;
     }
 
+
     // function getTempValues() {
-    //   var temp = getTempData();
+    //   var tempData = temp;
     //   var tempValues = [];
-    //   forEach((temp) => {
+    //   forEach((tempData) => {
     //       tempValues.push(temp.temp_value);
     //   });
     //   console.log(tempValues[0]);
     //   return tempValues;
+    // }
+
+    // function getTempDate() {
+    //   var tempData = temp;
+    //   var tempDates= [];
+    //   forEach((tempData) => {
+    //       tempDates.push(temp.temp_value);
+    //   });
+    //   console.log(tempValues[0]);
+    //   return tempDates;
     // }
 
     // function getTempDates() {
@@ -62,9 +73,10 @@
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
           datasets:[{
             label:'Temperature Data',
-            data:[
-              getData(), getData(),getData(),getData(),getData(),getData(),getData()
-            ],
+            data:
+            //getTempValues()
+              [getData(), getData(),getData(),getData(),getData(),getData(),getData()]
+            ,
           //backgroundColor:'green',
           // backgroundColor:[
           //   'rgba(0, 99, 132, 0.6)'

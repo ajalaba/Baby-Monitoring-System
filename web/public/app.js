@@ -9,6 +9,8 @@ const isAuthenticated=JSON.parse(localStorage.getItem('isAuthenticated')) || fal
 const currentUser = localStorage.getItem('user');
 var sesnorData;
 var currentDevice;
+var deviceName;
+var temp;
 
 // $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
 //     response.forEach((device) => {
@@ -48,6 +50,8 @@ var currentDevice;
             $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {response.forEach((device) => {
             console.log("'#devices tbody'");
             currentDevice = device;
+            deviceName = currentDevice.device_name;
+            
             $('#devices tbody').append(`
             <tr data-device-id=${device._id}>
             <td>${device.user_name}</td>
@@ -82,9 +86,11 @@ var currentDevice;
                     
         //         });
         // });
-        const deviceName = currentDevice.device_name;
-
+        
+       
         $('#devices tbody tr').on('click', (e) => {
+            //deviceName = e.currentTarget.getAttribute('date-device-id').device_name;
+            
             //console.log("Device clicked");
             
             const temp_date = new Date();
@@ -202,6 +208,8 @@ var currentDevice;
         
 
         $('#devices tbody').on( 'click', 'button', function () {
+            // temp = currentDevice.temp_data;
+            // console.log(temp);
             location.href="/sensor-data.html";
             //alert( "Button clicked");
         } );
@@ -220,13 +228,8 @@ var currentDevice;
                 location.href = '/login'; 
             }
         }
-
-        function getTempData(){
-            var temp = currentDevice.temp_data;
             
-            return temp;
-            
-        };
+        // };
 
         // $('#device-data1').append(`
         // <tr>
