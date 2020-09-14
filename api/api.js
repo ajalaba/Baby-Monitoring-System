@@ -153,13 +153,13 @@ app.post('/api/send-command', (req, res) => {
 *}
 */
 
-app.post('/api/devices/:device_name/temperature', (req, res) => {
+app.post('/api/devices/:device_id/temperature', (req, res) => {
     var temp = req.body;
     console.log(temp);
     var d = new Date(temp.date);
     console.log(d.toString());
-    var { device_name } = req.params;
-    Device.findOne({"device_name": device_name }, (err, devices) => {
+    var { device_id } = req.params;
+    Device.findOne({"_id": device_id }, (err, devices) => {
         var {  temp_data } = devices;
         temp_data.push(temp);
         devices.save(err => {
@@ -185,11 +185,11 @@ app.post('/api/devices/:device_name/temperature', (req, res) => {
 *                       "Error"
 *}
 */
-app.get('/api/devices/:device_name/temperature', (req, res) => {
+app.get('/api/devices/:device_id/temperature', (req, res) => {
           
-        var { device_name } = req.params;
+        var { device_id } = req.params;
         
-        Device.findOne({"device_name": device_name }, (err, devices) => {
+        Device.findOne({"_id": device_id }, (err, devices) => {
             var {  temp_data } = devices;
             return err
             ? res.send(err)
@@ -215,12 +215,12 @@ app.get('/api/devices/:device_name/temperature', (req, res) => {
 *}
 */
 
-app.post('/api/devices/:device_name/sound', (req, res) => {
+app.post('/api/devices/:device_id/sound', (req, res) => {
     var sound = req.body;
     console.log(sound);
     
-    var { device_name } = req.params;
-    Device.findOne({"device_name": device_name }, (err, devices) => {
+    var { device_id } = req.params;
+    Device.findOne({"_id": device_id }, (err, devices) => {
         var {  sound_data } = devices;
         sound_data.push(sound);
         console.log("AFter");
@@ -246,10 +246,10 @@ app.post('/api/devices/:device_name/sound', (req, res) => {
 *                       "Error"
 *}
 */
-app.get('/api/devices/:device_name/sound', (req, res) => {
+app.get('/api/devices/:device_id/sound', (req, res) => {
           
-        var { device_name } = req.params;
-        Device.findOne({"device_name": device_name }, (err, devices) => {
+        var { device_id } = req.params;
+        Device.findOne({"_id": device_id }, (err, devices) => {
             var {  sound_data } = devices;
             return err
             ? res.send(err)
@@ -275,12 +275,12 @@ app.get('/api/devices/:device_name/sound', (req, res) => {
 */
 
 
-app.post('/api/devices/:device_name/humidity', (req, res) => {
+app.post('/api/devices/:device_id/humidity', (req, res) => {
     var humid = req.body;
     console.log(humid);
     
-    var { device_name } = req.params;
-    Device.findOne({"device_name": device_name }, (err, devices) => {
+    var { device_id } = req.params;
+    Device.findOne({"_id": device_id }, (err, devices) => {
         var {  humidity_data } = devices;
         humidity_data.push(humid);
         console.log("AFter");
@@ -295,10 +295,10 @@ app.post('/api/devices/:device_name/humidity', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
-app.get('/api/devices/:device_name/humidity', (req, res) => {
+app.get('/api/devices/:device_id/humidity', (req, res) => {
           
-        var { device_name } = req.params;
-        Device.findOne({"device_name": device_name }, (err, devices) => {
+        var { device_id } = req.params;
+        Device.findOne({"_id": device_id }, (err, devices) => {
             var {  humidity_data } = devices;
             return err
             ? res.send(err)
@@ -308,12 +308,12 @@ app.get('/api/devices/:device_name/humidity', (req, res) => {
 
 
 
-app.post('/api/devices/:device_name/accelerometer', (req, res) => {
+app.post('/api/devices/:device_id/accelerometer', (req, res) => {
     var acc = req.body;
     console.log(acc);
     
-    var { device_name } = req.params;
-    Device.findOne({"device_name": device_name }, (err, devices) => {
+    var { device_id } = req.params;
+    Device.findOne({"_id": device_id }, (err, devices) => {
         var {  accelerometer_data } = devices;
         accelerometer_data.push(acc);
         console.log("AFter");
@@ -328,10 +328,10 @@ app.post('/api/devices/:device_name/accelerometer', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
-app.get('/api/devices/:device_name/accelerometer', (req, res) => {
+app.get('/api/devices/:device_id/accelerometer', (req, res) => {
           
-        var { device_name } = req.params;
-        Device.findOne({"device_name": device_name }, (err, devices) => {
+        var { device_id } = req.params;
+        Device.findOne({"_id": device_id }, (err, devices) => {
             var {  accelerometer_data } = devices;
             return err
             ? res.send(err)
@@ -341,12 +341,12 @@ app.get('/api/devices/:device_name/accelerometer', (req, res) => {
 
 
 
-app.post('/api/devices/:device_name/infrared', (req, res) => {
+app.post('/api/devices/:device_id/infrared', (req, res) => {
     var inf = req.body;
     console.log(inf);
     
-    var { device_name } = req.params;
-    Device.findOne({"device_name": device_name }, (err, devices) => {
+    var { device_id } = req.params;
+    Device.findOne({"_id": device_id }, (err, devices) => {
         var {  infrared_data } = devices;
         infrared_data.push(inf);
         console.log("AFter");
@@ -361,10 +361,10 @@ app.post('/api/devices/:device_name/infrared', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
-app.get('/api/devices/:device_name/infrared', (req, res) => {
+app.get('/api/devices/:device_id/infrared', (req, res) => {
           
-        var { device_name } = req.params;
-        Device.findOne({"device_name": device_name }, (err, devices) => {
+        var { device_id } = req.params;
+        Device.findOne({"_id": devidevice_idce_name }, (err, devices) => {
             var {  infrared_data } = devices;
             return err
             ? res.send(err)
