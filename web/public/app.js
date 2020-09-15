@@ -1,7 +1,8 @@
 $('#navbar').load('navbar.html');
 $('#footbar').load('footer.html');
 
-const API_URL = 'https://api-theta-nine.vercel.app/api/';
+// const API_URL = 'https://api-theta-nine.vercel.app/api/';
+const API_URL = 'http://localhost:5000/api';
 
 const response = $.get(`${API_URL}/devices`);
 
@@ -11,39 +12,6 @@ var sesnorData;
 var currentDevice;
 var deviceName;
 var temp;
-
-// $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
-//     response.forEach((device) => {
-//             console.log("'#devices tbody'");
-//             $('#devices tbody').append(`
-//             <tr data-device-id=${device._id}>
-//             <td>${device.user}</td>
-//             <td>${device.name}</td>
-//             </tr>`
-//             );
-//             });
-//             console.log("'#devices tbody endeededed");
-//             $('#devices tbody tr').on('click', (e) => {
-//                 console.log("#devices tbody trasdasdasdasdasdasqwd");
-//                 const deviceId = e.currentTarget.getAttribute('data-device-id');
-//                 $.get(`${API_URL}/devices/${deviceId}/device-history`).then(response => {response.map(sensorData => {
-//                     $('#historyContent').empty();
-//                     $('#historyContent').append(`
-//                     <tr>
-//                     <td>${sensorData.ts}</td>
-//                     <td>${sensorData.temp}</td>
-//                     <td>${sensorData.loc.lat}</td>
-//                     <td>${sensorData.loc.lon}</td>
-//                     </tr>
-//                     `);
-//                     });
-//                     $('#historyModal').modal('show');
-//                 });
-//         });
-//         })
-//         .catch(error => {
-//             console.error(`Error: ${error}`);
-//         });
 
         if (currentUser) 
         {
@@ -57,7 +25,15 @@ var temp;
             <tr data-device-id=${device._id}>
             <td>${device.user_name}</td>
             <td>${device.device_name}</td>
-            <td><button id="sensorbtn">Sensors</button></td>
+            <td><label for="devices">Choose a Sensor: </label>
+            <select name="forma" onchange="location = this.value;"> 
+                <option value="">Select Option</option> 
+                <option value="/sound">Sound</option> 
+                <option value="/temp">Temperature</option> 
+                <option value="/accelerometer">Accelerometer</option> 
+                <option value="/humid">Humidity</option> 
+                <option value="/infrared">Infrared</option> 
+            </select></td>
             </tr>`
             );
             //device_list.push(device.device_name);
@@ -190,25 +166,26 @@ var temp;
                     
             });
             
+
             
     
-            $('#devices tbody').on( 'click', 'button', function () {
-                //deviceId = e.currentTarget.getAttribute('data-device-id');
+            // $('#devices tbody').on( 'click', 'button', function () {
+            //     //deviceId = e.currentTarget.getAttribute('data-device-id');
                
-                location.href="/sensor-data.html";
-                //. on click temp
+            //     location.href="/sensor-data.html";
+            //     //. on click temp
 
 
-                // $.get(`${API_URL}/devices/${deviceId}/temperature`)
-                // .then(response => {
-                //     var temp_array = response;
+            //     // $.get(`${API_URL}/devices/${deviceId}/temperature`)
+            //     // .then(response => {
+            //     //     var temp_array = response;
 
 
 
-                // });
+            //     // });
 
         
-            } );
+            // } );
 
         })
 
