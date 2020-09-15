@@ -11,18 +11,33 @@
 </head>
 <body>
     <h1>Accelerometer Data</h1> 
+
   <div class="container">
     <div id="navbar"></div>  
   </div>
+
+<div class ="text">
+  <h3>What is an Accelerometer Sensor?</h3>
+  <p>An accelerometer is an electronic sensor that measures the acceleration forces acting on an object, in order to determine the object's position in space and monitor the object's movement.</p>
+  <p>Acceleration, which is a vector quantity, is the rate of change of an object’s velocity (velocity being the displacement of the object divided by the change in time). There are two types of acceleration forces: static forces and dynamic forces.</p>
+  <p>Static forces are forces that are constantly being applied to the object (such as friction or gravity).</p>
+  <p>Dynamic forces are “moving” forces applied to the object at various rates (such as vibration, or the force exerted on a cue ball in a game of pool).</p>
+
+  <div class ="img">
+    <img src="https://qtxasset.com/styles/breakpoint_sm_default_480px_w/s3/fierceelectronics/1562875377/capacitive_accelerometer.png/capacitive_accelerometer.png?p3n4kp7xKCmBAvJWLkYh4c7X7PS1dJiD" alt="accel" style="width:500px;height:300px">
+  </div>
+
+  <h4>Accelerometer Guide</h4>
+  <p>- Measures rate of change of velocity of an object</p>
+  <p>- Measured in meters per second squared (m/s2) or in G-forces (g)</p>
+</div>
+
   <div class="container">
     <form>
-        
-        <p></p> 
         <button style="background-color:crimson; border-color: crimson; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
     </form>
     <canvas id="IRChart"></canvas> 
   </div>
-
 
   <style>
     table {
@@ -30,24 +45,23 @@
       border-collapse: collapse;
       width: 100%;
     }
-
     td, th {
       border: 1px solid #cccccc;
       padding: 8px;
     }
-
     th {
       font-weight: bold;
       text-transform: uppercase;
     }
-
     tr:nth-child(even) {
       background-color: #dddddd;
     }
-
     tr:hover {
       background-color: burlywood;
       color: white;
+    }
+    div.text {
+      text-align: center;
     }
   </style>
 

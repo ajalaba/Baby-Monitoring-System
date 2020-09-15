@@ -1,7 +1,6 @@
 {
   "name": "babymonitor",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,5 +16,6 @@
   "devDependencies": {
     "karma": "^5.2.1",
     "nodemon": "^2.0.4"
-  }
+  },
+  "description": ""
 }

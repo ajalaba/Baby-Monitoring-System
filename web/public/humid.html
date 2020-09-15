@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="description" content="A frontend dashboard for the BabyMonitor application" />
-<meta name="ADV" content="ADV" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
-<title>Humidity Data</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
+  <meta name="ADV" content="ADV" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <title>Humidity Data</title>
 </head>
+
 <body>
-  <h1>Humidity Data</h1>
+  <h1 style="margin-left: 400px;">Humidity Data</h1>
+
   <div class="container">
     <div id="navbar"></div>
   </div>
 
+  <div class="text">
+  <h3>What is Humidity Sensor?</h3>
+  <p>Humidity is the measure of the amount of water vapour that is in the air. There are two types of humidity: Absolute Humidity and Relative Humidity.</p>
+  <p>Absolute Humidity is the amount of water vapour divided by the amount of dry air in a certain volume of air at a particular temperature. The hotter the air is, the more water vapour it can hold.</p>
+  <p>Relative Humidity is the ratio of the current absolute humidity to the highest possible absolute humidity, which will depend on the current air temperature. This is the term weather forecasters often refer to.</p>
+
+  <div class ="img">
+    <img src="https://www.ac-heatingconnect.com/wp-content/uploads/ACHC-Home-Humidity-Humidity-Levels.png" alt="Humidity Levels" style="width:500px;height:300px">
+  </div>
+
+  <h4>Humidity Chart</h4>
+  <p>0-30% = Low humidity levels. Too dry</p>
+  <p>30-60% = Average comfort for most people</p>
+  <p>45-55% = Recommended range for health</p>
+  <p>55%+ = High humidity</p>
+  </div>
+
   <div class="container">
-    <div class="container">
-      <form>
-          <p></p> 
-          <button style="background-color: burlywood; border-color: burlywood; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
-      </form>
-      <canvas id="myChart"></canvas>   
-    </div>
+    <form>
+        <button style="background-color: burlywood; border-color: burlywood; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
+    </form>
+    <canvas id="myChart"></canvas>   
   </div>
 
   <style>
@@ -31,24 +47,26 @@
       border-collapse: collapse;
       width: 100%;
     }
-
     td, th {
       border: 1px solid #cccccc;
       padding: 8px;
     }
-
     th {
       font-weight: bold;
       text-transform: uppercase;
     }
-
     tr:nth-child(even) {
       background-color: #dddddd;
     }
-
     tr:hover {
       background-color: burlywood;
       color: white;
+    }
+    div.img {
+      text-align: center;
+    }
+    div.text {
+      text-align: center;
     }
   </style>
 
@@ -60,9 +78,8 @@
     </tr>
     </thead>
     <tbody id="tableData"></tbody>
-
   </table>
-
+  
   <script>
     //Notes
     //Only problem is that the data from table and graph is different

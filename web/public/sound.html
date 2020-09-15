@@ -11,17 +11,30 @@
 </head>
 <body>
     <h1>Sound Data</h1> 
+
   <div class="container">
     <div id="navbar"></div>  
   </div>
+
+  <div class="text">
+    <h3>What Is A Sound Sensor?</h3>
+    <p>The sound sensor is one type of module used to notice the sound. Generally, this module is used to detect the intensity of sound.</p>
+    <p>The applications of this module mainly include switch, security, as well as monitoring.</p>
+    <p>For this system, the sound sensor will be used to measure the decibals (dB) the baby is making.</p>
+
+    <div class ="img">
+      <img src="https://docs.microsoft.com/en-us/windows/uwp/design/style/images/header-sound.svg" alt="infrared" style="width:500px;height:300px">
+    </div>
+  
+    <h4>Sound Guide</h4>
+    <p></p>
+    </div>
+
   <div class="container">
-    <form>
-        
-        <p></p> 
+    <form> 
         <button style="background-color:darkblue; border-color: darkblue; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
     </form>
     <canvas id="IRChart"></canvas> 
-    
   </div>
    
   <style>
@@ -48,6 +61,9 @@
     tr:hover {
       background-color: burlywood;
       color: white;
+    }
+    div.text {
+      text-align: center;
     }
   </style>
 
