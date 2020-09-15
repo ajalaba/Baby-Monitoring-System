@@ -15,9 +15,11 @@ app.listen(port, () => {
     console.log(`listening on port ${port}`);
     });   
 app.get('/', function (req, res) {
+    res.sendFile(`${base}/get-started.html`);
+    });
+app.get('/device-list', (req, res) => {
     res.sendFile(`${base}/device-list.html`);
     });
-
 app.get('/register-device', function (req, res) {
     res.sendFile(`${base}/register-device.html`);
     });
@@ -44,9 +46,6 @@ app.get('/temp', (req, res) => {
 });
 app.get('/accelerometer', (req, res) => {
     res.sendFile(`${base}/accelerometer.html`);
-});
-app.get('/get-started', (req, res) => {
-    res.sendFile(`${base}/get-started.html`);
 });
 app.get('*', (req, res) => {
     res.sendFile(`${base}/404.html`);
