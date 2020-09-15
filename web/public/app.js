@@ -40,6 +40,9 @@ var deviceId;
                 </div>
                 
             </td>
+            <td> 
+                <button id="view">View</button> 
+            </td>
             </tr>`
             );
 
@@ -295,6 +298,32 @@ var deviceId;
                 {
                     const instruct = $('#instruct').val(); 
                     console.log(`Instruction is: ${instruct}`);
+
+                    instruct_body = {
+                        instruct
+                    }
+
+                    $.post(`${API_URL}/devices/${deviceId}/instructions`, instruct_body)
+                    .then(response => {
+                        console.log("Added data");
+                    })
+                }
+                //This has an error
+                else if (this.id == 'view')
+                {
+                    var instruct_array =[];
+                    
+                    $.get(`${API_URL}/devices/${deviceId}/instructions`)
+                    .then(response => { response.forEach((instructions) => {
+                        
+
+                        instruct_array.push(instructions.instruct);
+                    })
+                        console.log(instruct_array);
+                        
+                    })
+                    .catch(error => { console.error(`Error: ${error}`);
+                    }); 
                 }
                 
                

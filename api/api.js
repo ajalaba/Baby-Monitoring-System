@@ -74,6 +74,7 @@ app.post('/api/devices', (req, res) => {
     var sound_data=[];
     var accelerometer_data=[];
     var infrared_data=[];
+    var instructions=[];
     const newDevice = new Device({
     device_name,
     user_name,
@@ -522,3 +523,40 @@ app.post('/api/authenticate', (req, res) => {
         }
     });
 });
+
+app.post('/api/devices/:device_id/instructions', (req, res) => { 
+    
+    var instrct = req.body;
+    console.log(instrct);
+    var {device_id} = req.params;
+
+    
+    Device.findOne({"_id": device_id }, (err, devices) => {
+
+        var {  instructions } = devices;
+        instructions.push(instrct);
+        console.log("Added instruction");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        return err
+        ? res.send(err)
+        : res.send("Saved Sucessfully");
+        });
+    
+});
+
+//This has an error
+app.get('/api/devices/:device_id/instructions', (req, res) => {
+    var { device_id } = req.params;
+    Device.find({ "_id": device_id }, (err, devices) => {
+    var {  instructions } = devices;
+    return err
+    ? res.send(err)
+    : res.send(devices.instructions);
+    });
+});
+    

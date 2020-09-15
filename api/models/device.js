@@ -10,5 +10,6 @@ sound_data:Array,
 accelerometer_data:Array,
 infrared_data:Array,
 device_status:Boolean,
-location_data:Array
+location_data:Array,
+instructions:Array
 }));
