@@ -33,6 +33,13 @@ var deviceId;
                 <button class=\"accelerometer\">Accel</button> 
                 <button class=\"humid\">Humid</button> 
             </td>
+            <td>
+                <div class="form-group"> 
+                <input type="text" id="instruct" name="instruct" size="15">
+                <button id="add">Add</button>
+                </div>
+                
+            </td>
             </tr>`
             );
 
@@ -200,7 +207,7 @@ var deviceId;
                 //var trid = $(this).getAttribute('data-device-id');
                 var action = this.className;
                 
-
+                
                 if (action == 'sound')
                 {
                     
@@ -218,6 +225,7 @@ var deviceId;
                     })
                     .catch(error => { console.error(`Error: ${error}`);
                     }); 
+                    location.href = `/${action}`;
 
                 }
                 else if (action == 'temp')
@@ -249,6 +257,7 @@ var deviceId;
                     })
                     .catch(error => { console.error(`Error: ${error}`);
                     }); 
+                    location.href = `/${action}`;
                 }
                 else if (action == 'accelerometer')
                 {
@@ -264,6 +273,7 @@ var deviceId;
                     })
                     .catch(error => { console.error(`Error: ${error}`);
                     }); 
+                    location.href = `/${action}`;
                 }
                 else if (action == 'humid')
                 {
@@ -279,10 +289,14 @@ var deviceId;
                     })
                     .catch(error => { console.error(`Error: ${error}`);
                     }); 
+                    location.href = `/${action}`;
                 }
-
-
-                location.href = `/${action}`;
+                else if (this.id == 'add')
+                {
+                    const instruct = $('#instruct').val(); 
+                    console.log(`Instruction is: ${instruct}`);
+                }
+                
                
             } );
 
@@ -303,6 +317,7 @@ var deviceId;
             }
         }
 
+        
         
         
 
