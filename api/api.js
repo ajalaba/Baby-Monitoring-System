@@ -365,7 +365,7 @@ app.post('/api/devices/:device_id/infrared', (req, res) => {
 app.get('/api/devices/:device_id/infrared', (req, res) => {
           
         var { device_id } = req.params;
-        Device.findOne({"_id": devidevice_idce_name }, (err, devices) => {
+        Device.findOne({"_id": device_id }, (err, devices) => {
             var {  infrared_data } = devices;
             return err
             ? res.send(err)
