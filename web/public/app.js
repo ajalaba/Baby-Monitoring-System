@@ -1,7 +1,7 @@
 $('#navbar').load('navbar.html');
 $('#footbar').load('footer.html');
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://api-theta-nine.vercel.app/api';
 
 const response = $.get(`${API_URL}/devices`);
 

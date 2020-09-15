@@ -10,17 +10,118 @@
 <title>Humidity Data</title>
 </head>
 <body>
-    <h1>Humidity Data</h1>
+  <h1>Humidity Data</h1>
   <div class="container">
     <div id="navbar"></div>
   </div>
+
   <div class="container">
-    <canvas id="myChart"></canvas>
+    <div class="container">
+      <form>
+          <p></p> 
+          <button style="background-color: burlywood; border-color: burlywood; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
+      </form>
+      <canvas id="myChart"></canvas>   
+    </div>
   </div>
 
-  <script>
-    let myChart = document.getElementById('myChart').getContext('2d');
+  <style>
+    table {
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
 
+    td, th {
+      border: 1px solid #cccccc;
+      padding: 8px;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:hover {
+      background-color: burlywood;
+      color: white;
+    }
+  </style>
+
+  <table id="humid" class="table">
+    <thead>
+    <tr>
+      <th>Day</th>
+      <th onclick="sortColumn('percentages')">Percentages</th>
+    </tr>
+    </thead>
+    <tbody id="tableData"></tbody>
+
+  </table>
+
+  <script>
+    //Notes
+    //Only problem is that the data from table and graph is different
+    //Since it uses getData function which randomizes numbers
+    //Should be fixed when we use real data?
+
+    function getData() { 
+      return Math.random() * 100;
+    }
+
+    //Table Stuff
+    let sortDirection = false;
+    let humidData = [
+        { day: 'Monday', percentages: getData() },
+        { day: 'Tuesday', percentages: getData() },
+        { day: 'Wednesday', percentages: getData() },
+        { day: 'Thursday', percentages: getData() },
+        { day: 'Friday', percentages: getData() },
+        { day: 'Saturday', percentages: getData() },
+        { day: 'Sunday', percentages: getData() },
+    ];
+        
+    window.onload = () => {
+      loadTableData(humidData);
+    }
+
+    function loadTableData(humidData) {
+      const tableBody = document.getElementById('tableData');
+      let dataHtml = '';
+    
+      for (let humid of humidData) {
+          dataHtml += `<tr><td>${humid.day}</td><td>${humid.percentages}</td></tr>`;
+      }
+      console.log(dataHtml);
+      tableBody.innerHTML = dataHtml;  
+    }
+
+    //When clicking on percentages header, sorts dynamically. Refreshing will undo
+    function sortColumn(columnName) {
+      const dataType = typeof humidData[0][columnName];
+      sortDirection = !sortDirection;
+
+      switch(dataType) {
+        case 'number':
+        sortNumberColumn(sortDirection, columnName);
+        break;
+      }
+
+      loadTableData(humidData);
+    }
+    function sortNumberColumn(sort, columnName) {
+      humidData = humidData.sort((p1, p2) => {
+          return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+      });
+    }
+
+
+    //Chart Stuff
+    let myChart = document.getElementById('myChart').getContext('2d');
     // Global Options
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -33,13 +134,7 @@
           datasets:[{
             label:'Humidity %',
             data:[
-              31,
-              16,
-              15,
-              75,
-              96,
-              86,
-              63
+              getData(), getData(),getData(),getData(),getData(),getData(),getData()
             ],
           //backgroundColor:'green',
           //backgroundColor:[
@@ -89,6 +184,14 @@
         }
       }
     });
+
+function updateChart() {
+  chart.data.datasets.forEach((datasets) => {
+  datasets.data.push(getData());
+  })
+chart.update();
+};
+
   </script>
   <div style="text-align: center;", id="footbar"></div>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

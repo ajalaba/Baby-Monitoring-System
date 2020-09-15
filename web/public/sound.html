@@ -24,14 +24,100 @@
     
   </div>
    
-  <script>
-    let myChart = document.getElementById('IRChart').getContext('2d');
-
-    function getData() {
-          
-        return Math.random() * 100;
+  <style>
+    table {
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
     }
 
+    td, th {
+      border: 1px solid #cccccc;
+      padding: 8px;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:hover {
+      background-color: burlywood;
+      color: white;
+    }
+  </style>
+
+<table id="sound" class="table">
+  <thead>
+  <tr>
+    <th>Day</th>
+    <th onclick="sortColumn('percentages')">Percentages</th>
+  </tr>
+  </thead>
+  <tbody id="tableData"></tbody>
+
+  <script>
+    //Notes
+    //Only problem is that the data from table and graph is different
+    //Since it uses getData function which randomizes numbers
+    //Should be fixed when we use real data?
+
+    function getData() { 
+      return Math.random() * 100;
+    }
+
+    //Table Stuff
+    let sortDirection = false;
+    let soundData = [
+        { day: 'Monday', percentages: getData() },
+        { day: 'Tuesday', percentages: getData() },
+        { day: 'Wednesday', percentages: getData() },
+        { day: 'Thursday', percentages: getData() },
+        { day: 'Friday', percentages: getData() },
+        { day: 'Saturday', percentages: getData() },
+        { day: 'Sunday', percentages: getData() },
+    ];
+        
+    window.onload = () => {
+      loadTableData(soundData);
+    }
+
+    function loadTableData(soundData) {
+      const tableBody = document.getElementById('tableData');
+      let dataHtml = '';
+    
+      for (let sound of soundData) {
+          dataHtml += `<tr><td>${sound.day}</td><td>${sound.percentages}</td></tr>`;
+      }
+      console.log(dataHtml);
+      tableBody.innerHTML = dataHtml;  
+    }
+
+    //When clicking on percentages header, sorts dynamically. Refreshing will undo
+    function sortColumn(columnName) {
+      const dataType = typeof soundData[0][columnName];
+      sortDirection = !sortDirection;
+
+      switch(dataType) {
+        case 'number':
+        sortNumberColumn(sortDirection, columnName);
+        break;
+      }
+
+      loadTableData(soundData);
+    }
+    function sortNumberColumn(sort, columnName) {
+      soundData = soundData.sort((p1, p2) => {
+          return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+      });
+    }
+
+    //Chart Stuff
+    let myChart = document.getElementById('IRChart').getContext('2d');
     // Global Options
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
