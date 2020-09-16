@@ -347,7 +347,8 @@ var deviceId;
             }
         }
 
-        
+        console.log(sound_value_array);
+        console.log(sound_value_date);
         
         
 
@@ -453,9 +454,6 @@ $('#send-command').on('click', function() {
 
 
 
-
-
-
 var loginapp=angular.module('loginapp',[]);
 loginapp.controller('formCtrl',function($scope,$http)
 {
@@ -463,10 +461,11 @@ loginapp.controller('formCtrl',function($scope,$http)
     $scope.password="";
     $scope.bool=false;
     $scope.submit = function() {
+        console.log("submit entered");
         const user = $scope.username;
         const password = $scope.password;
-        //console.log("name: "+user);
-        //console.log("password: "+password);
+        console.log("name: "+user);
+        console.log("password: "+password);
         $.post(`${API_URL}/authenticate`, { "name":user, "password":password })
     .then((response) =>{
         // console.log("response");
@@ -493,7 +492,8 @@ const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');
     location.href = '/login';
-    }
+    };
+
     var registerapp=angular.module('registerapp',[]);
     registerapp.directive('passwordvalidation', function() {
         return {
@@ -564,4 +564,55 @@ const logout = () => {
         }
     });
         }
+    });
+
+
+    // var navapp = angular.module("navapp", ["ngRoute"]);
+    // navapp.config(function($routeProvider) {
+    //     $routeProvider
+    //     .when("/#!evice-list", {
+    //         templateUrl : "/device-list.html"
+    //     })
+    //     .when("/#!register-device", {
+    //         templateUrl : "<p> I hate this </p>"
+    //     })
+    //     .when("/send-command", {
+    //         templateUrl : "/send-command.html"
+    //     })
+    //     .when("/notifications", {
+    //         templateUrl : "/notifications.html"
+    //     })
+    //     .when("/", {
+    //         templateUrl : "/device-list.html"
+    //     });
+    // });
+
+    var notification1={
+        "title":"Baby Monitor Notifications",
+        "description":" Is this woaasd?"
+    };
+    var notification2={
+        "title":"adasdasdBaby Monitor Notifications",
+        "description":" Is this woaasd?"
+    };
+    var notificationlist=[];
+    notificationlist.push(notification1);
+    notificationlist.push(notification2);
+    console.log(notificationlist);
+
+
+    var notifyapp=angular.module('notifyapp',[]);
+    notifyapp.controller('formCtrl',function($scope,$http)
+    {
+        $scope.notlist=notificationlist;
+        $scope.deletenotification= function(index) {
+            // delete notificationlist[index];
+            // delete $scope.notlist[index];
+            notificationlist.splice(index,1);
+            //$scope.notlist.splice(index,1);
+            console.log(notificationlist);
+            console.log($scope.notlist);
+        }
+
+
     });

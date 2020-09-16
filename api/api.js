@@ -105,19 +105,19 @@ app.get('/api/devices/:deviceId/device-history', (req, res) => {
     });
 
 
-    app.get('/api/devices/:device_name/device-history', (req, res) => {
-        const { device_name } = req.params;
-        console.log(device_name);
-        // to test in the browser http://localhost:5000/api/devices/5f50a23d25bb7a03a4af477e/device-history
-        Device.findOne({"device_name": device_name }, (err, devices) => {
-        console.log(devices);
-        const { sensor_data } = devices;
-        console.log(sensor_data);
-        return err
-        ? res.send(err)
-        : res.send(sensor_data);
-        });
-        });
+app.get('/api/devices/:device_name/device-history', (req, res) => {
+    const { device_name } = req.params;
+    console.log(device_name);
+    // to test in the browser http://localhost:5000/api/devices/5f50a23d25bb7a03a4af477e/device-history
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+    console.log(devices);
+    const { sensor_data } = devices;
+    console.log(sensor_data);
+    return err
+    ? res.send(err)
+    : res.send(sensor_data);
+    });
+    });
 
 /**
 * @api {post} /api/devices AllDevices Send Command
