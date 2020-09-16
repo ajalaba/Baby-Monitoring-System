@@ -245,6 +245,7 @@ var deviceId;
                     })
                     .catch(error => { console.error(`Error: ${error}`);
                     }); 
+                    location.href = `/${action}`;
                 }
                 else if (action == 'infrared')
                 {
