@@ -11,5 +11,6 @@ accelerometer_data:Array,
 infrared_data:Array,
 device_status:Boolean,
 location_data:Array,
-instructions:Array
+instructions:Array,
+notifications_data:Array
 }));

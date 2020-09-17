@@ -14,6 +14,71 @@ var deviceName;
 var temp;
 var deviceId;
 
+var devicelist=[];
+var deviceslist=[];
+//deviceslist.push({"x":"adsasd","y":"adas"})
+
+var sound_value_array = [];
+var sound_date_array = [];
+var temp_value_array = [];
+var temp_date_array = [];
+var ir_value_array = [];
+var ir_date_array = [];
+var accel_value_array = [];
+var accel_date_array = [];
+var humid_value_array = [];
+var humid_date_array = [];
+
+$.get(`${API_URL}/users/${currentUser}/devices`).then(response => { 
+    for(var i=0; i<response.length;i++ )
+    {
+        console.log(response[0].device_name);
+        var deviceinfo={"deviceName": response[i].device_name,"deviceId":String(response[i]._id)};
+        deviceslist.push(deviceinfo);
+    }
+    deviceId=response[0]._id;
+    $.get(`${API_URL}/devices/${deviceId}/sound`)
+    .then(sound_response => { 
+        console.log("Sound response");
+        console.log(sound_response);
+        for(var i=0; i<sound_response.length;i++ )
+        {
+            //console.log("sound response 1 value");
+            //console.log(sound_response[i].sound_value);
+            sound_value_array.push(sound_response[i].sound_value);
+            sound_date_array.push(sound_response[i].sound_date_array);
+        }
+    })
+    .catch(error => { console.error(`Error: ${error}`);
+    });
+    console.log("sound_value_array");
+    console.log(sound_value_array);
+    console.log(sound_date_array);       
+
+    console.log("Response");
+    console.log (response);
+    console.log("deviceList");
+    console.log(devicelist);
+    
+}).catch(error => { console.error(`Error: ${error}`);
+});
+
+// var deviceapp=angular.module('deviceapp',[]);
+// deviceapp.controller('formCtrl',function($scope)
+// {
+//     $scope.devlist=deviceslist;
+//     console.log("devlist");
+//     console.log($scope.devlist);
+
+// });
+
+
+
+
+
+
+
+
         if (currentUser) 
         {
             $.get(`${API_URL}/users/${currentUser}/devices`)
@@ -46,161 +111,17 @@ var deviceId;
             </tr>`
             );
 
-            // <td><label for="devices">Choose a Sensor: </label>
-            // <select name="forma" onchange="location = this.value;"> 
-            //     <option value="">Select Option</option> 
-            //     <option value="/sound">Sound</option> 
-            //     <option value="/temp">Temperature</option> 
-            //     <option value="/accelerometer">Accelerometer</option> 
-            //     <option value="/humid">Humidity</option> 
-            //     <option value="/infrared">Infrared</option> 
-            // </select></td>
-
             
-            //device_list.push(device.device_name);
+
             console.log("device list added");
-            // $('#device-options').append(
-            //     <option value="">${device.user_name}</option> 
-            // )
+
             });console.log("'#devices tbody endeededed");  
-
-            // var currentDevice = JSON.parse (localStorage.getItem('devices')) || [];
-            // deviceName = currentDevice.device_name;
-
-            // $('#devices tbody tr').on('click', (e) => {
-                
-            //     deviceId = e.currentTarget.getAttribute('data-device-id');
-                
-
-                
-            //     //console.log("Device clicked");
-                
-            //     const temp_date = new Date();
-            //     const temp_value = Math.random() * 100;
-            //     const temp_unit = "F";
-    
-            //     temp_body = {
-            //        temp_date,
-            //        temp_value,
-            //        temp_unit     
-            //     };
-                
-            //     console.log(deviceId);
-            //     $.post(`${API_URL}/devices/${deviceId}/temperature`, temp_body)
-            //     .then(response => {
-            //         console.log("Added data");
-            //     })
-            //     .catch(error => { console.error(`Error: ${error}`);
-            //     }); 
-                    
-            // });
-    
-            // $('#devices tbody tr').on('click', (e) => {
-            //     //console.log("Device clicked");
-                
-            //     const sound_date = new Date();
-            //     const sound_value = Math.random() * 100;
-            //     const sound_unit = "dB";
-    
-            //     sound_body = {
-            //         sound_date,
-            //         sound_value,
-            //         sound_unit     
-            //     };
-                
-            //     console.log(deviceId);
-            //     $.post(`${API_URL}/devices/${deviceId}/sound`, sound_body)
-            //     .then(response => {
-            //         console.log("Added data");
-            //     })
-            //     .catch(error => { console.error(`Error: ${error}`);
-            //     }); 
-                    
-            // });
-    
-            // $('#devices tbody tr').on('click', (e) => {
-            //     //console.log("Device clicked");
-                
-            //     const accel_date = new Date();
-            //     const accel_value = Math.random() * 100;
-            //     const accel_unit = "m/s^2";
-    
-            //     accel_body = {
-            //         accel_date,
-            //         accel_value,
-            //         accel_unit     
-            //     };
-                
-            //     console.log(deviceId);
-            //     $.post(`${API_URL}/devices/${deviceId}/accelerometer`, accel_body)
-            //     .then(response => {
-            //         console.log("Added data");
-            //     })
-            //     .catch(error => { console.error(`Error: ${error}`);
-            //     }); 
-                    
-            // });
-    
-            // $('#devices tbody tr').on('click', (e) => {
-            //     //console.log("Device clicked");
-                
-            //     const humid_date = new Date();
-            //     const humid_value = Math.random() * 100;
-            //     const humid_unit = "%";
-    
-            //     humid_body = {
-            //         humid_date,
-            //         humid_value,
-            //         humid_unit     
-            //     };
-                
-            //     console.log(deviceId);
-            //     $.post(`${API_URL}/devices/${deviceId}/humidity`, humid_body)
-            //     .then(response => {
-            //         console.log("Added data");
-            //     })
-            //     .catch(error => { console.error(`Error: ${error}`);
-            //     }); 
-                    
-            // });
-    
-            // $('#devices tbody tr').on('click', (e) => {
-            //     //console.log("Device clicked");
-                
-            //     const ir_date = new Date();
-            //     const ir_value = Math.random() * 100;
-            //     const ir_unit = "cm";
-    
-            //     ir_body = {
-            //         ir_date,
-            //         ir_value,
-            //         ir_unit     
-            //     };
-                
-            //     console.log(deviceId);
-            //     $.post(`${API_URL}/devices/${deviceId}/infrared`, ir_body)
-            //     .then(response => {
-            //         console.log("Added data");
-            //     })
-            //     .catch(error => { console.error(`Error: ${error}`);
-            //     }); 
-                    
-            // });
             
             
 
             
             
-                var sound_value_array = [];
-                var sound_date_array = [];
-                var temp_value_array = [];
-                var temp_date_array = [];
-                var ir_value_array = [];
-                var ir_date_array = [];
-                var accel_value_array = [];
-                var accel_date_array = [];
-                var humid_value_array = [];
-                var humid_date_array = [];
+                
     
             $('#devices tbody tr').on( 'click', 'button', function (e) {
 
@@ -211,7 +132,7 @@ var deviceId;
                 var action = this.className;
                 
                 
-                if (action == 'sound')
+                if (true)
                 {
                     
                     console.log('Button Sound: ' + deviceId);
@@ -347,69 +268,10 @@ var deviceId;
             }
         }
 
-        console.log(sound_value_array);
-        console.log(sound_value_date);
-        
+ 
         
 
             
-        // };
-
-        // $('#device-data1').append(`
-        // <tr>
-        // <td>${sensorData.acceleration.accel_value}</td>
-        // <td>${sensorData.acceleration.unit}</td>
-        // <td>${sensorData.temperature.temp_value}</td>
-        // <td>${sensorData.temperature.unit}</td>
-        // <td>${sensorData.sound.sound_peak_dB}</td>
-        // <td>${sensorData.sound.sound_avg_dB}</td>
-        // </tr>
-        // `);
-
-// $.get(`${API_URL}/devices`).then(response => {
-//     response.forEach((device) => {
-//         console.log("'#devices tbody'");
-//         console.log(device);
-//         $('#devices tbody').append(`
-//         <tr data-device-id=${device._id}>
-//         <td>${device.user_name}</td>
-//         <td>${device.device_name}</td>
-//         </tr>`);
-// });});
-// $('#devices tbody tr').on('click', (e) => {
-//     console.log("#devices tbody trasdasdasdasdasdasqwd");
-//     const deviceId = e.currentTarget.getAttribute('data-device-id');
-//     location.href="/device-data";
-//     $.get(`${API_URL}/devices/${deviceId}/device-history`).then(response => {response.map(sensorData => {
-//         $('#data').empty();
-//         $('#data').append(`
-//         <tr>
-//         <td>${sensor_data.acceleration.accel_value}</td>
-//         <td>${sensor_data.acceleration.unit}</td>
-//         <td>${sensor_data.temperature.temp_value}</td>
-//         <td>${sensor_data.temperature.unit}</td>
-//         <td>${sensor_data.sound.sound_peak_dB}</td>
-//         <td>${sensor_data.sound.sound_avg_dB}</td>
-//         </tr>
-//         `);
-//         });
-        
-//     });
-// });
-
-// var temp_array = [];
-
-// $.get(`${API_URL}/devices/:device_name/temperature`) 
-// .then(response => {
-//     response.forEach(data => { 
-        
-//         temp_array.push(data.temp_value);
-//     });
-//     //append it to html
-// })
-// .catch(error => {
-//     console.error(`Error: ${error}`); 
-// });
 
 
 var adddeviceapp=angular.module('adddeviceapp',[]);
@@ -595,9 +457,19 @@ const logout = () => {
         "title":"adasdasdBaby Monitor Notifications",
         "description":" Is this woaasd?"
     };
+    var notification3={
+        "title":"adasdasda111asdBaby Monitor Notifications",
+        "description":" Is this woaasd?"
+    };
+    var notification4={
+        "title":"1111111a1dasdasdBaby Monitor Notifications",
+        "description":" Is this woaasd?"
+    };
     var notificationlist=[];
     notificationlist.push(notification1);
     notificationlist.push(notification2);
+    notificationlist.push(notification3);
+    notificationlist.push(notification4);
     console.log(notificationlist);
 
 
