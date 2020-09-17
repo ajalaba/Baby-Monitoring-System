@@ -376,36 +376,36 @@ app.get('/api/devices/:device_id/infrared', (req, res) => {
 
 
 
-app.post('/api/devices/:device_id/notifications', (req, res) => {
-    var noti = req.body;
-    console.log(inf);
+// app.post('/api/devices/:device_id/notifications', (req, res) => {
+//     var noti = req.body;
+//     console.log(inf);
     
-    var { device_id } = req.params;
-    Device.findOne({"_id": device_id }, (err, devices) => {
-        var {  notifications_data } = devices;
-        notifications_data.push(noti);
-        console.log("AFter");
-        devices.save(err => {
-            if(err)
-            {
-                console.log(err);
-            }
-        })
-        return err
-        ? res.send(err)
-        : res.send("Saved Sucessfully");
-        });
-    });
-app.get('/api/devices/:device_id/notifications', (req, res) => {
+//     var { device_id } = req.params;
+//     Device.findOne({"_id": device_id }, (err, devices) => {
+//         var {  notifications_data } = devices;
+//         notifications_data.push(noti);
+//         console.log("AFter");
+//         devices.save(err => {
+//             if(err)
+//             {
+//                 console.log(err);
+//             }
+//         })
+//         return err
+//         ? res.send(err)
+//         : res.send("Saved Sucessfully");
+//         });
+//     });
+// app.get('/api/devices/:device_id/notifications', (req, res) => {
           
-        var { device_id } = req.params;
-        Device.findOne({"_id": device_id }, (err, devices) => {
-            var {  notifications_data } = devices;
-            return err
-            ? res.send(err)
-            : res.send(devices.notifications_data);
-            });
-});
+//         var { device_id } = req.params;
+//         Device.findOne({"_id": device_id }, (err, devices) => {
+//             var {  notifications_data } = devices;
+//             return err
+//             ? res.send(err)
+//             : res.send(devices.notifications_data);
+//             });
+// });
 
 
 
