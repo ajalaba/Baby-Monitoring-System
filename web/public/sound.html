@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+<link rel="stylesheet" href="login.css">
+<style type="text/css">
+  body {
+    background-color: #DADADA;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .image {
+    margin-top: -100px;
+  }
+  .column {
+    max-width: 450px;
+  }
+</style>
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
 <meta name="ADV" content="ADV" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <title>Sound Data</title>
 </head>
 <body>
-    <h1>Sound Data</h1> 
-
   <div class="container">
-    <div id="navbar"></div>  
+    <div id="navbar"></div>
   </div>
-
   <div class="text">
     <h3>What Is A Sound Sensor?</h3>
     <p>The sound sensor is one type of module used to notice the sound. Generally, this module is used to detect the intensity of sound.</p>
@@ -67,6 +83,18 @@
     }
   </style>
 
+<table id="table_sound" class="table">
+  <thead>
+  <tr>
+    <th>Time</th>
+    <th>Sound dB Value</th>
+  </tr>
+  </thead>
+  <tbody id="123" ></tbody>
+</table>
+
+
+
 <table id="sound" class="table">
   <thead>
   <tr>
@@ -75,21 +103,48 @@
   </tr>
   </thead>
   <tbody id="tableData"></tbody>
-
+</table>
+  <div style="text-align: center;", id="footbar"></div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
   <script>
     //import { sound_value_array ,sound_date_array} from './app.js';
     
 
-    // import { sound_value_array} from './app.js';
+    // import { sound_value_array} from 'app.js';
+    // console.log("impoert export");
     // console.log(sound_value_array);
 
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
     //Should be fixed when we use real data?
+    //var value_array = JSON.parse(localStorage.getItem('sound_value_array'));
+    //var date_array = JSON.parse(localStorage.getItem('sound_date_array'));
+    //const sarray=JSON.parse(sound_valarray);
+    console.log("sound");
+    // console.log(value_array);
+    // console.log(date_array);
+    //console.log(sarray);
+    console.log(sound_value_array);
+    console.log(sound_date_array);
+    //console.log(value_array);
+    //console.log(date_array);
+    //console.log(sound_data);
+    var i=0;
+    console.log("adasdasdasdasdasdasdsdasdas-----------------------");
+    console.log(sound_date_array.length);
+    console.log(sound_date_array[12]);
+    for (i=0;i<100;i++)
+    {
+      console.log("-----------------------");
+      $('#123').append(`<tr><td>${sound_date_array[i]}</td><td>${sound_value_array[i]}</td></tr>`)
+    }
+
 
     function getData() { 
-      return Math.random() * 100;
+      return Math.random() * 10;
     }
 
     //Table Stuff
@@ -103,6 +158,7 @@
         { day: 'Saturday', percentages: getData() },
         { day: 'Sunday', percentages: getData() },
     ];
+
         
     window.onload = () => {
       loadTableData(soundData);
@@ -115,7 +171,7 @@
       for (let sound of soundData) {
           dataHtml += `<tr><td>${sound.day}</td><td>${sound.percentages}</td></tr>`;
       }
-      console.log(dataHtml);
+      //console.log(dataHtml);
       tableBody.innerHTML = dataHtml;  
     }
 
@@ -144,7 +200,8 @@
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
     Chart.defaults.global.defaultFontColor = '#000';
-
+    // console.log("a1111111sdasdasdasdssda");
+    // console.log(sound_value_array);
     let massPopChart = new Chart(IRChart, {
       type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
       data:{
@@ -214,9 +271,5 @@
     };
 
   </script>
-  <div style="text-align: center;", id="footbar"></div>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script type="module" src="app.js"></script>
 </body>
 </html>

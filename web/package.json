@@ -9,12 +9,16 @@
   "author": "ADV",
   "license": "ISC",
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.28",
     "angular": "^1.8.0",
     "angular-mocks": "^1.8.0",
-    "express": "^4.17.1"
+    "angular-route": "^1.8.0",
+    "express": "^4.17.1",
+    "gulp": "^4.0.2",
+    "gulp-install": "^1.1.0"
   },
   "devDependencies": {
-    "karma": "^5.2.1",
+    "karma": "^5.2.2",
     "nodemon": "^2.0.4"
   },
   "description": ""

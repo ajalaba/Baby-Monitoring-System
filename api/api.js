@@ -105,19 +105,19 @@ app.get('/api/devices/:deviceId/device-history', (req, res) => {
     });
 
 
-    app.get('/api/devices/:device_name/device-history', (req, res) => {
-        const { device_name } = req.params;
-        console.log(device_name);
-        // to test in the browser http://localhost:5000/api/devices/5f50a23d25bb7a03a4af477e/device-history
-        Device.findOne({"device_name": device_name }, (err, devices) => {
-        console.log(devices);
-        const { sensor_data } = devices;
-        console.log(sensor_data);
-        return err
-        ? res.send(err)
-        : res.send(sensor_data);
-        });
-        });
+app.get('/api/devices/:device_name/device-history', (req, res) => {
+    const { device_name } = req.params;
+    console.log(device_name);
+    // to test in the browser http://localhost:5000/api/devices/5f50a23d25bb7a03a4af477e/device-history
+    Device.findOne({"device_name": device_name }, (err, devices) => {
+    console.log(devices);
+    const { sensor_data } = devices;
+    console.log(sensor_data);
+    return err
+    ? res.send(err)
+    : res.send(sensor_data);
+    });
+    });
 
 /**
 * @api {post} /api/devices AllDevices Send Command
@@ -373,6 +373,39 @@ app.get('/api/devices/:device_id/infrared', (req, res) => {
             : res.send(devices.infrared_data);
             });
 });
+
+
+
+// app.post('/api/devices/:device_id/notifications', (req, res) => {
+//     var noti = req.body;
+//     console.log(inf);
+    
+//     var { device_id } = req.params;
+//     Device.findOne({"_id": device_id }, (err, devices) => {
+//         var {  notifications_data } = devices;
+//         notifications_data.push(noti);
+//         console.log("AFter");
+//         devices.save(err => {
+//             if(err)
+//             {
+//                 console.log(err);
+//             }
+//         })
+//         return err
+//         ? res.send(err)
+//         : res.send("Saved Sucessfully");
+//         });
+//     });
+// app.get('/api/devices/:device_id/notifications', (req, res) => {
+          
+//         var { device_id } = req.params;
+//         Device.findOne({"_id": device_id }, (err, devices) => {
+//             var {  notifications_data } = devices;
+//             return err
+//             ? res.send(err)
+//             : res.send(devices.notifications_data);
+//             });
+// });
 
 
 
