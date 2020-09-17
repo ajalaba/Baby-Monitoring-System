@@ -312,19 +312,31 @@ var deviceId;
                 //This has an error
                 else if (this.id == 'view')
                 {
-                    var instruct_array =[];
-                    
+                    var instruct_array = [];
                     $.get(`${API_URL}/devices/${deviceId}/instructions`)
-                    .then(response => { response.forEach((instructions) => {
+                    .then(response => { response.map((instructions) => {
+                            $('#historyContent').append(`
+                            <tr>
+                            <td>${instructions.instruct}</td>
+                            </tr>
+                            `);
+                            });
+                            $('#historyModal').modal('show');
+                    });
+                    
+                    // var instruct_array =[];
+                    
+                    // $.get(`${API_URL}/devices/${deviceId}/instructions`)
+                    // .then(response => { response.forEach((instructions) => {
                         
 
-                        instruct_array.push(instructions.instruct);
-                    })
-                        console.log(instruct_array);
+                    //     instruct_array.push(instructions.instruct);
+                    // })
+                    //     console.log(instruct_array);
                         
-                    })
-                    .catch(error => { console.error(`Error: ${error}`);
-                    }); 
+                    // })
+                    // .catch(error => { console.error(`Error: ${error}`);
+                    // }); 
                 }
                 
                

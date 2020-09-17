@@ -551,12 +551,11 @@ app.post('/api/devices/:device_id/instructions', (req, res) => {
 
 //This has an error
 app.get('/api/devices/:device_id/instructions', (req, res) => {
+          
     var { device_id } = req.params;
-    Device.find({ "_id": device_id }, (err, devices) => {
-    var {  instructions } = devices;
-    return err
-    ? res.send(err)
-    : res.send(devices.instructions);
-    });
+    Device.findOne({"_id": device_id }, (err, devices) => {
+        return err
+        ? res.send(err)
+        : res.send(devices.instructions);
+        });
 });
-    
