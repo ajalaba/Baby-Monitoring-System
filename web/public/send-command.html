@@ -21,11 +21,59 @@
     </div>
 
     <div class="form-group">
-      <label for="deviceId">Device ID</label>
+      <label for="deviceId">Device Name</label>
       <input type="text" class="form-control" id="deviceId" />
   </div>
     
     <button class="btn btn-success" id="send-command">Send</button>
+  <div>
+    <br>
+    <br>
+    <br>
+    <table id="commands" class="command-table">
+      <thead>
+      <tr>
+      <th id = "i">Commands</th>
+      <th>Sound</th>
+      <th>Temperature</th>
+      <th>Humidity</th>
+      <th>Acceleration</th>
+      <th>Infrared</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id = "i">To start the sensor: </td>
+          <td>Sound On</td>
+          <td>Temp On</td>
+          <td>Humid On</td>
+          <td>Accel On</td>
+          <td>IR On</td>
+        </tr>
+        <tr>
+          <td id = "i">To stop the sensor: </td>
+          <td>Sound Off</td>
+          <td>Temp Off</td>
+          <td>Humid Off</td>
+          <td>Accel Off</td>
+          <td>IR Off</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+<style>
+td, th {
+  border: 1px solid #cccccc;
+  padding: 8px;
+}
+th {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#i {
+  background-color: #dddddd;
+}
+</style>
 
     <div style="text-align: center;", id="footbar"></div>
 

@@ -3,6 +3,7 @@ $('#footbar').load('footer.html');
 
 // const API_URL = 'https://api-theta-nine.vercel.app/api/';
 const API_URL = 'http://localhost:5000/api';
+const MQTT_URL = `http://localhost:5001`;
 
 const response = $.get(`${API_URL}/devices`);
 
@@ -445,10 +446,25 @@ adddeviceapp.controller('formCtrl',function($scope)
 
 
 
+// $('#send-command').on('click', function() { 
+//     const command = $('#command').val(); 
+//     console.log(`command is: ${command}`);
+// });
 
 $('#send-command').on('click', function() { 
     const command = $('#command').val(); 
     console.log(`command is: ${command}`);
+    const deviceId = $('#deviceId').val(); 
+    
+    
+
+    // console.log("Attempting PUT");
+    // $.put(`${MQTT_URL}/sound-data`, { deviceId })
+    // console.log("Attempted PUT " + deviceId);
+    
+
+    $.post(`${MQTT_URL}/send-command`, { deviceId, command }) 
+
 });
 
 
