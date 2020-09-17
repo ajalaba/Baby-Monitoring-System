@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="login.css">
+  <style type="text/css">
+    body {
+      background-color: #DADADA;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
 <meta name="ADV" content="ADV" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
 <title>Temperature Data</title>
 </head>
 <body>
-    <h1>Temperature Data</h1> 
-
   <div class="container">
     <div id="navbar"></div>
   </div>
-
+    <h1>Temperature Data</h1> 
   <div class="text">
     <h3>What is Temperature Sensor?</h3>
     <p>Temperature is a measure of how hot or cold something is; specifically, a measure of the average kinetic energy of the particles in an object, which is a type of energy associated with motion.</p>
@@ -76,17 +91,23 @@
   </thead>
   <tbody id="tableData"></tbody>
   
+  
+  <div style="text-align: center;", id="footbar"></div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
   <script>
 
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
     //Should be fixed when we use real data?
-
+    console.log(temp_value_array);
+    console.log(temp_date_array);
     function getData() { 
       return Math.random() * 100;
     }
-
+    
     //Table Stuff
     let sortDirection = false;
     let tempData = [
@@ -240,9 +261,5 @@
     };
 
   </script>
-  <div style="text-align: center;", id="footbar"></div>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script src="app.js"></script>
 </body>
 </html>

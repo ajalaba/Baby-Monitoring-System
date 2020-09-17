@@ -38,38 +38,6 @@
         </div>
       </h2>
         <form class="ui form"ng-app="loginapp" ng-controller="formCtrl" name="myForm" novalidate> 
-            
-            <div class="ui stacked secondary  segment">
-                <div class="field">
-                  <div class="ui left icon input">
-                    <i class="user icon"></i>
-                    <input type="text" class="form-control" name="username" placeholder="Username" ng-model="username" required>
-                    
-                    <div class="ui left pointing label"style="color:red" ng-show="myForm.username.$dirty && myForm.username.$invalid">
-                            <span ng-show="myForm.username.$error.required">Username is required.</span>
-                    </div>
-        
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui left icon input">
-                    <i class="lock icon"></i>
-                    <input type="password" class="form-control" name="password" placeholder="Password" ng-model="password" required>
-                    
-                    <div class="ui left pointing label"style="color:red" ng-show="myForm.password.$dirty && myForm.password.$invalid">
-                        <span ng-show="myForm.password.$error.required">Password is required.</span>
-                    </div>
-                  </div>
-                </div>
-                <button ng-click="submit()" class="ui fluid large teal submit button" id="login" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.password.$dirty && myForm.password.$invalid">Login</button>
-                <div class="ui error message"></div>
-              </div>
-            
-              
-                <p class="ui message" ng-show="bool" id="error" style="color: tomato;">Error: User is not Registered</p>
-            <div class="ui message">
-                New to us? <a href="/registration">Register</a>
-              </div>
         </form> 
     </div>
     

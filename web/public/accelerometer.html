@@ -10,11 +10,12 @@
 <title>Accelerometer Data</title>
 </head>
 <body>
-    <h1>Accelerometer Data</h1> 
-
   <div class="container">
     <div id="navbar"></div>  
   </div>
+    <h1>Accelerometer Data</h1> 
+
+  
 
 <div class ="text">
   <h3>What is an Accelerometer Sensor?</h3>
@@ -79,6 +80,8 @@
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
     //Should be fixed when we use real data?
+    console.log(accel_value_array);
+    console.log(accel_date_array);
 
     function getData() { 
       return Math.random() * 100;
