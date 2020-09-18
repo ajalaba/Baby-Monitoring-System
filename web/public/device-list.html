@@ -5,20 +5,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
     <link rel="stylesheet" href="login.css">
-    <style type="text/css">
-        body {
-          background-color: #DADADA;
-        }
-        body > .grid {
-          height: 100%;
-        }
-        .image {
-          margin-top: -100px;
-        }
-        .column {
-          max-width: 450px;
-        }
-      </style>
+
 <!-- <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" /> -->
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
@@ -31,23 +18,38 @@
 <div class="container">
     <div id="navbar"></div>
 </div>
-<h1>Device List</h1>
 <br>
 <br>
 <br>
-<table id="devices" class="table">
-    <thead>
-    <tr>
-    <th>User</th>
-    <th>Device</th>
-    <th>Sensors</th>
-    <th>Add Instructions</th>
-    <th>Instruction List</th>
-    </tr>
-    </thead>
-    <tbody>    
-    </tbody>
-</table>
+<div class="ui ui middle aligned center aligned container">
+  <div class="ui stacked secondary segment">
+    <div class="ui container"> 
+      <h2 class="ui image header">
+        <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+        <i class="list alternate icon"></i>
+        <div class="content">
+          Device List
+        </div>
+      </h2>
+      <table id="devices" class=" ui teal large table">
+        <thead>
+        <tr>
+        <th>User</th>
+        <th>Device</th>
+        <th>Sensors</th>
+        <th>Add Instructions</th>
+        <th>Instruction List</th>
+        </tr>
+        </thead>
+        <tbody>    
+        </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
 <div class="ui container"> 
     <h2 class="ui teal image header">
       <img src="./Login Example - Semantic_files/logo.png" class="image">
@@ -55,7 +57,7 @@
         Log-in to your account
       </div>
     </h2>
-    <!-- <form class="ui form"ng-app="deviceapp" ng-controller="formCtrl" name="myForm" novalidate> 
+    <form class="ui form"ng-app="deviceapp" ng-controller="formCtrl" name="myForm" novalidate> 
         <div class="ui stacked secondary segment">
             <h2 class="ui teal image header">
                 <i class="bell outline icon"></i>
@@ -74,11 +76,11 @@
             </div>
         </div>
 
-    </form>  -->
-  </div>
+    </form> 
+  </div> -->
 
     <!-- Modal -->
-    <div class="modal fade" id="historyModal">
+    <!-- <div class="modal fade" id="historyModal">
         <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
@@ -96,7 +98,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 

@@ -46,7 +46,7 @@ var buttonpressed=0;
 $.get(`${API_URL}/users/${currentUser}/devices`).then(response => { 
     for(var i=0; i<response.length;i++ )
     {
-        console.log(response[0].device_name);
+        //console.log(response[0].device_name);
         var deviceinfo={"deviceName": response[i].device_name,"deviceId":String(response[i]._id)};
         devicelist.push(deviceinfo);
     }
@@ -70,13 +70,14 @@ if (currentUser)
 {
     $.get(`${API_URL}/users/${currentUser}/devices`)
     .then(response => {response.forEach((device) => {
-    console.log("'#devices tbody'");
+    //console.log("'#devices tbody'");
     currentDevice = device;
     deviceName = currentDevice.device_name;
     
     $('#devices tbody').append(`
     <tr data-device-id=${device._id}>
     <td>${device.user_name}</td>
+    <td>${device.device_name}</td>
             <td> 
                 <button class=\"sound\">Sound</button> 
                 <button class=\"temp\">Temp</button> 
@@ -99,26 +100,26 @@ if (currentUser)
 
             
 
-            console.log("device list added");
+            //console.log("device list added");
 
-            });console.log("'#devices tbody endeededed");
+            });//console.log("'#devices tbody endeededed");
 
             deviceId=current_device;
             $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
-                console.log("Sound response");
-                console.log(sound_response);
+                //console.log("Sound response");
+                //console.log(sound_response);
                 sound_data = sound_response;
                 for(var i=0; i<sound_response.length;i++ )
                 {
-                    console.log("sound response 1 value");
-                    console.log(sound_response[i].sound_value);
+                    //console.log("sound response 1 value");
+                    //console.log(sound_response[i].sound_value);
                    sound_value_array.push(parseInt(sound_response[i].sound_value));
                    sound_date_array.push(sound_response[i].sound_date);
                 }
             }).catch(error => { console.error(`Error: ${error}`);});
-            console.log("sound_value_array");
-            console.log(sound_value_array[12]);
-            console.log(sound_date_array);
+            //console.log("sound_value_array");
+            //console.log(sound_value_array[12]);
+            //console.log(sound_date_array);
             //console.log(sound_data);
 
 
@@ -168,11 +169,11 @@ if (currentUser)
                 
     
             $('#devices tbody tr').on( 'click', 'button', function (e) {
-                console.log("Clicl ENtered");
+                //console.log("Clicl ENtered");
 
                 deviceId = $(this).parents('tr').attr('data-device-id');
                 current_device=deviceId
-                console.log(current_device);
+                //console.log(current_device);
                 localStorage.setItem('current_device',current_device);
                 //deviceId = e.currentTarget.getAttribute('data-device-id');
                 //var trid = $(this).attr('data-device-id'); 
@@ -355,14 +356,29 @@ $('#send-command').on('click', function() {
     const deviceId = $('#deviceId').val(); 
     
     
+    
 
     // console.log("Attempting PUT");
     // $.put(`${MQTT_URL}/sound-data`, { deviceId })
     // console.log("Attempted PUT " + deviceId);
     
 
-    $.post(`${MQTT_URL}/send-command`, { deviceId, command }) 
+    // 
 
+});
+var sendcommandapp = angular.module('sendcommandapp',[]);
+
+sendcommandapp.controller('formCtrl',function($scope)
+{
+    $scope.deviceId="";
+    $scope.command="";
+    $scope.send= function() {
+        const deviceId = $scope.deviceId;
+    const command = $scope.command;
+    console.log("send-commad entered "+deviceId+" "+command);
+    }
+
+    //$.post(`${MQTT_URL}/send-command`, { deviceId, command })
 });
 
 
@@ -449,6 +465,7 @@ const logout = () => {
         const user = $scope.username;
         const password = $scope.password;
         const confirm = $scope.confirm;
+        $scope.bool=false;
         const isAdmin=false;
         console.log("name: "+user);
         console.log("password: "+password);
@@ -466,8 +483,13 @@ const logout = () => {
             else
             {
                 $.post(`${API_URL}/registration`, { "name":user, "password":password, "isAdmin":isAdmin}).then((response) =>{if (response.success) {
-            //location.href = '/login';
+            
+            $scope.bool=true;
             console.log("registration successfull");
+            setTimeout(() => {  location.href = '/login'; }, 2000);
+            
+            
+            $('#message').append(`<p class="ui message"id="error" style="color: tomato;"> Registration Successfull</p>`);
             }
             else {
             $('#message').append(`<p class="alert alert-danger">${response}</p>`);
@@ -541,8 +563,8 @@ const logout = () => {
     });
 
 
-    console.log("Button Pressed");
-    console.log(buttonpressed);
-    console.log("sound_value_array");
-    console.log(sound_value_array);
-    console.log(sound_date_array);
+    //console.log("Button Pressed");
+    //console.log(buttonpressed);
+    //console.log("sound_value_array");
+    //console.log(sound_value_array);
+    //console.log(sound_date_array);

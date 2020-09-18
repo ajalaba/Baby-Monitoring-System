@@ -30,7 +30,8 @@ scale=1.0>
     <div class="container">
         <div id="navbar"></div>
     </div>
-    <h1>Registration</h1>
+    <br>
+    <br>
     <br>
     <!-- <form ng-app="registerapp" ng-controller="formCtrl" name="myForm" novalidate>
         <label for="username">User:</label>
@@ -74,9 +75,10 @@ scale=1.0>
         <div ng-include="'footer.html'"></div>
         <br>
     </form> -->
-    <div class="ui container"> 
+    <div class="ui middle aligned center aligned container"> 
         <h2 class="ui teal image header">
-            <img src="./Login Example - Semantic_files/logo.png" class="image">
+            <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+            <i class="user outline icon"></i>
             <div class="content">
               Sign Up Here
             </div>
@@ -113,7 +115,7 @@ scale=1.0>
                     </div>
                   </div>
 
-                <button ng-click="submit()" class="ui fluid large teal submit button" id="login" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.password.$dirty && myForm.password.$invalid">Login</button>
+                <button ng-click="register()" class="ui fluid large teal submit button" id="register" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.password.$dirty && myForm.password.$invalid">Register </button>
                 <div class="ui error message"></div>
             </div>
             <div>
@@ -121,7 +123,10 @@ scale=1.0>
             </div>
               
             <div>
-            <p class="ui message" ng-show="bool" id="error" style="color: tomato;"></p>
+              <div class="message" id="message">
+               </div> 
+              </div>
+            
             </div>
               
             <div class="ui message">New to us? <a href="/registration">Register</a>

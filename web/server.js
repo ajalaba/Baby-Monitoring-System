@@ -47,9 +47,6 @@ app.get('/temp', (req, res) => {
 app.get('/accelerometer', (req, res) => {
     res.sendFile(`${base}/accelerometer.html`);
 });
-app.get('/navmenu', (req, res) => {
-    res.sendFile(`${base}/navmenu.html`);
-});
 app.get('/notifications', (req, res) => {
     res.sendFile(`${base}/notifications.html`);
 });

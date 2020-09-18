@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="login.css">
+  
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
 <meta name="ADV" content="ADV" />
@@ -13,27 +18,41 @@
   <div class="container">
     <div id="navbar"></div>
   </div>
-    <h1>Infrared Data</h1> 
+
+  <div class="ui ui middle aligned center aligned container">
+    <div class="ui stacked secondary segment">
+      <div class="ui middle aligned center aligned container"> 
+        <h2 class="ui image header">
+          <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+          <i class="home icon"></i>
+          <div class="content">
+            Infrared Data
+          </div>
+        </h2>
+      </div>
+      <div class="ui vertical stripe segment">
+        <div class="ui text container">
+          <h3 class="ui header">What is Infrared Sensor?</h3>
+          <p>An infrared (IR) sensor is an electronic device that measures and detects infrared radiation in its surrounding environment.</p>
+          <p>There are two types of infrared sensors: Active and Passive.</p>
+          <p>Active infrared sensors both emit and detect infrared radiation.</p>
+          <p>Passive infrared (PIR) sensors only detect infrared radiation and do not emit it from an LED.</p>
+        
+          <div class ="img">
+            <img src="https://qtxasset.com/styles/breakpoint_xl_880px_w/s3/fierceelectronics/1564457936/pirsensordiagram.png/pirsensordiagram.png?gHEQBZ1ehR079vdYq1Ub3ZQ7RhWAyN4G" alt="infrared" style="width:500px;height:300px">
+          </div>
+        
+          <h4>Infrared Guide</h4>
+          <p>0 = No Movement</p>
+          <p>1 = Movement Detected</p>
+      </div>
+    </div>
+    </div>
+    </div>
+   
 
 
-  <div class="text">
-  <h3>What is Infrared Sensor?</h3>
-  <p>An infrared (IR) sensor is an electronic device that measures and detects infrared radiation in its surrounding environment.</p>
-  <p>There are two types of infrared sensors: Active and Passive.</p>
-  <p>Active infrared sensors both emit and detect infrared radiation.</p>
-  <p>Passive infrared (PIR) sensors only detect infrared radiation and do not emit it from an LED.</p>
-
-  <div class ="img">
-    <img src="https://qtxasset.com/styles/breakpoint_xl_880px_w/s3/fierceelectronics/1564457936/pirsensordiagram.png/pirsensordiagram.png?gHEQBZ1ehR079vdYq1Ub3ZQ7RhWAyN4G" alt="infrared" style="width:500px;height:300px">
-  </div>
-
-  <h4>Infrared Guide</h4>
-  <p>0 = No Movement</p>
-  <p>1 = Movement Detected</p>
-  </div>
-
-
-  <div class="container">
+  <div class="ui container">
     <form>
         <p></p> 
         <button style="background-color: blueviolet; border-color: blueviolet; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>

@@ -5,20 +5,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
   <link rel="stylesheet" href="login.css">
-  <style type="text/css">
-    body {
-      background-color: #DADADA;
-    }
-    body > .grid {
-      height: 100%;
-    }
-    .image {
-      margin-top: -100px;
-    }
-    .column {
-      max-width: 450px;
-    }
-  </style>
+  
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
 <meta name="ADV" content="ADV" />
@@ -30,9 +17,22 @@
   <div class="container">
     <div id="navbar"></div>
   </div>
-    <h1>Temperature Data</h1> 
-  <div class="text">
-    <h3>What is Temperature Sensor?</h3>
+  <br>
+  <br>
+  <div class="ui ui middle aligned center aligned container">
+    <div class="ui stacked secondary segment">
+      <div class="ui middle aligned center aligned container"> 
+        <h2 class="ui image header">
+          <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+          <i class="home icon"></i>
+          <div class="content">
+            Temperature Data
+          </div>
+        </h2>
+      </div>
+      <div class="ui vertical stripe segment">
+        <div class="ui text container">
+          <h3 class="ui header">What is Temperature Sensor?</h3>
     <p>Temperature is a measure of how hot or cold something is; specifically, a measure of the average kinetic energy of the particles in an object, which is a type of energy associated with motion.</p>
     <p>It is essentially the measurement of how fast atoms and molecules of a substance are moving.</p>
     <p>Temperature is generally measured in degrees on the Fahrenheit, Celsius, and Kelvin scales however, in this dataset the data will be recorded in Celsius.</p>
@@ -43,7 +43,11 @@
   
     <h4>Temperature Guide</h4>
     <p>Ideal Temperature: 18-21°</p>
+      </div>
     </div>
+    </div>
+    </div>
+
 
   <div class="container">
     <form>
