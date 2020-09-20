@@ -378,17 +378,10 @@ adddeviceapp.controller('formCtrl',function($scope)
 $('#send-command').on('click', function() { 
     const command = $('#command').val(); 
     console.log(`command is: ${command}`);
-    const deviceId = $('#deviceId').val(); 
-    
-    
-    
-
-    // console.log("Attempting PUT");
-    // $.put(`${MQTT_URL}/sound-data`, { deviceId })
-    // console.log("Attempted PUT " + deviceId);
-    
-
-    // 
+    const deviceId = $('#deviceId').val();     
+    console.log("Attempting PUT");
+    $.post(`${MQTT_URL}/send-command`, { deviceId, command });
+    console.log("Attempted PUT " + deviceId);    
 
 });
 var sendcommandapp = angular.module('sendcommandapp',[]);
@@ -400,10 +393,10 @@ sendcommandapp.controller('formCtrl',function($scope)
     $scope.send= function() {
         const deviceId = $scope.deviceId;
     const command = $scope.command;
-    console.log("send-commad entered "+deviceId+" "+command);
+    //console.log("send-commad entered "+deviceId+" "+command);
     }
 
-    $.post(`${MQTT_URL}/send-command`, { deviceId, command });
+    //$.post(`${MQTT_URL}/send-command`, { deviceId, command });
 });
 
 

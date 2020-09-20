@@ -32,7 +32,7 @@
               <div class="field">
                 <div class="ui left icon input">
                   <i class="lock icon"></i>
-                  <input type="text" class="form-control" name="deviceId" placeholder="Device Name" ng-model="deviceId" required>
+                  <input type="text" class="form-control" id="deviceId" name="deviceId" placeholder="Device Name" ng-model="deviceId" required>
                   
                   <div class="ui left pointing label"style="color:red" ng-show="myForm.deviceId.$dirty && myForm.deviceId.$invalid">
                       <span ng-show="myForm.deviceId.$error.required">Password is required.</span>
@@ -42,7 +42,7 @@
                 <div class="field">
                   <div class="ui left icon input">
                     <i class="user icon"></i>
-                    <input type="text" class="form-control" name="command" placeholder="Command" ng-model="command" required>
+                    <input type="text" class="form-control" id="command" name="command" placeholder="Command" ng-model="command" required>
                     
                     <div class="ui left pointing label"style="color:red" ng-show="myForm.command.$dirty && myForm.command.$invalid">
                             <span ng-show="myForm.command.$error.required">Command is required.</span>
@@ -50,7 +50,7 @@
         
                   </div>
                 </div>
-                <button ng-click="send()" class="ui fluid large teal submit button" id="login" ng-disabled="myForm.command.$dirty && myForm.command.$invalid ||  myForm.deviceId.$dirty && myForm.deviceId.$invalid">Send Command</button>
+                <button ng-click="send()" class="ui fluid large teal submit button" id="send-command" ng-disabled="myForm.command.$dirty && myForm.command.$invalid ||  myForm.deviceId.$dirty && myForm.deviceId.$invalid">Send Command</button>
                 <div class="ui error message"></div>
               </div>
         </form> 
