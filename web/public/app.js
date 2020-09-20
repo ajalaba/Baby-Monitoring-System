@@ -7,6 +7,7 @@ const MQTT_URL = `http://localhost:5001`;
 
 const response = $.get(`${API_URL}/devices`);
 
+
 const isAuthenticated=JSON.parse(localStorage.getItem('isAuthenticated')) || false;
 const currentUser = localStorage.getItem('user');
 var sesnorData;
@@ -20,7 +21,10 @@ var current_device=localStorage.getItem('current_device') || "" ;
 var devicelist=[];
 
 
-var sound_value_array = [];
+var sound_value_array = [1,1,1];
+sound_value_array.push(20);
+
+
 var sound_date_array = [];
 var sound_data;
 var temp_value_array = [];
@@ -35,13 +39,22 @@ var humid_date_array = [];
 
 var buttonpressed=0;
 
-// var deviceapp=angular.module('deviceapp',[]);
-// deviceapp.controller('formCtrl',function($scope)
+// var app1=angular.module('app1',[]);
+// app1.controller('formCtrl',function($scope, $http)
 // {
-//     $scope.devlist=deviceslist;
+//     //$scope.devlist=notificationlist;
+//     $scope.devlist=devicelist;
+//     $http.get(`${API_URL}/users/${currentUser}/devices`).then(function(response)
+//     {
+//         console.log(response);
+//     });
 //     console.log("devlist");
 //     console.log($scope.devlist);
+//     console.log($scope.devlist[1]);
 // });
+
+
+
 
 $.get(`${API_URL}/users/${currentUser}/devices`).then(response => { 
     for(var i=0; i<response.length;i++ )
@@ -52,7 +65,7 @@ $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
     }
     //deviceId=response[0]._id;
     deviceId=current_device;
-           
+    console.log(devicelist[0].deviceName);
 
     // console.log("Response");
     // console.log (response);
@@ -61,9 +74,42 @@ $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
     
 }).catch(error => { console.error(`Error: ${error}`);
 });
-
-
-
+// deviceId=current_device;
+// axios.get(`${API_URL}/devices/${deviceId}/sound`).then(resp =>
+// {
+//     sound_value_array.push(20);
+//     for(var i=0; i<resp.length;i++ )
+//     {
+//         console.log("sound response 1 value");
+//         console.log(resp[i].sound_value);
+//         sound_value_array.push(Number(resp[i].sound_value));
+//         sound_date_array.push(resp[i].sound_date);
+//         console.log("sound_value_array");
+//             console.log(sound_value_array);
+//             console.log(typeof(sound_value_array));
+//             console.log(sound_value_array[3]);
+//     }    
+// });
+deviceId=current_device;
+            $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
+                //console.log("Sound response");
+                //console.log(sound_response);
+                
+                for(var i=0; i<sound_response.length;i++ )
+                {
+                    //console.log("sound response 1 value");
+                    //console.log(sound_response[i].sound_value);
+                    console.log(typeof(sound_response[i].sound_value));
+                    sound_value_array.push(21);
+                    console.log(typeof(Number(sound_response[i].sound_value)))
+                   sound_value_array.push(Number(sound_response[i].sound_value));
+                   sound_date_array.push(sound_response[i].sound_date);
+                }
+            }).catch(error => { console.error(`Error: ${error}`);});
+            console.log("sound_value_array");
+            console.log(sound_value_array);
+            console.log(typeof(sound_value_array));
+            console.log(sound_value_array[4]);
 
 
 if (currentUser) 
@@ -102,24 +148,9 @@ if (currentUser)
 
             //console.log("device list added");
 
-            });//console.log("'#devices tbody endeededed");
+            })});//console.log("'#devices tbody endeededed");
 
-            deviceId=current_device;
-            $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
-                //console.log("Sound response");
-                //console.log(sound_response);
-                sound_data = sound_response;
-                for(var i=0; i<sound_response.length;i++ )
-                {
-                    //console.log("sound response 1 value");
-                    //console.log(sound_response[i].sound_value);
-                   sound_value_array.push(parseInt(sound_response[i].sound_value));
-                   sound_date_array.push(sound_response[i].sound_date);
-                }
-            }).catch(error => { console.error(`Error: ${error}`);});
-            //console.log("sound_value_array");
-            //console.log(sound_value_array[12]);
-            //console.log(sound_date_array);
+            
             //console.log(sound_data);
 
 
@@ -287,23 +318,17 @@ if (currentUser)
                 
                
             } );
-
-        })
-
-        
-        .catch(error => {
-            console.error(`Error: ${error}`);
-        });
         }
-        else
-        {
-            const path = window.location.pathname;
+
+else
+{
+    const path = window.location.pathname;
                     
             //users should login before tgey can see other pages
-            if (path !== '/login' && path !== '/registration') {
-                location.href = '/login'; 
-            }
+    if (path !== '/login' && path !== '/registration') {
+            location.href = '/login'; 
         }
+    }
 
  
         
@@ -378,7 +403,7 @@ sendcommandapp.controller('formCtrl',function($scope)
     console.log("send-commad entered "+deviceId+" "+command);
     }
 
-    //$.post(`${MQTT_URL}/send-command`, { deviceId, command })
+    $.post(`${MQTT_URL}/send-command`, { deviceId, command });
 });
 
 
@@ -543,7 +568,7 @@ const logout = () => {
     notificationlist.push(notification2);
     notificationlist.push(notification3);
     notificationlist.push(notification4);
-    console.log(notificationlist);
+    //console.log(notificationlist);
 
 
     var notifyapp=angular.module('notifyapp',[]);
@@ -568,3 +593,5 @@ const logout = () => {
     //console.log("sound_value_array");
     //console.log(sound_value_array);
     //console.log(sound_date_array);
+
+
