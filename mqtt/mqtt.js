@@ -1,4 +1,9 @@
 require('dotenv').config();
+
+const { JSDOM } = require( "jsdom" );
+const { window } = new JSDOM( "" );
+const $ = require( "jquery" )( window );
+
 const mqtt = require('mqtt');
 const express = require('express');
 const rand = require('random-int');
@@ -169,6 +174,7 @@ client.on('message', (topic, message) => {
     } 
 
 }); 
+const n = 4;
 
 app.post('/send-command', (req, res) => { 
     const { deviceId, command } = req.body; 
@@ -178,18 +184,69 @@ app.post('/send-command', (req, res) => {
     client.publish(topic, device_name, command, () => {
         res.send('published new message'); 
     });
-});
-
-const n = 5;
-const time = 30000;
-
-app.put('/sound-data', (req, res) => { 
-    //const { deviceId } = req.body;
 
     if (cmd == "Sound On")
     {
+        console.log("Before FOR");
         for (i=0; i < n;i++)
         {
+            $.post(`${MQTT_URL}/sound-data`, { });
+        }
+        console.log("After FOR");
+    }
+    else if (cmd == "Sound Off")
+    {
+        console.log("Turned Sound Sensor off");
+
+    }
+    else if (cmd == "Temp On")
+    {
+        console.log("Before FOR");
+        for (i=0; i < n;i++)
+        {
+            $.post(`${MQTT_URL}/temp-data`, { });
+        }
+        console.log("After FOR");
+    }
+    else if (cmd == "Temp Off")
+    {
+        console.log("Turned Temp Sensor off");
+
+    }
+    else if (cmd == "Humid On")
+    {
+        console.log("Before FOR");
+        for (i=0; i < n;i++)
+        {
+            $.post(`${MQTT_URL}/humid-data`, { });
+        }
+        console.log("After FOR");
+    }
+    else if (cmd == "Humid Off")
+    {
+        console.log("Turned Humid Sensor off");
+
+    }
+    else
+    {
+        console.log("Invalid command");
+    }   
+     
+
+
+
+});
+
+
+const time = 3000;
+
+app.post('/sound-data', (req, res) => { 
+    //const { deviceId } = req.body;
+
+    // if (cmd == "Sound On")
+    // {
+    //     for (i=0; i < n;i++)
+    //     {
             const sound_date = Date();
             const sound_value = rand(0,150); //Baby crying sound is around 130dB
             const sound_unit = "dB";
@@ -201,34 +258,26 @@ app.put('/sound-data', (req, res) => {
             const topic = '/soundData';
             const message = JSON.stringify({ device_name, sound_body });
 
+
             client.publish(topic, message, () => { 
                 res.send('published new message');
             }); 
             
             
             sleep(time);
-        }
+        //}
         
-    }
-    else if (cmd == "Sound Off")
-    {
-        console.log("Turned Sound Sensor off");
-
-    }
-    else
-    {
-        console.log("Invalid command");
-    }   
+        
+    //}
+    
 });
 
 
 app.put('/temp-data', (req, res) => { 
     //const { deviceId } = req.body;
 
-    if (cmd == "Temp On")
-    {
-        for (i=0; i < n;i++)
-        {
+    
+        
             const temp_date = new Date();
             const temp_value = rand(50,110); //min temp = 50; max temp = 110
             const temp_unit = "F";
@@ -244,27 +293,15 @@ app.put('/temp-data', (req, res) => {
                 res.send('published new message');
             }); 
             sleep(time);
-        }
+        
     
-    }
-    else if (cmd == "Temp Off")
-    {
-        console.log("Turned Temperature Sensor off");
-
-    }
-    else
-    {
-        console.log("Invalid command");
-    }
+    
 });
 
 app.put('/humid-data', (req, res) => { 
     //const { deviceId } = req.body;
 
-    if (cmd == "Humid On")
-    {
-        for (i=0; i < n;i++)
-        {
+    
             const humid_date = Date();
             const humid_value = rand(20,60); //Humidity % recommended = 30-50
             const humid_unit = "%";
@@ -280,17 +317,7 @@ app.put('/humid-data', (req, res) => {
                 res.send('published new message');
             }); 
             sleep(time);
-        }
-    }
-    else if (cmd == "Humid Off")
-    {
-        console.log("Turned Humidity Sensor off");
-
-    }
-    else
-    {
-        console.log("Invalid command");
-    }
+        
 
 });
 
