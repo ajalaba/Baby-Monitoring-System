@@ -499,7 +499,7 @@ app.post('/ir-data', (req, res) => {
 
    
             const ir_date = Date();
-            const ir_value = getRandomInt(2); //0 or 1
+            const ir_value = rand(0,15);//getRandomInt(2); //0 or 1?
             const ir_unit = "unit(s)";
     
             ir_body = {

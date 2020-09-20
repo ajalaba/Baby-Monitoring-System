@@ -90,15 +90,15 @@
     }
   </style>
 
-  <table id="humid" class="table">
-    <thead>
-    <tr>
-      <th>Day</th>
-      <th onclick="sortColumn('percentages')">Percentages</th>
-    </tr>
-    </thead>
-    <tbody id="tableData"></tbody>
-  </table>
+<table id="table_humid" class="table">
+  <thead>
+  <tr>
+    <th>Time</th>
+    <th>Humidity Value</th>
+  </tr>
+  </thead>
+  <tbody id="humid1" ></tbody>
+</table>
   
   
   <div style="text-align: center;", id="footbar"></div>
@@ -118,6 +118,20 @@
         humid_value_array.push(Number(arr4[i].humid_value));
         humid_date_array.push(arr4[i].humid_date);
     }
+
+    var humid_date_formatted = [];
+    for (var i = 0; i < humid_date_array.length; i++) {
+        var humidDate = new Date(humid_date_array[i]);
+        humid_date_formatted[i] = humidDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+
+    var i=0;
+    for (i=0;i<humid_value_array.length;i++)
+    {
+      console.log("-----------------------");
+      $('#humid1').append(`<tr><td>${humid_date_formatted[i]}</td><td>${humid_value_array[i]}</td></tr>`)
+    }
+
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
@@ -125,55 +139,55 @@
     console.log(humid_value_array);
     console.log(humid_date_array);
 
-    function getData() { 
-      return Math.random() * 100;
-    }
+    // function getData() { 
+    //   return Math.random() * 100;
+    // }
 
     //Table Stuff
-    let sortDirection = false;
-    let humidData = [
-        { day: 'Monday', percentages: getData() },
-        { day: 'Tuesday', percentages: getData() },
-        { day: 'Wednesday', percentages: getData() },
-        { day: 'Thursday', percentages: getData() },
-        { day: 'Friday', percentages: getData() },
-        { day: 'Saturday', percentages: getData() },
-        { day: 'Sunday', percentages: getData() },
-    ];
+    // let sortDirection = false;
+    // let humidData = [
+    //     { day: 'Monday', percentages: getData() },
+    //     { day: 'Tuesday', percentages: getData() },
+    //     { day: 'Wednesday', percentages: getData() },
+    //     { day: 'Thursday', percentages: getData() },
+    //     { day: 'Friday', percentages: getData() },
+    //     { day: 'Saturday', percentages: getData() },
+    //     { day: 'Sunday', percentages: getData() },
+    // ];
         
-    window.onload = () => {
-      loadTableData(humidData);
-    }
+    // window.onload = () => {
+    //   loadTableData(humidData);
+    // }
 
-    function loadTableData(humidData) {
-      const tableBody = document.getElementById('tableData');
-      let dataHtml = '';
+    // function loadTableData(humidData) {
+    //   const tableBody = document.getElementById('tableData');
+    //   let dataHtml = '';
     
-      for (let humid of humidData) {
-          dataHtml += `<tr><td>${humid.day}</td><td>${humid.percentages}</td></tr>`;
-      }
-      console.log(dataHtml);
-      tableBody.innerHTML = dataHtml;  
-    }
+    //   for (let humid of humidData) {
+    //       dataHtml += `<tr><td>${humid.day}</td><td>${humid.percentages}</td></tr>`;
+    //   }
+    //   console.log(dataHtml);
+    //   tableBody.innerHTML = dataHtml;  
+    // }
 
-    //When clicking on percentages header, sorts dynamically. Refreshing will undo
-    function sortColumn(columnName) {
-      const dataType = typeof humidData[0][columnName];
-      sortDirection = !sortDirection;
+    // //When clicking on percentages header, sorts dynamically. Refreshing will undo
+    // function sortColumn(columnName) {
+    //   const dataType = typeof humidData[0][columnName];
+    //   sortDirection = !sortDirection;
 
-      switch(dataType) {
-        case 'number':
-        sortNumberColumn(sortDirection, columnName);
-        break;
-      }
+    //   switch(dataType) {
+    //     case 'number':
+    //     sortNumberColumn(sortDirection, columnName);
+    //     break;
+    //   }
 
-      loadTableData(humidData);
-    }
-    function sortNumberColumn(sort, columnName) {
-      humidData = humidData.sort((p1, p2) => {
-          return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
-      });
-    }
+    //   loadTableData(humidData);
+    // }
+    // function sortNumberColumn(sort, columnName) {
+    //   humidData = humidData.sort((p1, p2) => {
+    //       return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+    //   });
+    // }
 
 
     //Chart Stuff
@@ -186,12 +200,13 @@
     let massPopChart = new Chart(myChart, {
       type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
       data:{
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        labels: humid_date_formatted,//['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
           datasets:[{
             label:'Humidity %',
-            data:[
-              getData(), getData(),getData(),getData(),getData(),getData(),getData()
-            ],
+            data: humid_value_array,
+            // [
+            //   getData(), getData(),getData(),getData(),getData(),getData(),getData()
+            // ],
           //backgroundColor:'green',
           //backgroundColor:[
             // 'rgba(255, 99, 132, 0.6)',
@@ -214,7 +229,15 @@
           hoverBorderColor:'#000'
         }]
       },
+      
       options:{
+        // scales: {
+        //   xAxes: [{
+        //     ticks: {
+        //       autoSkip: false
+        //     }
+        //   }]
+        // },
         title:{
           display:true,
           text:'Humidity Percentages Per Day',
@@ -241,12 +264,12 @@
       }
     });
 
-function updateChart() {
-  chart.data.datasets.forEach((datasets) => {
-  datasets.data.push(getData());
-  })
-chart.update();
-};
+// function updateChart() {
+//   chart.data.datasets.forEach((datasets) => {
+//   datasets.data.push(getData());
+//   })
+// chart.update();
+// };
 
   </script>
 </body>

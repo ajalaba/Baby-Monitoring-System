@@ -86,14 +86,15 @@
     }
   </style>
 
-<table id="temp" class="table">
+<table id="table_temp" class="table">
   <thead>
   <tr>
-    <th>Day</th>
-    <th onclick="sortColumn('percentages')">Percentages</th>
+    <th>Time</th>
+    <th>Temperature  Value</th>
   </tr>
   </thead>
-  <tbody id="tableData"></tbody>
+  <tbody id="temp1" ></tbody>
+</table>
   
   
   <div style="text-align: center;", id="footbar"></div>
@@ -114,6 +115,20 @@
         temp_date_array.push(arr1[i].temp_date);
     }
 
+  
+    var temp_date_formatted = [];
+    for (var i = 0; i < temp_date_array.length; i++) {
+        var tempDate = new Date(temp_date_array[i]);
+        temp_date_formatted[i] = tempDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+
+    var i=0;
+    for (i=0;i<temp_value_array.length;i++)
+    {
+      console.log("-----------------------");
+      $('#temp1').append(`<tr><td>${temp_date_formatted[i]}</td><td>${temp_value_array[i]}</td></tr>`)
+    }
+
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
@@ -121,55 +136,57 @@
     console.log(arr1);
     console.log(temp_value_array);
     console.log(temp_date_array);
-    function getData() { 
-      return Math.random() * 100;
-    }
+    console.log("formatted array");
+    console.log(temp_date_formatted);
+    // function getData() { 
+    //   return Math.random() * 100;
+    // }
     
     //Table Stuff
-    let sortDirection = false;
-    let tempData = [
-        { day: 'Monday', percentages: getData() },
-        { day: 'Tuesday', percentages: getData() },
-        { day: 'Wednesday', percentages: getData() },
-        { day: 'Thursday', percentages: getData() },
-        { day: 'Friday', percentages: getData() },
-        { day: 'Saturday', percentages: getData() },
-        { day: 'Sunday', percentages: getData() },
-    ];
+    // let sortDirection = false;
+    // let tempData = [
+    //     { day: 'Monday', percentages: getData() },
+    //     { day: 'Tuesday', percentages: getData() },
+    //     { day: 'Wednesday', percentages: getData() },
+    //     { day: 'Thursday', percentages: getData() },
+    //     { day: 'Friday', percentages: getData() },
+    //     { day: 'Saturday', percentages: getData() },
+    //     { day: 'Sunday', percentages: getData() },
+    // ];
         
-    window.onload = () => {
-      loadTableData(tempData);
-    }
+    // window.onload = () => {
+    //   loadTableData(tempData);
+    // }
 
-    function loadTableData(tempData) {
-      const tableBody = document.getElementById('tableData');
-      let dataHtml = '';
+    // function loadTableData(tempData) {
+    //   const tableBody = document.getElementById('tableData');
+    //   let dataHtml = '';
     
-      for (let temp of tempData) {
-          dataHtml += `<tr><td>${temp.day}</td><td>${temp.percentages}</td></tr>`;
-      }
-      console.log(dataHtml);
-      tableBody.innerHTML = dataHtml;  
-    }
+    //   for (let temp of tempData) {
+    //       dataHtml += `<tr><td>${temp.day}</td><td>${temp.percentages}</td></tr>`;
+    //   }
+    //   console.log(dataHtml);
+    //   tableBody.innerHTML = dataHtml;  
+    // }
 
-    //When clicking on percentages header, sorts dynamically. Refreshing will undo
-    function sortColumn(columnName) {
-      const dataType = typeof tempData[0][columnName];
-      sortDirection = !sortDirection;
+    // //When clicking on percentages header, sorts dynamically. Refreshing will undo
+    // function sortColumn(columnName) {
+    //   const dataType = typeof tempData[0][columnName];
+    //   sortDirection = !sortDirection;
 
-      switch(dataType) {
-        case 'number':
-        sortNumberColumn(sortDirection, columnName);
-        break;
-      }
+    //   switch(dataType) {
+    //     case 'number':
+    //     sortNumberColumn(sortDirection, columnName);
+    //     break;
+    //   }
 
-      loadTableData(tempData);
-    }
-    function sortNumberColumn(sort, columnName) {
-      tempData = tempData.sort((p1, p2) => {
-          return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
-      });
-    }
+    //   loadTableData(tempData);
+    // }
+    // function sortNumberColumn(sort, columnName) {
+    //   tempData = tempData.sort((p1, p2) => {
+    //       return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+    //   });
+    // }
 
     //Chart stuff
     let myChart = document.getElementById('IRChart').getContext('2d');
@@ -211,12 +228,13 @@
     let massPopChart = new Chart(IRChart, {
       type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
       data:{
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        labels: temp_date_formatted,//['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
           datasets:[{
             label:'Temperature Data',
             data:
+            temp_value_array
             //getTempValues()
-              [getData(), getData(),getData(),getData(),getData(),getData(),getData()]
+              //[getData(), getData(),getData(),getData(),getData(),getData(),getData()]
             ,
           //backgroundColor:'green',
           // backgroundColor:[
@@ -243,6 +261,13 @@
         }]
       },
       options:{
+        // scales: {
+        //   xAxes: [{
+        //     ticks: {
+        //       autoSkip: false
+        //     }
+        //   }]
+        // },
         title:{
           display:true,
           text:'Temperature Data',
@@ -269,13 +294,13 @@
       }
     });
 
-    function updateChart() {
+    // function updateChart() {
 
-        chart.data.datasets.forEach((datasets) => {
-          datasets.data.push(getData);
-        })
-        chart.update();
-    };
+    //     chart.data.datasets.forEach((datasets) => {
+    //       datasets.data.push(getData);
+    //     })
+    //     chart.update();
+    // };
 
   </script>
 </body>
