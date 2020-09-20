@@ -52,15 +52,7 @@ var buttonpressed=0;
 //     console.log($scope.devlist);
 //     console.log($scope.devlist[1]);
 // });
-deviceId=current_device;
-var arr=$.ajax({
-    async:false,
-    url:`${API_URL}/devices/${deviceId}/sound`,
-    type:'get',
-    data:{'GetConfig':'YES'},
-    dataType:"JSON"
-    }).responseJSON;
-console.log(arr);
+
 
 
 
@@ -83,6 +75,24 @@ $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
 }).catch(error => { console.error(`Error: ${error}`);
 });
 console.log(devicelist);
+
+deviceId="5f5a3cf860dd4313c1c7184d";
+var arr=$.ajax({
+    async:false,
+    url:`${API_URL}/devices/${deviceId}/sound`,
+    type:'get',
+    data:{'GetConfig':'YES'},
+    dataType:"JSON"
+    }).responseJSON;
+console.log(arr);
+for(var i=0;i<arr.length;i++)
+{
+    sound_value_array.push(Number(arr[i].sound_value));
+}
+console.log("adasd---------------------");
+console.log(sound_value_array);
+console.log(sound_value_array[20]);
+console.log(typeof(arr[30].sound_value));
 
 // deviceId=current_device;
 // axios.get(`${API_URL}/devices/${deviceId}/sound`).then(resp =>
@@ -116,7 +126,7 @@ console.log(devicelist);
                    sound_value_array.push(Number(sound_response[i].sound_value));
                    sound_date_array.push(sound_response[i].sound_date);
                 }
-            }).catch(error => { console.error(`Error: ${error}`);});
+            }).catch(error => { console.log(`Error: ${error}`);});
             //console.log("sound_value_array");
             //console.log(sound_value_array);
             //console.log(typeof(sound_value_array));
@@ -128,6 +138,7 @@ if (currentUser)
 {
     $.get(`${API_URL}/users/${currentUser}/devices`)
     .then(response => {response.forEach((device) => {
+    //console.log("'#devices tbody'");
     currentDevice = device;
     deviceName = currentDevice.device_name;
     
@@ -155,16 +166,25 @@ if (currentUser)
             </tr>`
             );
 
-            })});
-            // deviceId=current_device;
-            // $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
-            //     sound_data = sound_response;
-            //     for(var i=0; i<sound_response.length;i++ )
-            //     {
-            //        sound_value_array.push(parseInt(sound_response[i].sound_value));
-            //        sound_date_array.push(sound_response[i].sound_date);
-            //     }
-            // }).catch(error => { console.error(`Error: ${error}`);});
+            
+
+            //console.log("device list added");
+
+            });//console.log("'#devices tbody endeededed");
+
+            deviceId=current_device;
+            $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
+                //console.log("Sound response");
+                //console.log(sound_response);
+                sound_data = sound_response;
+                for(var i=0; i<sound_response.length;i++ )
+                {
+                    //console.log("sound response 1 value");
+                    //console.log(sound_response[i].sound_value);
+                   sound_value_array.push(parseInt(sound_response[i].sound_value));
+                   sound_date_array.push(sound_response[i].sound_date);
+                }
+            }).catch(error => { console.error(`Error: ${error}`);});
             //console.log("sound_value_array");
             //console.log(sound_value_array[12]);
             //console.log(sound_date_array);
@@ -217,13 +237,15 @@ if (currentUser)
                 
     
             $('#devices tbody tr').on( 'click', 'button', function (e) {
-
+                //console.log("Clicl ENtered");
 
                 deviceId = $(this).parents('tr').attr('data-device-id');
                 current_device=deviceId
-
+                //console.log(current_device);
                 localStorage.setItem('current_device',current_device);
-     
+                //deviceId = e.currentTarget.getAttribute('data-device-id');
+                //var trid = $(this).attr('data-device-id'); 
+                //var trid = $(this).getAttribute('data-device-id');
                 var action = this.className;
                 
                 
@@ -262,7 +284,7 @@ if (currentUser)
                     //     console.log(sound_date_array);
                         
                     // })
-                    // .catch(    //console.log("'#devices tbody'");error => { console.error(`Error: ${error}`);
+                    // .catch(error => { console.error(`Error: ${error}`);
                     // }); 
                     location.href = `/${action}`;
 
@@ -333,18 +355,23 @@ if (currentUser)
                 
                
             } );
-        }
 
-else
-{
-    const path = window.location.pathname;
+        })
+
+        
+        .catch(error => {
+            console.error(`Error: ${error}`);
+        });
+        }
+        else
+        {
+            const path = window.location.pathname;
                     
             //users should login before tgey can see other pages
-    if (path !== '/login' && path !== '/registration') {
-            location.href = '/login'; 
+            if (path !== '/login' && path !== '/registration') {
+                location.href = '/login'; 
+            }
         }
-    }
-
  
         
 
