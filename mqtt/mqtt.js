@@ -58,120 +58,236 @@ client.on('connect', () => {
 });
 
 client.on('message', (topic, message) => { 
-    if (topic == '/soundData') {
-        const data = JSON.parse(message);
+    const data = JSON.parse(message);
 
-        Device.findOne({"device_name": data.device_name }, (err, devices) => { 
-            if (err) {
-                console.log(err) 
-            }
-            const { sound_body } = data;
+    Device.findOne({"device_name": data.device_name }, (err, devices) => { 
+                
+        if (topic == '/soundData') {
+                
+                    if (err) {
+                        console.log(err) 
+                    }
+                    const { sound_body } = data;
+        
+                    //console.log(devices);
+                    var {  sound_data } = devices;
+        
+                    sound_data.push(sound_body);
+        
+                    devices.save(err => {
+                        if(err)
+                        {
+                            console.log(err);
+                        }
+                    });
+                    
+                
+        }
 
-            var {  sound_data } = devices;
+        if (topic == '/tempData') {
+                
+                    if (err) {
+                        console.log(err) 
+                    }
+                    const { temp_body } = data;
+        
+                    //console.log(devices);
+        
+                    var {  temp_data } = devices;
+                    
+        
+                    temp_data.push(temp_body);
+        
+                    devices.save(err => {
+                        if(err)
+                        {
+                            console.log(err);
+                        }
+                    });
+                    
+        } 
+        
+        if (topic == '/humidData') {
+                
+                    if (err) {
+                        console.log(err) 
+                    }
+                    const { humid_body } = data;
+        
+                    var {  humidity_data } = devices;
+        
+                    humidity_data.push(humid_body);
+        
+                    devices.save(err => {
+                        if(err)
+                        {
+                            console.log(err);
+                        }
+                    });
+        } 
+        
+        if (topic == '/accelData') {
+                
+                    if (err) {
+                        console.log(err) 
+                    }
+                    const { accel_body } = data;
+        
+                    var {  accelerometer_data } = devices;
+        
+                    accelerometer_data.push(accel_body);
+        
+                    devices.save(err => {
+                        if(err)
+                        {
+                        
+                            console.log(err);
+                        }
+                    });
+        } 
+        
+        if (topic == '/irData') {
+                    
+                    if (err) {
+                        console.log(err) 
+                    }
+                    const { ir_body } = data;
+        
+                    var {  infrared_data } = devices;
+        
+                    infrared_data.push(ir_body);
+        
+                    devices.save(err => {
+                        if(err)
+                        {
+                            console.log(err);
+                        }
+                    });
+                    
+        } 
+                
+    });
 
-            sound_data.push(sound_body);
+    // if (topic == '/soundData') {
+    //     const data = JSON.parse(message);
 
-            devices.save(err => {
-                if(err)
-                {
-                    console.log(err);
-                }
-            });
+    //     Device.findOne({"device_name": data.device_name }, (err, devices) => { 
+    //         if (err) {
+    //             console.log(err) 
+    //         }
+    //         const { sound_body } = data;
+
+    //         console.log(devices);
+    //         var {  sound_data } = devices;
+
+    //         sound_data.push(sound_body);
+
+    //         devices.save(err => {
+    //             if(err)
+    //             {
+    //                 console.log(err);
+    //             }
+    //         });
             
-        });
-    } 
+    //     });
+    // } 
 
-    else if (topic == '/tempData') {
-        const data = JSON.parse(message);
+    // else if (topic == '/tempData') {
+    //     const data = JSON.parse(message);
 
-        Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
-            if (err) {
-                console.log(err) 
-            }
-            const { temp_body } = data;
+    //     Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
+    //         if (err) {
+    //             console.log(err) 
+    //         }
+    //         const { temp_body } = data;
 
-            var {  temp_data } = devices;
+    //         console.log(devices);
 
-            temp_data.push(temp_body);
-
-            devices.save(err => {
-                if(err)
-                {
-                    console.log(err);
-                }
-            });
+    //         var {  temp_data } = devices;
             
-        });
-    } 
 
-    else if (topic == '/humidData') {
-        const data = JSON.parse(message);
+    //         temp_data.push(temp_body);
 
-        Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
-            if (err) {
-                console.log(err) 
-            }
-            const { humid_body } = data;
-
-            var {  humidity_data } = devices;
-
-            humidity_data.push(humid_body);
-
-            devices.save(err => {
-                if(err)
-                {
-                    console.log(err);
-                }
-            });
+    //         devices.save(err => {
+    //             if(err)
+    //             {
+    //                 console.log(err);
+    //             }
+    //         });
             
-        });
-    } 
+    //     });
+    // } 
 
-    else if (topic == '/accelData') {
-        const data = JSON.parse(message);
+    // else if (topic == '/humidData') {
+    //     const data = JSON.parse(message);
 
-        Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
-            if (err) {
-                console.log(err) 
-            }
-            const { accel_body } = data;
+    //     Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
+    //         if (err) {
+    //             console.log(err) 
+    //         }
+    //         const { humid_body } = data;
 
-            var {  accelerometer_data } = devices;
+    //         var {  humidity_data } = devices;
 
-            accelerometer_data.push(accel_body);
+    //         humidity_data.push(humid_body);
 
-            devices.save(err => {
-                if(err)
-                {
-                    console.log(err);
-                }
-            });
+    //         devices.save(err => {
+    //             if(err)
+    //             {
+    //                 console.log(err);
+    //             }
+    //         });
             
-        });
-    } 
+    //     });
+    // } 
 
-    else if (topic == '/irData') {
-        const data = JSON.parse(message);
+    // else if (topic == '/accelData') {
+    //     const data = JSON.parse(message);
 
-        Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
-            if (err) {
-                console.log(err) 
-            }
-            const { ir_body } = data;
+    //     Device.findOne({"device_name": data.deviceId }, (err, devices) => { 
+    //         if (err) {
+    //             console.log(err) 
+    //         }
+    //         const { accel_body } = data;
 
-            var {  infrared_data } = devices;
+    //         var {  accelerometer_data } = devices;
 
-            infrared_data.push(ir_body);
+    //         accelerometer_data.push(accel_body);
 
-            devices.save(err => {
-                if(err)
-                {
-                    console.log(err);
-                }
-            });
+    //         devices.save(err => {
+    //             if(err)
+    //             {
+                
+    //                 console.log(err);
+    //             }
+    //         });
             
-        });
-    } 
+    //     });
+    // } 
+
+    // else if (topic == '/irData') {
+    //     const data = JSON.parse(message);
+
+    //     Device.findOne({"device_name": data.deviceId }, (err, ir_devices) => { 
+            
+    //         if (err) {
+    //             console.log(err) 
+    //         }
+    //         const { ir_body } = data;
+
+    //         var {  infrared_data } = ir_devices;
+
+    //         infrared_data.push(ir_body);
+
+    //         devices.save(err => {
+    //             if(err)
+    //             {
+    //                 console.log(err);
+    //             }
+    //         });
+            
+    //     });
+    // } 
 
 }); 
 const n = 4;
@@ -187,7 +303,7 @@ app.post('/send-command', (req, res) => {
 
     if (cmd == "Sound On")
     {
-        console.log("Before FOR");
+        console.log("Before Sound FOR");
         for (i=0; i < n;i++)
         {
             $.post(`${MQTT_URL}/sound-data`, { });
@@ -199,9 +315,10 @@ app.post('/send-command', (req, res) => {
         console.log("Turned Sound Sensor off");
 
     }
+    
     else if (cmd == "Temp On")
     {
-        console.log("Before FOR");
+        console.log("Before Temp FOR");
         for (i=0; i < n;i++)
         {
             $.post(`${MQTT_URL}/temp-data`, { });
@@ -213,9 +330,10 @@ app.post('/send-command', (req, res) => {
         console.log("Turned Temp Sensor off");
 
     }
-    else if (cmd == "Humid On")
+    
+    if (cmd == "Humid On")
     {
-        console.log("Before FOR");
+        console.log("Before Humid FOR");
         for (i=0; i < n;i++)
         {
             $.post(`${MQTT_URL}/humid-data`, { });
@@ -227,10 +345,37 @@ app.post('/send-command', (req, res) => {
         console.log("Turned Humid Sensor off");
 
     }
-    else
+
+    if (cmd == "Accel On")
     {
-        console.log("Invalid command");
-    }   
+        console.log("Before Accel FOR");
+        for (i=0; i < n;i++)
+        {
+            $.post(`${MQTT_URL}/accel-data`, { });
+        }
+        console.log("After FOR");
+    }
+    else if (cmd == "Accel Off")
+    {
+        console.log("Turned Accel Sensor off");
+
+    }
+    
+    if (cmd == "IR On")
+    {
+        console.log("Before IR FOR");
+        for (i=0; i < n;i++)
+        {
+            $.post(`${MQTT_URL}/ir-data`, { });
+        }
+        console.log("After FOR");
+    }
+    else if (cmd == "IR Off")
+    {
+        console.log("Turned IR Sensor off");
+
+    }
+    
      
 
 
@@ -273,12 +418,12 @@ app.post('/sound-data', (req, res) => {
 });
 
 
-app.put('/temp-data', (req, res) => { 
+app.post('/temp-data', (req, res) => { 
     //const { deviceId } = req.body;
 
     
         
-            const temp_date = new Date();
+            const temp_date = Date();
             const temp_value = rand(50,110); //min temp = 50; max temp = 110
             const temp_unit = "F";
 
@@ -298,7 +443,7 @@ app.put('/temp-data', (req, res) => {
     
 });
 
-app.put('/humid-data', (req, res) => { 
+app.post('/humid-data', (req, res) => { 
     //const { deviceId } = req.body;
 
     
@@ -321,13 +466,10 @@ app.put('/humid-data', (req, res) => {
 
 });
 
-app.put('/accel-data', (req, res) => { 
+app.post('/accel-data', (req, res) => { 
     //const { deviceId } = req.body;
 
-    if (cmd == "Accel On")
-    {
-        for (i=0; i < n;i++)
-        {
+    
             const accel_date = Date();
             const accel_value = Math.random() * Math.floor(2); //Average walking acceleration = 0.7 sth - 1.8 sth
             const accel_unit = "m/s^2";
@@ -343,18 +485,7 @@ app.put('/accel-data', (req, res) => {
                 res.send('published new message');
             }); 
             sleep(time);
-        }
-        
-    }
-    else if (cmd == "Accel Off")
-    {
-        console.log("Turned Accelerometer off");
-
-    }
-    else
-    {
-        console.log("Invalid command");
-    }
+    
 });
 
 function getRandomInt(max) {
@@ -362,14 +493,11 @@ function getRandomInt(max) {
 }
 
 
-app.put('/ir-data', (req, res) => { 
+app.post('/ir-data', (req, res) => { 
     //const { deviceId } = req.body;
     
 
-    if (cmd == "IR On")
-    {
-        for (i=0; i < n;i++)
-        {
+   
             const ir_date = Date();
             const ir_value = getRandomInt(2); //0 or 1
             const ir_unit = "unit(s)";
@@ -385,19 +513,7 @@ app.put('/ir-data', (req, res) => {
                 res.send('published new message');
             }); 
             sleep(time);
-        }
-    
-        
-    }
-    else if (cmd == "IR Off")
-    {
-        console.log("Turned Infrared Sensor off");
-
-    }
-    else
-    {
-        console.log("Invalid command");
-    }
+       
 });
 
 app.listen(port, () => { 
