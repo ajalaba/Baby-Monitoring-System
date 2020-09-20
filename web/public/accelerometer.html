@@ -1,37 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="login.css">
+  
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
 <meta name="ADV" content="ADV" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
 <title>Accelerometer Data</title>
 </head>
 <body>
   <div class="container">
-    <div id="navbar"></div>  
+    <div id="navbar"></div>
   </div>
-    <h1>Accelerometer Data</h1> 
-
+ 
+  <br>
+  <br>
+  <div class="ui ui middle aligned center aligned container">
+    <div class="ui stacked secondary segment">
+      <div class="ui middle aligned center aligned container"> 
+        <h2 class="ui image header">
+          <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+          <i class="home icon"></i>
+          <div class="content">
+            Accelerometer Data
+          </div>
+        </h2>
+      </div>
+      <div class="ui vertical stripe segment">
+        <div class="ui text container">
+          <h3 class="ui header">What is an Accelerometer Sensor?</h3>
+          <p>An accelerometer is an electronic sensor that measures the acceleration forces acting on an object, in order to determine the object's position in space and monitor the object's movement.</p>
+    <p>Acceleration, which is a vector quantity, is the rate of change of an object’s velocity (velocity being the displacement of the object divided by the change in time). There are two types of acceleration forces: static forces and dynamic forces.</p>
+    <p>Static forces are forces that are constantly being applied to the object (such as friction or gravity).</p>
+    <p>Dynamic forces are “moving” forces applied to the object at various rates (such as vibration, or the force exerted on a cue ball in a game of pool).</p>
   
+    <div class ="img">
+      <img src="https://qtxasset.com/styles/breakpoint_sm_default_480px_w/s3/fierceelectronics/1562875377/capacitive_accelerometer.png/capacitive_accelerometer.png?p3n4kp7xKCmBAvJWLkYh4c7X7PS1dJiD" alt="accel" style="width:500px;height:300px">
+    </div>
+  
+    <h4>Accelerometer Guide</h4>
+    <p>- Measures rate of change of velocity of an object</p>
+    <p>- Measured in meters per second squared (m/s2) or in G-forces (g)</p>
+      </div>
+    </div>
+    </div>
+    </div>
 
-<div class ="text">
-  <h3>What is an Accelerometer Sensor?</h3>
-  <p>An accelerometer is an electronic sensor that measures the acceleration forces acting on an object, in order to determine the object's position in space and monitor the object's movement.</p>
-  <p>Acceleration, which is a vector quantity, is the rate of change of an object’s velocity (velocity being the displacement of the object divided by the change in time). There are two types of acceleration forces: static forces and dynamic forces.</p>
-  <p>Static forces are forces that are constantly being applied to the object (such as friction or gravity).</p>
-  <p>Dynamic forces are “moving” forces applied to the object at various rates (such as vibration, or the force exerted on a cue ball in a game of pool).</p>
 
-  <div class ="img">
-    <img src="https://qtxasset.com/styles/breakpoint_sm_default_480px_w/s3/fierceelectronics/1562875377/capacitive_accelerometer.png/capacitive_accelerometer.png?p3n4kp7xKCmBAvJWLkYh4c7X7PS1dJiD" alt="accel" style="width:500px;height:300px">
-  </div>
-
-  <h4>Accelerometer Guide</h4>
-  <p>- Measures rate of change of velocity of an object</p>
-  <p>- Measured in meters per second squared (m/s2) or in G-forces (g)</p>
-</div>
 
   <div class="container">
     <form>
@@ -39,7 +59,7 @@
     </form>
     <canvas id="IRChart"></canvas> 
   </div>
-
+  
   <style>
     table {
       font-family: Arial, sans-serif;
@@ -75,7 +95,24 @@
     </thead>
     <tbody id="tableData"></tbody>
 
+  
+  <div style="text-align: center;", id="footbar"></div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
   <script>
+    var arr3 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/accelerometer`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr3);
+    for (var i = 0; i < arr3.length; i++) {
+        accel_value_array.push(Number(arr3[i].accel_value));
+        accel_date_array.push(arr3[i].accel_date);
+    }
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
@@ -210,9 +247,5 @@
     };
 
   </script>
-  <div style="text-align: center;", id="footbar"></div>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script src="app.js"></script>
 </body>
 </html>

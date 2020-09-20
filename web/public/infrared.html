@@ -11,14 +11,14 @@
 <meta name="ADV" content="ADV" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
 <title>Infrared Data</title>
 </head>
 <body>
   <div class="container">
     <div id="navbar"></div>
   </div>
-
+  <br>
+  <br>
   <div class="ui ui middle aligned center aligned container">
     <div class="ui stacked secondary segment">
       <div class="ui middle aligned center aligned container"> 
@@ -49,8 +49,6 @@
     </div>
     </div>
     </div>
-   
-
 
   <div class="ui container">
     <form>
@@ -104,6 +102,18 @@
   <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="app.js"></script>
   <script>
+    var arr2 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/infrared`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr2);
+    for (var i = 0; i < arr2.length; i++) {
+        ir_value_array.push(Number(arr2[i].ir_value));
+        ir_date_array.push(arr2[i].ir_date);
+    }
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
@@ -240,3 +250,4 @@
   </script>
 </body>
 </html>
+

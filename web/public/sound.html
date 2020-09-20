@@ -118,6 +118,18 @@
   <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="app.js"></script>
   <script>
+    var arr = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/sound`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+        sound_value_array.push(Number(arr[i].sound_value));
+        sound_date_array.push(arr[i].sound_date);
+    }
     //import { sound_value_array ,sound_date_array} from './app.js';
     
 
@@ -141,11 +153,10 @@
     //console.log(value_array);
     //console.log(date_array);
     //console.log(sound_data);
+    var date = new Date(sound_date_array[1]);
+    console.log(date);
     var i=0;
-    console.log("adasdasdasdasdasdasdsdasdas-----------------------");
-    console.log(sound_date_array.length);
-    console.log(sound_date_array[12]);
-    for (i=0;i<100;i++)
+    for (i=0;i<sound_value_array.length;i++)
     {
       console.log("-----------------------");
       $('#123').append(`<tr><td>${sound_date_array[i]}</td><td>${sound_value_array[i]}</td></tr>`)

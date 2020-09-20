@@ -101,11 +101,24 @@
   <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="app.js"></script>
   <script>
+    var arr1 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/temperature`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr1);
+    for (var i = 0; i < arr1.length; i++) {
+        temp_value_array.push(Number(arr1[i].temp_value));
+        temp_date_array.push(arr1[i].temp_date);
+    }
 
     //Notes
     //Only problem is that the data from table and graph is different
     //Since it uses getData function which randomizes numbers
     //Should be fixed when we use real data?
+    console.log(arr1);
     console.log(temp_value_array);
     console.log(temp_date_array);
     function getData() { 
