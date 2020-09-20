@@ -52,7 +52,15 @@ var buttonpressed=0;
 //     console.log($scope.devlist);
 //     console.log($scope.devlist[1]);
 // });
-
+deviceId=current_device;
+var arr=$.ajax({
+    async:false,
+    url:`${API_URL}/devices/${deviceId}/sound`,
+    type:'get',
+    data:{'GetConfig':'YES'},
+    dataType:"JSON"
+    }).responseJSON;
+console.log(arr);
 
 
 
@@ -65,7 +73,7 @@ $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
     }
     //deviceId=response[0]._id;
     deviceId=current_device;
-    console.log(devicelist[0].deviceName);
+           
 
     // console.log("Response");
     // console.log (response);
@@ -74,6 +82,8 @@ $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
     
 }).catch(error => { console.error(`Error: ${error}`);
 });
+console.log(devicelist);
+
 // deviceId=current_device;
 // axios.get(`${API_URL}/devices/${deviceId}/sound`).then(resp =>
 // {
@@ -90,7 +100,8 @@ $.get(`${API_URL}/users/${currentUser}/devices`).then(response => {
 //             console.log(sound_value_array[3]);
 //     }    
 // });
-deviceId=current_device;
+
+            deviceId=current_device;
             $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
                 //console.log("Sound response");
                 //console.log(sound_response);
@@ -99,24 +110,24 @@ deviceId=current_device;
                 {
                     //console.log("sound response 1 value");
                     //console.log(sound_response[i].sound_value);
-                    console.log(typeof(sound_response[i].sound_value));
+                    //console.log(typeof(sound_response[i].sound_value));
                     sound_value_array.push(21);
-                    console.log(typeof(Number(sound_response[i].sound_value)))
+                    //console.log(typeof(Number(sound_response[i].sound_value)))
                    sound_value_array.push(Number(sound_response[i].sound_value));
                    sound_date_array.push(sound_response[i].sound_date);
                 }
             }).catch(error => { console.error(`Error: ${error}`);});
-            console.log("sound_value_array");
-            console.log(sound_value_array);
-            console.log(typeof(sound_value_array));
-            console.log(sound_value_array[4]);
+            //console.log("sound_value_array");
+            //console.log(sound_value_array);
+            //console.log(typeof(sound_value_array));
+            //console.log(sound_value_array[4]);
+
 
 
 if (currentUser) 
 {
     $.get(`${API_URL}/users/${currentUser}/devices`)
     .then(response => {response.forEach((device) => {
-    //console.log("'#devices tbody'");
     currentDevice = device;
     deviceName = currentDevice.device_name;
     
@@ -144,13 +155,19 @@ if (currentUser)
             </tr>`
             );
 
-            
-
-            //console.log("device list added");
-
-            })});//console.log("'#devices tbody endeededed");
-
-            
+            })});
+            // deviceId=current_device;
+            // $.get(`${API_URL}/devices/${deviceId}/sound`).then(sound_response => { 
+            //     sound_data = sound_response;
+            //     for(var i=0; i<sound_response.length;i++ )
+            //     {
+            //        sound_value_array.push(parseInt(sound_response[i].sound_value));
+            //        sound_date_array.push(sound_response[i].sound_date);
+            //     }
+            // }).catch(error => { console.error(`Error: ${error}`);});
+            //console.log("sound_value_array");
+            //console.log(sound_value_array[12]);
+            //console.log(sound_date_array);
             //console.log(sound_data);
 
 
@@ -200,15 +217,13 @@ if (currentUser)
                 
     
             $('#devices tbody tr').on( 'click', 'button', function (e) {
-                //console.log("Clicl ENtered");
+
 
                 deviceId = $(this).parents('tr').attr('data-device-id');
                 current_device=deviceId
-                //console.log(current_device);
+
                 localStorage.setItem('current_device',current_device);
-                //deviceId = e.currentTarget.getAttribute('data-device-id');
-                //var trid = $(this).attr('data-device-id'); 
-                //var trid = $(this).getAttribute('data-device-id');
+     
                 var action = this.className;
                 
                 
@@ -247,7 +262,7 @@ if (currentUser)
                     //     console.log(sound_date_array);
                         
                     // })
-                    // .catch(error => { console.error(`Error: ${error}`);
+                    // .catch(    //console.log("'#devices tbody'");error => { console.error(`Error: ${error}`);
                     // }); 
                     location.href = `/${action}`;
 
@@ -370,11 +385,6 @@ adddeviceapp.controller('formCtrl',function($scope)
 
 
 
-// $('#send-command').on('click', function() { 
-//     const command = $('#command').val(); 
-//     console.log(`command is: ${command}`);
-// });
-
 $('#send-command').on('click', function() { 
     const command = $('#command').val(); 
     console.log(`command is: ${command}`);
@@ -384,6 +394,8 @@ $('#send-command').on('click', function() {
     console.log("Attempted PUT " + deviceId);    
 
 });
+
+
 var sendcommandapp = angular.module('sendcommandapp',[]);
 
 sendcommandapp.controller('formCtrl',function($scope)
@@ -415,12 +427,10 @@ loginapp.controller('formCtrl',function($scope,$http)
         console.log("password: "+password);
         $.post(`${API_URL}/authenticate`, { "name":user, "password":password })
     .then((response) =>{
-        // console.log("response");
-        // console.log(response);
+
     if (response.success) 
     {
-        //console.log("response");
-        //console.log(response);
+
         localStorage.setItem('user', user);
         localStorage.setItem('isAdmin', response.isAdmin);
         localStorage.setItem('isAuthenticated',true);
@@ -563,6 +573,32 @@ const logout = () => {
     notificationlist.push(notification4);
     //console.log(notificationlist);
 
+var myvar='';
+$.ajax({
+    type:'get',
+    url: `${API_URL}/users/${currentUser}/notifications`,
+    dataType:'text',
+    success: function(data) {
+        useReturnData(data);
+    }
+});
+
+
+function useReturnData(data){
+    myvar = data;
+        //notificationlist.push(myvar);
+    console.log(myvar);
+
+};
+var BaseConfig=$.ajax({
+    async:false,
+    url:`${API_URL}/users/${currentUser}/notifications`,
+    type:'get',
+    data:{'GetConfig':'YES'},
+    dataType:"JSON"
+    }).responseJSON;
+console.log(BaseConfig[0]);
+notificationlist.push(BaseConfig[0]);
 
     var notifyapp=angular.module('notifyapp',[]);
     notifyapp.controller('formCtrl',function($scope,$http)
@@ -586,5 +622,3 @@ const logout = () => {
     //console.log("sound_value_array");
     //console.log(sound_value_array);
     //console.log(sound_date_array);
-
-

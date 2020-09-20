@@ -427,6 +427,12 @@ app.get('/api/devices/:device_id/infrared', (req, res) => {
 
 app.post('/api/registration', (req, res) => {
     const { name, password, isAdmin } = req.body;
+    var notification_array=[];
+    var notification12={
+        "title":"Welcome !!",
+        "description":"Welcome To Baby Monitoring System"
+    };
+    notification_array.push(notification12);
     User.find({}, (err, users) => {
         console.log("users");
         console.log(users);
@@ -445,7 +451,8 @@ app.post('/api/registration', (req, res) => {
             const newUser = new User({
                 name: name,
                 password,
-                isAdmin
+                isAdmin,
+                notification_array
             });
             newUser.save(err => {
                 return err
@@ -504,6 +511,23 @@ app.get('/api/users/:user/devices', (req, res) => {
     });
 });
 
+app.get('/api/users/:user/notifications', (req, res) => {
+    const { user } = req.params;
+    User.findOne({"name":user}, (err, result1) => {
+        if(err)
+        return err;
+        console.log("Result");
+        console.log(result1);
+        if(result1==null)
+        {
+            res.send("Error:(User doesn't exist)The User in not in the Registration Database");
+        }
+        else
+        {
+            res.send(result1.notification_array);
+        }
+    });
+});
 
 /**
 * @api {post} /api/authenticate Verifies User
@@ -592,3 +616,7 @@ app.get('/api/devices/:device_id/instructions', (req, res) => {
         : res.send(devices.instructions);
         });
 });
+
+
+
+
