@@ -32,9 +32,6 @@ app.use(function(req, res, next) {
 * @apiSuccessExample {String} Success-Response:
 *"The API is working!"
 */
-
-
-
 app.get('/api/test', (req, res) => {
     res.send('The API is working!');
     });
@@ -48,7 +45,79 @@ const Device = require('./models/device');
 const device = require('./models/device');
 const User = require('./models/user');
 
-
+/**
+* @api {get} /api/devices AllDevices An array of all devices
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+* [
+* {
+* "_id": "5f50a23d25bb7a03a4af477e",
+* "id": "1"
+* "device_name": "Device 0",
+* "user_name": "Ben",
+* "sensorData": {
+*   "acceleration": {
+*           "unit": "m/s^2",
+*           "accel_value": 7.6
+*   },
+*   "temperature": {
+*           "temp value": 36,
+*           "unit": "C"
+*   },
+*    "sound": {
+*           "sound_peak_dB": 64,
+*           "sound_avg_dB": 34
+*   }
+* },
+* {
+*    "accelerometer_data": [
+*   {
+*        "accel_date": "Fri Sep 11 2020 00:49:32 GMT+1000 (AEST)"
+*        "accel_value": "84.94259887402306"
+*        "accel_unit": "m/s^2"
+*   }
+*   ],
+*    "humidity_data": [
+*   {
+*       "humid_date": "Tue Sep 15 2020 21:58:26 GMT+1000 (Australian Eastern Standard Time)",
+*       "humid_value": "94.36478930161715",
+*       "humid_unit": "%"
+*   }
+*   ],   
+*    "infrared_data": [
+*   {
+*        "ir_date": "Tue Sep 15 2020 21:34:44 GMT+1000 (Australian Eastern Standard Time)",
+*        "ir_value": "41.36774826287564",
+*        "ir_unit": "cm"
+*   }
+*   ],
+*    "location_data": [],
+*    "sound_data": [
+*   {
+*        "sound_date": "Tue Sep 15 2020 21:58:26 GMT+1000 (Australian Eastern Standard Time)",
+*        "sound_value": "8.678198235045741",
+*        "sound_unit": "dB"
+*   }
+*   ],
+*    "temp_data": [
+*   {
+*        "temp_date": "Wed Sep 16 2020 01:26:05 GMT+1000 (AEST)",
+*        "temp_value": "71.86472786382959",
+*        "temp_unit": "F"
+*   }
+*   ],
+*    "instructions": [
+*   {
+*        instruct: "fdasfdwsa"
+*   }
+*   ]
+*   }
+*   ]
+* @apiErrorExample {json} Error-Response:
+* {
+* "User does not exist"
+* }
+*/
 app.get('/api/devices', (req, res) => {
     console.log("Entered api/devices");
     console.log(Device);
@@ -65,6 +134,17 @@ app.get('/api/devices', (req, res) => {
     }
     });
 });
+
+/**
+* @api {post} /api/devices AllDevices An array of all devices
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { successfully added device and data }
+* @apiErrorExample {json} Error-Response:
+* {
+* "User does not exist"
+* }
+*/  
 app.post('/api/devices', (req, res) => {
     const { device_name, user_name, patient_name } = req.body;
     var device_status= 1;
@@ -131,7 +211,6 @@ app.get('/api/devices/:device_name/device-history', (req, res) => {
 *       "Command does not exist" 
 *   }
 */
-
 app.post('/api/send-command', (req, res) => { 
     console.log(req.body);
 });
@@ -140,7 +219,7 @@ app.post('/api/send-command', (req, res) => {
 // { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
 
 /**
-* @api {post} /api/devices/:device_name/temperature inputs temperature data
+* @api {post} /api/devices/:device_name/temperature Inputs Temperature Data
 * @apiGroup Users
 * @apiParam {json}:
 * { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
@@ -154,7 +233,6 @@ app.post('/api/send-command', (req, res) => {
 *                       "Error"
 *}
 */
-
 app.post('/api/devices/:device_id/temperature', (req, res) => {
     var temp = req.body;
     console.log(temp);
@@ -177,7 +255,7 @@ app.post('/api/devices/:device_id/temperature', (req, res) => {
     });
 
 /**
-* @api {get} /api/devices/:device_name/temperature displays temperature data
+* @api {get} /api/devices/:device_name/temperature Displays Temperature Data
 * @apiGroup Users
 * @apiSuccessExample {json} Success-Response:
 *                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
@@ -202,10 +280,10 @@ app.get('/api/devices/:device_id/temperature', (req, res) => {
 // { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit": "dB"}
 
 /**
-* @api {post} /api/devices/:device_name/sound inputs sound data
+* @api {post} /api/devices/:device_name/sound Inputs Sound Data
 * @apiGroup Users
 * @apiParam {json}:
-* { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit": "dB"}
+* { "date":"2015-03-25T12:00:00Z", "value" : 20, "unit": "dB"}
 * @apiSuccessExample {String} Success-Response:
 *                    {
 *                        "Saved Sucessfully"
@@ -216,7 +294,6 @@ app.get('/api/devices/:device_id/temperature', (req, res) => {
 *                       "Error"
 *}
 */
-
 app.post('/api/devices/:device_id/sound', (req, res) => {
     var sound = req.body;
     console.log(sound);
@@ -237,6 +314,7 @@ app.post('/api/devices/:device_id/sound', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
+
 /**
 * @api {get} /api/devices/:device_name/sound displays sound data
 * @apiGroup Users
@@ -259,22 +337,6 @@ app.get('/api/devices/:device_id/sound', (req, res) => {
             });
 });
 
-
-/**
-* @api {post} /api/devices/:device_name/sound inputs sound data
-* @apiGroup Users
-* @apiParam {json}:
-* { "date":"2015-03-25T12:00:00Z", "value" : 20, "unit": "dB"}
-* @apiSuccessExample {String} Success-Response:
-*                    {
-*                        "Saved Sucessfully"
-*                    }
-*                    
-* @apiErrorExample {String} Error-Response:
-*{
-*                       "Error"
-*}
-*/
 
 
 app.post('/api/devices/:device_id/humidity', (req, res) => {
@@ -424,7 +486,6 @@ app.get('/api/devices/:device_id/infrared', (req, res) => {
 * @apiErrorExample {String} Error-Response:
 *"Error!!! User already exists"
 */
-
 app.post('/api/registration', (req, res) => {
     const { name, password, isAdmin } = req.body;
     var notification_array=[];
@@ -545,10 +606,6 @@ app.get('/api/users/:user/notifications', (req, res) => {
 * @apiErrorExample {String} Error-Response:
 *Error:(User doesn't exist)The User in not in the Registration Database
 */
-
-
-
-
 app.post('/api/authenticate', (req, res) => {
     const { name, password} = req.body;
     console.log("suthenticate name:"+name);
@@ -581,13 +638,24 @@ app.post('/api/authenticate', (req, res) => {
     });
 });
 
+
+/**
+* @api {post} /api/devices/:device_id/instructions Inputs Instructions
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*                    { "Added instruction" }
+*                    { "Saved Successfully" }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.post('/api/devices/:device_id/instructions', (req, res) => { 
-    
     var instrct = req.body;
     console.log(instrct);
     var {device_id} = req.params;
 
-    
     Device.findOne({"_id": device_id }, (err, devices) => {
 
         var {  instructions } = devices;
@@ -602,11 +670,19 @@ app.post('/api/devices/:device_id/instructions', (req, res) => {
         return err
         ? res.send(err)
         : res.send("Saved Sucessfully");
-        });
-    
+        });  
 });
 
-//This has an error
+/**
+* @api {post} /api/devices/:device_id/instructions Inputs Instructions
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*                    { "instruct": "afdfs" }               
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_id/instructions', (req, res) => {
           
     var { device_id } = req.params;
@@ -616,6 +692,7 @@ app.get('/api/devices/:device_id/instructions', (req, res) => {
         : res.send(devices.instructions);
         });
 });
+//This has an error
 
 
 
