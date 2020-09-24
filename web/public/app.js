@@ -157,7 +157,7 @@ if (currentUser) {
 
                 $('#devices tbody').append(`
     <tr data-device-id=${device._id}>
-    <td>Baby ${device.patient_name}</td>
+    <td>${device.patient_name}</td>
     <td>${device.device_name}</td>
             <td> 
                 <button class=\"sound\">Sound</button> 
@@ -239,7 +239,7 @@ if (currentUser) {
             $('#inside-box').append(`
             <div class="third widget ${currentDevice.patient_name}" style="border:2px solid teal;color:black">
         
-            <h2>Baby ${currentDevice.patient_name}</h2>
+            <h2>${currentDevice.patient_name}</h2>
             <div class="canvas-container">
                 
                 <p style="font-size:120%;"><b>Last sensor readings:</b></p>
