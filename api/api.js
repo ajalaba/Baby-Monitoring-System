@@ -337,6 +337,41 @@ app.get('/api/devices/:device_id/sound', (req, res) => {
             });
 });
 
+// { "date":"2015-03-25T12:00:00Z", "lat" : -37.84674, "lon" : 145.115113}
+
+app.post('/api/devices/:device_id/location', (req, res) => {
+    var loc = req.body;
+    console.log(loc);
+    var { device_id } = req.params;
+    Device.findOne({"_id": device_id }, (err, devices) => {
+        var {  location_data } = devices;
+        location_data.push(loc);
+        console.log("AFter");
+        devices.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        return err
+        ? res.send(err)
+        : res.send("Saved Sucessfully");
+        });
+    });
+app.get('/api/devices/:device_id/location', (req, res) => {
+          
+        var { device_id } = req.params;
+        Device.findOne({"_id": device_id }, (err, devices) => {
+            var {  location_data } = devices;
+            return err
+            ? res.send(err)
+            : res.send(devices.location_data);
+            });
+});
+
+
+
+
 
 
 app.post('/api/devices/:device_id/humidity', (req, res) => {
@@ -487,7 +522,8 @@ app.get('/api/devices/:device_id/infrared', (req, res) => {
 *"Error!!! User already exists"
 */
 app.post('/api/registration', (req, res) => {
-    const { name, password, isAdmin } = req.body;
+    const { name, password, email_id, isAdmin } = req.body;
+    console.log(typeof(email_id));
     var notification_array=[];
     var notification12={
         "title":"Welcome !!",
@@ -513,7 +549,8 @@ app.post('/api/registration', (req, res) => {
                 name: name,
                 password,
                 isAdmin,
-                notification_array
+                notification_array,
+                email_id
             });
             newUser.save(err => {
                 return err
@@ -586,6 +623,67 @@ app.get('/api/users/:user/notifications', (req, res) => {
         else
         {
             res.send(result1.notification_array);
+        }
+    });
+});
+// {
+//     "title": "Baby Monitor Notifications",
+//     "description": " Is this woaasd?"
+// }
+app.post('/api/users/:user/notifications', (req, res) => {
+    const { user } = req.params;
+    var nt=req.body;
+    User.findOne({"name":user}, (err, result1) => {
+        if(err)
+        return err;
+        console.log("Result");
+        console.log(result1);
+        var{ notification_array }=result1;
+        notification_array.push(nt);
+        result1.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        if(result1==null)
+        {
+            res.send("Error:(User doesn't exist)The User in not in the Registration Database");
+        }
+        else
+        {
+            res.send("Saved Successfully");
+        }
+    });
+});
+
+app.post('/api/users/:user/deletenotifications', (req, res) => {
+    const { user } = req.params;
+    console.log("Entered delete notifications");
+    var {index}=req.body;
+    console.log(index);
+    User.findOne({"name":user}, (err, result1) => {
+        if(err)
+        return err;
+        console.log("Result");
+        
+        var{ notification_array }=result1;
+        notification_array.splice(0,1);
+        //notification_array.pop({});
+        console.log(notification_array);
+        result1.save(err => {
+            if(err)
+            {
+                console.log(err);
+            }
+        })
+        if(result1==null)
+        {
+            res.send("Error:(User doesn't exist)The User in not in the Registration Database");
+        }
+        else
+        {
+            res.send("Saved Successfully");
         }
     });
 });

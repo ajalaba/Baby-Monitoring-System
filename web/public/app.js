@@ -35,10 +35,10 @@ var humid_value_array = [];
 var humid_date_array = [];
 
 var notificationlist = [];
-notificationlist.push(notification1);
-notificationlist.push(notification2);
-notificationlist.push(notification3);
-notificationlist.push(notification4);
+// notificationlist.push(notification1);
+// notificationlist.push(notification2);
+// notificationlist.push(notification3);
+// notificationlist.push(notification4);
 //console.log(notificationlist);
 
 
@@ -46,7 +46,7 @@ notificationlist.push(notification4);
 
 var buttonpressed = 0;
 
-// var app1=angular.module('app1',[]);
+var app1=angular.module('navapp',[]);
 // app1.controller('formCtrl',function($scope, $http)
 // {
 //     //$scope.devlist=notificationlist;
@@ -437,6 +437,7 @@ registerapp.controller('formCtrl', function ($scope) {
     $scope.username = "";
     $scope.password = "";
     $scope.confirm = "";
+    $scope.email = "";
     var strength = "";
     $scope.grade = function () {
         var size = $scope.password.length;
@@ -454,6 +455,7 @@ registerapp.controller('formCtrl', function ($scope) {
         const user = $scope.username;
         const password = $scope.password;
         const confirm = $scope.confirm;
+        const email_id = $scope.email;
         $scope.bool = false;
         const isAdmin = false;
         console.log("name: " + user);
@@ -469,7 +471,7 @@ registerapp.controller('formCtrl', function ($scope) {
                     //location.href = '/registration';
                 }
                 else {
-                    $.post(`${API_URL}/registration`, { "name": user, "password": password, "isAdmin": isAdmin }).then((response) => {
+                    $.post(`${API_URL}/registration`, { "name": user, "password": password,"email_id":email_id, "isAdmin": isAdmin }).then((response) => {
                         if (response.success) {
 
                             $scope.bool = true;
@@ -518,7 +520,19 @@ notifyapp.controller('formCtrl', function ($scope, $http) {
     $scope.deletenotification = function (index) {
         // delete notificationlist[index];
         // delete $scope.notlist[index];
+        $.post(`${API_URL}/users/${currentUser}/deletenotifications`, {index}).then((response)=>
+        {
+            if(response.success)
+            {
+                console.log("Deleted Successfully");
+            }
+            else
+            {
+                console.log("Error Occured");
+            }
+        });
         notificationlist.splice(index, 1);
+
         //$scope.notlist.splice(index,1);
         //console.log(notificationlist);
         //console.log($scope.notlist);

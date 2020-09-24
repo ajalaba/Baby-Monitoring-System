@@ -113,7 +113,17 @@ scale=1.0>
                         <span>Password's do not match.</span>
                       </div>
                     </div>
+                </div>
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="envelope icon"></i>
+                    <input type="email" class="form-control" name="mail" placeholder="Email ID" ng-model="email" required>
+                    <div class="ui left pointing label"style="color:red" ng-show="myForm.mail.$dirty && myForm.mail.$invalid">
+                        <span ng-show="myForm.mail.$error.required">Email is required.</span>
+                </div>
                   </div>
+                </div>
+                  
 
                 <button ng-click="register()" class="ui fluid large teal submit button" id="register" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.password.$dirty && myForm.password.$invalid">Register </button>
                 <div class="ui error message"></div>
@@ -129,7 +139,7 @@ scale=1.0>
             
             </div>
               
-            <div class="ui message">New to us? <a href="/registration">Register</a>
+            
             </div>
             <br>
             <br>

@@ -1,3 +1,17 @@
+const sound_high=27;
+const sound_low=37;
+const humidity_high=37;
+const humidity_low=37;
+const infrared_high=37;
+const infrared_low=37;
+const accelerometer_high=37;
+const accelerometer_low=37;
+const temperature_high=37;
+const temperature_low=37;
+
+
+
+
 require('dotenv').config();
 
 const { JSDOM } = require( "jsdom" );
@@ -7,6 +21,25 @@ const $ = require( "jquery" )( window );
 const mqtt = require('mqtt');
 const express = require('express');
 const rand = require('random-int');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'deol.satish.2001.3@gmail.com',
+      pass: 'chaitra381920181'
+    }
+  });
+// var testAccount = nodemailer.createTestAccount();
+// let transporter = nodemailer.createTransport({
+//     host: "smtp.ethereal.email",
+//     port: 587,
+//     secure: false, // true for 465, false for other ports
+//     auth: {
+//       user: testAccount.user, // generated ethereal user
+//       pass: testAccount.pass, // generated ethereal password
+//     },
+//   });
+
 
 const mongoose = require('mongoose');
 
@@ -32,6 +65,7 @@ app.use((req, res, next) => {
 
 
 const Device = require('./models/device');
+const User = require('./models/user');
 const API_URL = 'http://localhost:5000/api';
 const MQTT_URL = 'http://127.0.0.1:5001';
 
@@ -68,6 +102,52 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { sound_body } = data;
+
+                    if(sound_body.sound_value>sound_high)
+                    {
+                        console.log(sound_body.sound_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=sound_body.sound_date;
+                            console.log(sound_body.sound_date);
+                            var s2=" the sound level increased beyond the recommended threshold to ";
+                            var s3= String(sound_body.sound_value);
+                            var title ="Alert :Sound Level increased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                console.log("Email Id");
+                                console.log(user.email_id);
+                                var mailOptions = {
+                                    from: 'babymonitorsystem@adv.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+
+                    }
         
                     //console.log(devices);
                     var {  sound_data } = devices;
@@ -90,6 +170,90 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { temp_body } = data;
+                    if(temp_body.temp_value>temperature_high)
+                    {
+                        console.log(temp_body.temp_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=temp_body.temp_date;
+                            console.log(temp_body.temp_date);
+                            var s2=" the temperature level increased beyond the recommended threshold to ";
+                            var s3= String(temp_body.temp_value);
+                            var title ="Alert :temperature Level increased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
+                    if(temp_body.temp_value<temperature_low)
+                    {
+                        console.log(temp_body.temp_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=temp_body.temp_date;
+                            console.log(temp_body.temp_date);
+                            var s2=" the temperature level decreased beyond the recommended threshold to ";
+                            var s3= String(temp_body.temp_value);
+                            var title ="Alert :temperature Level decreased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
         
                     //console.log(devices);
         
@@ -113,6 +277,91 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { humid_body } = data;
+                    if(humid_body.humid_value>humidity_high)
+                    {
+                        console.log(humid_body.humid_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=humid_body.humid_date;
+                            console.log(humid_body.humid_date);
+                            var s2=" the humidity level increased beyond the recommended threshold to ";
+                            var s3= String(humid_body.humid_value);
+                            var title ="Alert :humidity Level increased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
+                    if(humid_body.temp_value<humidity_low)
+                    {
+                        console.log(humid_body.humid_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=humid_body.humid_date;
+                            console.log(humid_body.humid_date);
+                            var s2=" the humidity level decreased beyond the recommended threshold to ";
+                            var s3= String(humid_body.humid_value);
+                            var title ="Alert :humidity Level decreased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
+                    
         
                     var {  humidity_data } = devices;
         
@@ -132,6 +381,90 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { accel_body } = data;
+                    if(accel_body.accel_value>accelerometer_high)
+                    {
+                        console.log(accel_body.accel_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=accel_body.accel_date;
+                            console.log(accel_body.accel_date);
+                            var s2=" the accelerometer level increased beyond the recommended threshold to ";
+                            var s3= String(accel_body.accel_value);
+                            var title ="Alert :accelerometer Level increased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
+                    // if(accel_body.temp_value<accelerometer_low)
+                    // {
+                    //     console.log(accel_body.accel_value);
+                    //     User.findOne({"name":devices.user_name},(err,user) => {
+                    //         if(err) return err;
+                    //         var {notification_array} =user;
+                    //         var s="At time: ";
+                    //         var s1=accel_body.accel_date;
+                    //         console.log(accel_body.accel_date);
+                    //         var s2=" the humidity level decreased beyond the recommended threshold to ";
+                    //         var s3= String(accel_body.accel_value);
+                    //         var title ="Alert :humidity Level decreased beyond recommended value ";
+                    //         var description=s+s1+s2+s3;
+                    //         var notification={"title":title, "description":description};
+                    //         console.log(notification);
+                    //         notification_array.push(notification);
+                    //         if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                    //         {
+                    //             var mailOptions = {
+                    //                 from: 'deol.satish.2001.3@gmail.com',
+                    //                 to: 'deol.satish@outlook.com',
+                    //                 subject: title,
+                    //                 text: description
+                    //               };
+                                  
+                    //               transporter.sendMail(mailOptions, function(error, info){
+                    //                 if (error) {
+                    //                   console.log(error);
+                    //                 } else {
+                    //                   console.log('Email sent: ' + info.response);
+                    //                 }
+                    //               });
+                    //         }
+                    //         user.save(err => {
+                    //             if(err)
+                    //             {
+                    //                 console.log(err);
+                    //             }
+                    //         });
+
+                    //     });
+                    // }
         
                     var {  accelerometer_data } = devices;
         
@@ -152,6 +485,90 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { ir_body } = data;
+                    if(ir_body.ir_value>humidity_high)
+                    {
+                        console.log(ir_body.ir_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=ir_body.ir_date;
+                            console.log(ir_body.ir_date);
+                            var s2=" the Infrared level increased beyond the recommended threshold to ";
+                            var s3= String(ir_body.ir_value);
+                            var title ="Alert :Infrared Level increased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
+                    if(ir_body.ir_value<humidity_low)
+                    {
+                        console.log(ir_body.ir_value);
+                        User.findOne({"name":devices.user_name},(err,user) => {
+                            if(err) return err;
+                            var {notification_array} =user;
+                            var s="At time: ";
+                            var s1=ir_body.ir_date;
+                            console.log(ir_body.ir_date);
+                            var s2=" the Infrared level decreased beyond the recommended threshold to ";
+                            var s3= String(ir_body.ir_value);
+                            var title ="Alert :Infrared Level decreased beyond recommended value ";
+                            var description=s+s1+s2+s3;
+                            var notification={"title":title, "description":description};
+                            console.log(notification);
+                            notification_array.push(notification);
+                            if(user.email_id!="" || typeof(user.email_id)!=undefined)
+                            {
+                                var mailOptions = {
+                                    from: 'deol.satish.2001.3@gmail.com',
+                                    to: String(user.email_id),
+                                    subject: title,
+                                    text: description
+                                  };
+                                  
+                                  transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                      console.log(error);
+                                    } else {
+                                      console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+                            }
+                            user.save(err => {
+                                if(err)
+                                {
+                                    console.log(err);
+                                }
+                            });
+
+                        });
+                    }
         
                     var {  infrared_data } = devices;
         
