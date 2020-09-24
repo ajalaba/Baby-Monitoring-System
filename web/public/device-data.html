@@ -1,38 +1,382 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700' rel='stylesheet' type='text/css'>
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
 <meta name="ADV" content="ADV" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <h1>Device Data</h1>
-<div class="container">
-    <div id="navbar"></div>
-</div>
-<div style="text-align: center;", class="dropdown", id=dropdown>
-    <label for="devices">Choose a Device: </label>
-    <select id="device-options" name="forma" onchange="location = this.value;"> 
-        <option value="0">Select Option</option> 
-        <option value="Device 1">Device 1</option> 
-        <option value="Device 2">Device 2</option> 
-    </select>
-</div>
 
-<p></p>
-<div style="text-align: center;", id="footbar"></div>
-</div>
-<!-- <script>
-    var x = i;
 
-    var options = x.split(",");
 
-    var select = document.getElementById('device-options');
-    for(var i=0; i<options.length; i++)
-    {
-        select.options[i] = new Option(options[i], i);  //new Option("Text", "Value")
-    }
-</script> -->
+<div class="wrapper">
+    <div class="container clearfix">
+        <div id="inside-box">
+        
+            </div>
+        </div>
+
+        <!-- <div class="third widget">
+            <h3>Sound</h3>
+            <div class="canvas-container">
+                <canvas id="soundchart"></canvas>
+            </div>
+        </div>
+        <div class="third widget temp">
+            <div class="chart-legend">
+                <h3>Temperature</h3>
+            </div>
+            <div class="canvas-container">
+                <canvas id="tempchart"></canvas>
+            </div>
+        </div>
+        <div class="third widget humid">
+            <div class="chart-legend">
+                <h3>Humidity</h3>
+            </div>
+            <div class="canvas-container">
+                <canvas id="humidchart"></canvas>
+            </div>
+        </div> -->
+    </div>
+    <div class="push"></div>
+    </div>
+
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="app.js"></script>
+
+<script>
+    //Chart.defaults.global.legend.display = false;
+    //sound
+    var arr = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/sound`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr);
+    
+    for (var i = 0; i < arr.length; i++) {
+        sound_value_array.push(Number(arr[i].sound_value));
+        sound_date_array.push(arr[i].sound_date);
+
+    }
+
+    var sound_date_formatted = [];
+    for (var i = 0; i < sound_date_array.length; i++) {
+        var soundDate = new Date(sound_date_array[i]);
+        sound_date_formatted[i] = soundDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+    
+    var canvas = document.getElementById("soundchart");
+    var ctx = canvas.getContext("2d");
+
+    let soundgraph = new Chart(ctx, {
+      type:'line', 
+      data:{
+        labels: sound_date_formatted,
+          datasets:[{
+            label:'Sound Data',
+            data: sound_value_array
+            ,
+          borderWidth:3,
+          borderColor:[
+            'rgba(0, 51, 102, 0.6)'
+          ],
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      optionsoptions:{
+        scales: {
+          xAxes: [{
+            ticks: {
+                maxTicksLimit: 7,
+            display: false,
+            }
+          }]
+        },
+        title:{
+          display:true,
+          text:'Sound Data',
+          fontSize:25,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+
+      
+    });
+</script>
+
+<script>
+    //
+
+    //temp
+    var arr1 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/temperature`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+
+    console.log(arr1);
+
+    for (var i = 0; i < arr1.length; i++) {
+        temp_value_array.push(Number(arr1[i].temp_value));
+        temp_date_array.push(arr1[i].temp_date);
+    }
+
+    var temp_date_formatted = [];
+    for (var i = 0; i < temp_date_array.length; i++) {
+        var tempDate = new Date(temp_date_array[i]);
+        temp_date_formatted[i] = tempDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+
+    let myChart = document.getElementById('tempchart').getContext('2d');
+
+    let tempgraph = new Chart(tempchart, {
+      type:'line', 
+      data:{
+        labels: temp_date_formatted,
+          datasets:[{
+            label:'Temperature Data',
+            data:
+            temp_value_array, 
+          borderWidth:3,
+          borderColor:[
+            'rgba(127, 255, 0, 1)'
+            ],
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        scales: {
+          xAxes: [{
+            ticks: {
+                maxTicksLimit: 7,
+            display: false,
+            }
+          }]
+        },
+        title:{
+          display:false,
+          text:'Temperature Data',
+          fontSize:25,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+
+
+</script>
+<script>
+    //
+
+    //humid
+    var arr4 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/humidity`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr4);
+    for (var i = 0; i < arr4.length; i++) {
+        humid_value_array.push(Number(arr4[i].humid_value));
+        humid_date_array.push(arr4[i].humid_date);
+    }
+
+    var humid_date_formatted = [];
+    for (var i = 0; i < humid_date_array.length; i++) {
+        var humidDate = new Date(humid_date_array[i]);
+        humid_date_formatted[i] = humidDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+
+
+    //Chart Stuff
+    let myChart3 = document.getElementById('humidchart').getContext('2d');
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#000';
+
+    let humidgraph = new Chart(myChart, {
+      type:'line', 
+      data:{
+        labels: humid_date_formatted,
+          datasets:[{
+            label:'Humidity %',
+            data: humid_value_array,
+          borderWidth:1,
+           borderColor:['rgba(255, 99, 132, 0.6)'],
+          hoverBorderColor:'#000'
+        }]
+      },
+      
+      options:{
+        // scales: {
+        //   xAxes: [{
+        //     ticks: {
+        //       autoSkip: false
+        //     }
+        //   }]
+        // },
+        title:{
+          display:true,
+          text:'Humidity Percentages Per Day',
+          fontSize:25,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+
+
+</script>
+<style>
+    html, body {
+    height: 100%;
+}
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #666;
+}
+/* various containers */
+.container {
+    width: 200px;
+    margin: 0 auto;
+}
+.canvas-container {
+    min-height: 300px;
+    max-height: 600px;
+    position: relative;
+}
+.widget {
+    position: relative;
+    margin-bottom: 80px;
+    background: #efefef;
+    padding: 12px;
+    margin-bottom: 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@media only screen and (min-width:300px){
+    .container {
+        width: 300px;
+        margin: 0 auto;
+    }
+}
+ 
+@media only screen and (min-width:600px){
+    .container {
+        width: 580px;
+        margin: 0 auto;
+    }
+    .third {
+        float: left;
+        width: 47.5%;
+        margin-left: 5%;
+    }
+    .third:first-child {
+        margin-left: 0;
+    }
+    .third:last-child {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+    }
+}
+ 
+@media only screen and (min-width:960px){
+    .container {
+        width: 940px;
+    }
+    .third {
+        float: left;
+        width: 30%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+    .third:first-child {
+        margin-left: 0;
+    }
+    .third:last-child {
+        margin-right: 0;
+        margin-left: 2.5%;
+        width: 30%;
+    }
+}
+@media only screen and (min-width:1140px){
+    .container {
+        width: 1120px;
+    }
+}
+@media only screen and (min-width:1360px){
+    .container {
+        width: 1300px;
+    }
+}
+</style>
