@@ -155,13 +155,20 @@ app.post('/api/devices', (req, res) => {
     var accelerometer_data=[];
     var infrared_data=[];
     var instructions=[];
+    var set_temp=37;
     const newDevice = new Device({
     device_name,
     user_name,
     patient_name,
     temp_data,
+    humidity_data,
+    sound_data,
+    accelerometer_data,
+    infrared_data,
     device_status,
-    location_data
+    location_data,
+    instructions,
+    set_temp
     });
     newDevice.save(err => {
     return err

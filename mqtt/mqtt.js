@@ -8,6 +8,7 @@ const accelerometer_high=37;
 const accelerometer_low=37;
 const temperature_high=37;
 const temperature_low=37;
+const ideal_temperature=37;
 
 
 
@@ -25,8 +26,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'ENter your email',
-      pass: 'enter your password'
+      user: 'adv.ace.2001@gmail.com',
+      pass: 'babymonitor'
     }
   });
 // var testAccount = nodemailer.createTestAccount();
@@ -88,6 +89,7 @@ client.on('connect', () => {
     client.subscribe('/humidData');
     client.subscribe('/accelData');
     client.subscribe('/irData');
+    client.subscribe('/airconditioner');
     //client.subscribe('/command/#');
 });
 
@@ -211,6 +213,8 @@ client.on('message', (topic, message) => {
                             });
 
                         });
+                        var {set_temp} =devices;
+                        $.post(`${MQTT_URL}/airconditioner`, { set_temp });
                     }
                     if(temp_body.temp_value<temperature_low)
                     {
@@ -253,6 +257,8 @@ client.on('message', (topic, message) => {
                             });
 
                         });
+                        var {set_temp} =devices;
+                        $.post(`${MQTT_URL}/airconditioner`, { set_temp });
                     }
         
                     //console.log(devices);
@@ -485,7 +491,7 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { ir_body } = data;
-                    if(ir_body.ir_value>humidity_high)
+                    if(ir_body.ir_value>infrared_high)
                     {
                         console.log(ir_body.ir_value);
                         User.findOne({"name":devices.user_name},(err,user) => {
@@ -527,7 +533,7 @@ client.on('message', (topic, message) => {
 
                         });
                     }
-                    if(ir_body.ir_value<humidity_low)
+                    if(ir_body.ir_value<infrared_low)
                     {
                         console.log(ir_body.ir_value);
                         User.findOne({"name":devices.user_name},(err,user) => {
@@ -581,6 +587,12 @@ client.on('message', (topic, message) => {
                         }
                     });
                     
+        }
+        if(topic=='/airconditioner')
+        {
+            console.log("message client active");
+            const data=JSON.parse(message);
+            console.log(data);
         } 
                 
     });
@@ -932,7 +944,33 @@ app.post('/ir-data', (req, res) => {
             sleep(time);
        
 });
-
+app.post('/airconditioner', (req, res) => { 
+    const { set_temp } = req.body;   
+            const status="ON";
+            const temp =ideal_temperature;
+            console.log(set_temp);
+            console.log(set_temp);
+    
+            const topic = '/airconditioner';
+            const message = JSON.stringify({ status, set_temp });
+    
+            client.publish(topic, message, () => { 
+                res.send('published new message');
+            }); 
+            sleep(time);
+       
+});
+app.post('/offairconditioner', (req, res) => { 
+            const status="OFF";    
+            const topic = '/airconditioner';
+            const message = JSON.stringify({ status });
+    
+            client.publish(topic, message, () => { 
+                res.send('published new message');
+            }); 
+            sleep(time);
+       
+});
 app.listen(port, () => { 
     console.log(`listening on port ${port}`);
 });
