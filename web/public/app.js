@@ -179,6 +179,12 @@ if (currentUser) {
             </tr>`
                 );
            
+                $('#devices-small tbody').append(`
+                <tr data-device-id=${device._id}>
+                <td>${device.patient_name}</td>
+                <td>${device.device_name}</td>
+                </tr>
+                `);
 
             //dashboard start
             var soundarray = $.ajax({
@@ -239,7 +245,7 @@ if (currentUser) {
             $('#inside-box').append(`
             <div class="third widget ${currentDevice.patient_name}" style="border:2px solid teal;color:black">
         
-            <h2>${currentDevice.patient_name}</h2>
+            <h2>Baby ${currentDevice.patient_name}</h2>
             <div class="canvas-container">
                 
                 <p style="font-size:120%;"><b>Last sensor readings:</b></p>
@@ -399,6 +405,7 @@ else {
         location.href = '/login';
     }
 }
+
 
 
 
@@ -621,10 +628,13 @@ notifyapp.controller('formCtrl', function ($scope, $http) {
         //console.log(notificationlist);
         //console.log($scope.notlist);
     }
-
-
 });
 
+        $('#current tbody').append(`
+    <td>Baby ${device.patient_name}</td>
+    <td>${device.device_name}</td>
+            </tr>`
+                );
 
     //console.log("Button Pressed");
     //console.log(buttonpressed);

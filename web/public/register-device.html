@@ -17,11 +17,6 @@
         <div id="navbar"></div>
     </div>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <div class="ui middle aligned center aligned container"> 
         <h2></h2>
         <h2 class="ui teal image header">
@@ -34,32 +29,68 @@
         <form class="ui form"ng-app="adddeviceapp" ng-controller="formCtrl" name="myForm" novalidate> 
             
             <div class="ui stacked secondary  segment">
+
                 <div class="field">
                   <div class="ui left icon input">
                     <i class="user icon"></i>
-                    <input type="text" class="form-control" name="username" placeholder="Username" ng-model="username" required>
-                    
+                    <input type="text" class="form-control" name="username" placeholder="Username" ng-model="username" required>                   
                     <div class="ui left pointing label"style="color:red" ng-show="myForm.username.$dirty && myForm.username.$invalid">
                             <span ng-show="myForm.username.$error.required">Username is required.</span>
                     </div>
-        
                   </div>
                 </div>
+
                 <div class="field">
                   <div class="ui left icon input">
-                    <i class="lock icon"></i>
-                    <input type="text" class="form-control" name="name" placeholder="Device Name" ng-model="name" required>
-                    
-                    <div class="ui left pointing label"style="color:red" ng-show="myForm.name.$dirty && myForm.name.$invalid">
-                        <span ng-show="myForm.name.$error.required">Device Name is required.</span>
+                    <i class="user icon"></i>
+                    <input type="text" class="form-control" name="babyname" placeholder="Baby Name" ng-model="username" required>                   
+                    <div class="ui left pointing label"style="color:red" ng-show="myForm.babyname.$dirty && myForm.babyname.$invalid">
+                            <span ng-show="myForm.babyname.$error.required">Baby name is required.</span>
                     </div>
                   </div>
                 </div>
+
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="text" class="form-control" name="name" placeholder="Device Name" ng-model="name" required>                    
+                    <div class="ui left pointing label"style="color:red" ng-show="myForm.name.$dirty && myForm.name.$invalid">
+                        <span ng-show="myForm.name.$error.required">Device name is required.</span>
+                    </div>
+                  </div>
+                </div>
+
+
                 <button ng-click="save()" class="ui fluid large teal submit button" id="login" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.name.$dirty && myForm.name.$invalid">Submit</button>
             <div class="ui error message"></div>
             </div>
-            
         </form> 
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="ui ui middle aligned center aligned container">
+      <div class="ui stacked secondary segment">
+        <div class="ui container"> 
+          <h2 class="ui image header">
+            <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+            <i class="home icon"></i>
+            <div class="content">
+              Current Devices
+            </div>
+          </h2>
+          <table id="devices-small" class="ui teal large table">
+            <thead>
+            <tr>
+            <th>Baby</th>
+            <th>Device</th>
+            <td></td>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            </table>
+        </div>
+      </div>
     </div>
     
 
