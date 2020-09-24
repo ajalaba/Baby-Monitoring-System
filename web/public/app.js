@@ -157,7 +157,7 @@ if (currentUser) {
 
                 $('#devices tbody').append(`
     <tr data-device-id=${device._id}>
-    <td>${device.user_name}</td>
+    <td>Baby ${device.patient_name}</td>
     <td>${device.device_name}</td>
             <td> 
                 <button class=\"sound\">Sound</button> 
@@ -178,7 +178,91 @@ if (currentUser) {
             </td>
             </tr>`
                 );
-            });
+           
+
+            //dashboard start
+            var soundarray = $.ajax({
+                async: false,
+                url: `${API_URL}/devices/${currentDevice._id}/sound`,
+                type: 'get',
+                data: { 'GetConfig': 'YES' },
+                dataType: "JSON"
+            }).responseJSON;
+            var sound_value = Number(soundarray[soundarray.length-1].sound_value);
+            sound_value = Math.round(sound_value * 100) / 100;
+            console.log("Sound value = " + sound_value);
+
+            var temparray = $.ajax({
+                async: false,
+                url: `${API_URL}/devices/${currentDevice._id}/temperature`,
+                type: 'get',
+                data: { 'GetConfig': 'YES' },
+                dataType: "JSON"
+            }).responseJSON;
+            var temp_value = Number(temparray[temparray.length-1].temp_value);
+            temp_value = Math.round(temp_value * 100) / 100;
+            console.log("temp value = " + temp_value);
+
+            var humidarray = $.ajax({
+                async: false,
+                url: `${API_URL}/devices/${currentDevice._id}/humidity`,
+                type: 'get',
+                data: { 'GetConfig': 'YES' },
+                dataType: "JSON"
+            }).responseJSON;
+            var humid_value = Number(humidarray[humidarray.length-1].humid_value);
+            humid_value = Math.round(humid_value * 100) / 100;
+            console.log("Humid value = " + humid_value);
+
+            var accelarray = $.ajax({
+                async: false,
+                url: `${API_URL}/devices/${currentDevice._id}/accelerometer`,
+                type: 'get',
+                data: { 'GetConfig': 'YES' },
+                dataType: "JSON"
+            }).responseJSON;
+            var accel_value = Number(accelarray[accelarray.length-1].accel_value);
+            accel_value = Math.round(accel_value * 100) / 100;
+            console.log("Accel value = " + accel_value);
+
+            var irarray = $.ajax({
+                async: false,
+                url: `${API_URL}/devices/${currentDevice._id}/infrared`,
+                type: 'get',
+                data: { 'GetConfig': 'YES' },
+                dataType: "JSON"
+            }).responseJSON;
+            var ir_value = Number(irarray[irarray.length-1].ir_value);
+            ir_value = Math.round(ir_value * 100) / 100;
+            console.log("IR value = " + ir_value);
+
+            $('#inside-box').append(`
+            <div class="third widget ${currentDevice.patient_name}" style="border:2px solid teal;color:black">
+        
+            <h2>Baby ${currentDevice.patient_name}</h2>
+            <div class="canvas-container">
+                
+                <p style="font-size:120%;"><b>Last sensor readings:</b></p>
+                <div style="background-color:cadetblue;color:black;padding:10px;">
+                    Sound - <b>${sound_value} dB </b>
+                </div>
+                <div style="background-color:salmon;color:black;padding:10px;">
+                    Temperature - <b>${temp_value} F </b>
+                </div>
+                <div style="background-color:lightgreen;color:black;padding:10px;">
+                    Humidity - <b>${humid_value} % </b>
+                </div>
+                <div style="background-color:yellow;color:black;padding:10px;">
+                    Acceleration - <b>${accel_value} m/s^2 </b>
+                </div>
+                <div style="background-color:lightskyblue;color:black;padding:10px;">
+                    Infrared - <b>${ir_value} </b>
+                </div>
+
+                
+            </div>
+            `);
+        });
 
 
 
