@@ -200,7 +200,7 @@ app.get('/api/devices/:device_name/device-history', (req, res) => {
     });
 
 /**
-* @api {post} /api/devices AllDevices Send Command
+* @api {post} /api/send-command AllDevices Send Command
 * @apiGroup Device
 * @apiSuccessExample {json} Success-Response:
 *   { 
@@ -219,8 +219,8 @@ app.post('/api/send-command', (req, res) => {
 // { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
 
 /**
-* @api {post} /api/devices/:device_name/temperature Inputs Temperature Data
-* @apiGroup Users
+* @api {post} /api/devices/:device_id/temperature Inputs Temperature Data
+* @apiGroup Devices
 * @apiParam {json}:
 * { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
 * @apiSuccessExample {String} Success-Response:
@@ -255,8 +255,8 @@ app.post('/api/devices/:device_id/temperature', (req, res) => {
     });
 
 /**
-* @api {get} /api/devices/:device_name/temperature Displays Temperature Data
-* @apiGroup Users
+* @api {get} /api/devices/:device_id/temperature Displays Temperature Data
+* @apiGroup Devices
 * @apiSuccessExample {json} Success-Response:
 *                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
 *                    
@@ -280,8 +280,8 @@ app.get('/api/devices/:device_id/temperature', (req, res) => {
 // { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit": "dB"}
 
 /**
-* @api {post} /api/devices/:device_name/sound Inputs Sound Data
-* @apiGroup Users
+* @api {post} /api/devices/:device_id/sound Inputs Sound Data
+* @apiGroup Devices
 * @apiParam {json}:
 * { "date":"2015-03-25T12:00:00Z", "value" : 20, "unit": "dB"}
 * @apiSuccessExample {String} Success-Response:
@@ -316,10 +316,11 @@ app.post('/api/devices/:device_id/sound', (req, res) => {
     });
 
 /**
-* @api {get} /api/devices/:device_name/sound displays sound data
-* @apiGroup Users
+* @api {get} /api/devices/:device_id/sound displays sound data
+* @apiGroup Devices
 * @apiSuccessExample {json} Success-Response:
-*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "F"}
+*
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "dB"}
 *                    
 * @apiErrorExample {String} Error-Response:
 *{
@@ -339,6 +340,21 @@ app.get('/api/devices/:device_id/sound', (req, res) => {
 
 // { "date":"2015-03-25T12:00:00Z", "lat" : -37.84674, "lon" : 145.115113}
 
+/**
+* @api {post} /api/devices/:device_id/location Inputs Location Data
+* @apiGroup Devices
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 20, "unit": "dB"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.post('/api/devices/:device_id/location', (req, res) => {
     var loc = req.body;
     console.log(loc);
@@ -358,6 +374,19 @@ app.post('/api/devices/:device_id/location', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
+
+/**
+* @api {get} /api/devices/:device_id/location Displays Location Data
+* @apiGroup Devices
+* @apiSuccessExample {json} Success-Response:
+*
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "value" : 213, "unit" : "latitude", "unit" : "longitude"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_id/location', (req, res) => {
           
         var { device_id } = req.params;
@@ -373,7 +402,21 @@ app.get('/api/devices/:device_id/location', (req, res) => {
 
 
 
-
+/**
+* @api {post} /api/devices/:device_id/humidity Inputs Humidity Data
+* @apiGroup Devices
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 30, "unit": "%"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.post('/api/devices/:device_id/humidity', (req, res) => {
     var humid = req.body;
     console.log(humid);
@@ -394,6 +437,19 @@ app.post('/api/devices/:device_id/humidity', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
+
+    /**
+* @api {get} /api/devices/:device_id/humidty Displays Humidity Data
+* @apiGroup Devices
+* @apiSuccessExample {json} Success-Response:
+*
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "%"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_id/humidity', (req, res) => {
           
         var { device_id } = req.params;
@@ -406,7 +462,21 @@ app.get('/api/devices/:device_id/humidity', (req, res) => {
 });
 
 
-
+/**
+* @api {post} /api/devices/:device_id/accelerometer Inputs Accelerometer Data
+* @apiGroup Devices
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 30, "unit": "m/s^2"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.post('/api/devices/:device_id/accelerometer', (req, res) => {
     var acc = req.body;
     console.log(acc);
@@ -427,6 +497,19 @@ app.post('/api/devices/:device_id/accelerometer', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
+
+    /**
+* @api {get} /api/devices/:device_id/accelerometer Displays accelerometer Data
+* @apiGroup Devices
+* @apiSuccessExample {json} Success-Response:
+*
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "m/s^2"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_id/accelerometer', (req, res) => {
           
         var { device_id } = req.params;
@@ -439,7 +522,21 @@ app.get('/api/devices/:device_id/accelerometer', (req, res) => {
 });
 
 
-
+/**
+* @api {post} /api/devices/:device_id/infrared Inputs infrared Data
+* @apiGroup Devices
+* @apiParam {json}:
+* { "date":"2015-03-25T12:00:00Z", "value" : 30, "unit": "cm"}
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.post('/api/devices/:device_id/infrared', (req, res) => {
     var inf = req.body;
     console.log(inf);
@@ -460,6 +557,18 @@ app.post('/api/devices/:device_id/infrared', (req, res) => {
         : res.send("Saved Sucessfully");
         });
     });
+    /**
+* @api {get} /api/devices/:device_id/infrared Displays infrared Data
+* @apiGroup Devices
+* @apiSuccessExample {json} Success-Response:
+*
+*                    { "date":"2015-03-25T12:00:00Z", "value" : 46, "unit" : "cm"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error"
+*}
+*/
 app.get('/api/devices/:device_id/infrared', (req, res) => {
           
         var { device_id } = req.params;
@@ -609,6 +718,19 @@ app.get('/api/users/:user/devices', (req, res) => {
     });
 });
 
+
+    /**
+* @api {get} /api/users/:user/notifications Displays Notifications 
+* @apiGroup Users
+* @apiSuccessExample {json} Success-Response:
+*
+*                    { "Notification result"}
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error:(User doesn't exist)The User in not in the Registration Database"
+*}
+*/
 app.get('/api/users/:user/notifications', (req, res) => {
     const { user } = req.params;
     User.findOne({"name":user}, (err, result1) => {
@@ -626,10 +748,29 @@ app.get('/api/users/:user/notifications', (req, res) => {
         }
     });
 });
+
+
 // {
 //     "title": "Baby Monitor Notifications",
 //     "description": " Is this woaasd?"
 // }
+
+
+
+/**
+* @api {post} /api/users/:user/notifications Inputs Notifications
+* @apiGroup Users
+* @apiParam {json}:
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error:(User doesn't exist)The User in not in the Registration Database"
+*}
+*/
 app.post('/api/users/:user/notifications', (req, res) => {
     const { user } = req.params;
     var nt=req.body;
@@ -657,6 +798,21 @@ app.post('/api/users/:user/notifications', (req, res) => {
     });
 });
 
+
+/**
+* @api {post} /api/users/:user/deletenotifications Deletes Notifications
+* @apiGroup Users
+* @apiParam {json}:
+* @apiSuccessExample {String} Success-Response:
+*                    {
+*                        "Saved Sucessfully"
+*                    }
+*                    
+* @apiErrorExample {String} Error-Response:
+*{
+*                       "Error:(User doesn't exist)The User in not in the Registration Database"
+*}
+*/
 app.post('/api/users/:user/deletenotifications', (req, res) => {
     const { user } = req.params;
     console.log("Entered delete notifications");
