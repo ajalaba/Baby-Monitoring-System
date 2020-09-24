@@ -53,6 +53,9 @@ app.get('/notifications', (req, res) => {
 app.get('/maps', (req, res) => {
     res.sendFile(`${base}/maps.html`);
 });
+app.get('/device-data', (req, res) => {
+    res.sendFile(`${base}/device-data.html`);
+});
 app.get('*', (req, res) => {
     res.sendFile(`${base}/404.html`);
     });
