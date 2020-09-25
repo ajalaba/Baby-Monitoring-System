@@ -4,7 +4,7 @@ const humidity_high=37;
 const humidity_low=37;
 const infrared_high=37;
 const infrared_low=37;
-const accelerometer_high=37;
+const accelerometer_high=1;
 const accelerometer_low=37;
 const temperature_high=37;
 const temperature_low=37;
@@ -387,9 +387,10 @@ client.on('message', (topic, message) => {
                         console.log(err) 
                     }
                     const { accel_body } = data;
+                    console.log(accel_body.accel_value);
                     if(accel_body.accel_value>accelerometer_high)
                     {
-                        console.log(accel_body.accel_value);
+                        
                         User.findOne({"name":devices.user_name},(err,user) => {
                             if(err) return err;
                             var {notification_array} =user;

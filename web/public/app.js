@@ -416,10 +416,11 @@ var adddeviceapp = angular.module('adddeviceapp', []);
 adddeviceapp.controller('formCtrl', function ($scope) {
     $scope.username = "";
     $scope.name = "";
+    $scope.babyname="";
     $scope.save = function () {
         const user_name = $scope.username;
         const device_name = $scope.name;
-        const patient_name = $scope.baby_name;
+        const patient_name = $scope.babyname;
         console.log("username: " + user_name);
         console.log("name: " + device_name);
         console.log("Baby name: " + patient_name);

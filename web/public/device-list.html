@@ -1,26 +1,36 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
-    <link rel="stylesheet" href="login.css">
-
-<!-- <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" /> -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+<link rel="stylesheet" href="login.css">
+<style type="text/css">
+  body {
+    background-color: #DADADA;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .image {
+    margin-top: -100px;
+  }
+  .column {
+    max-width: 450px;
+  }
+</style>
 <meta charset="utf-8" />
 <meta name="description" content="A frontend dashboard for the BabyMonitor application" />
-<meta name="author" content="ADV" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Deol Satish" />
+<meta name="viewport" content="width=device-width", initial-scale=1.0>
 <title>BabyMonitor</title>
 </head>
 <body>
-
-<div class="container">
-    <div id="navbar"></div>
-</div>
-<br>
-<br>
-<br>
+    <div class="container">
+        <div id="navbar"></div>
+    </div>
+    <h1></h1>
+    <br>
+    
 <div class="ui ui middle aligned center aligned container">
   <div class="ui stacked secondary segment">
     <div class="ui container"> 
@@ -76,43 +86,6 @@
           </div>
       </div>
     </div>
-<!-- <div ng-app="app1" ng-controller="formCtrl"> 
-
-  <table>
-    <tr ng-repeat="x in devlist">
-      <td>{{ x.title }}</td>
-      <td>{{ x.description }}</td>
-      <td>{{x.deviceName}}</td>
-      <td>{{x.deviceId}}</td>
-    </tr>
-  </table>
-  </div> -->
-
-<!-- <br>
-<br>
-<br> -->
-<!-- <table id="device-data" class="table">
-    <thead>
-    <tr>
-    <th style="text-align: center;", colspan="2">Acceleration</th>
-    <th style="text-align: center;", colspan="2">Temperature</th>
-    <th style="text-align: center;", colspan="2">Sound</th>
-    </tr>
-    <tr>
-        <th>Acceleration Value</th>
-        <th>Acceleration unit</th>
-        <th>Temperature Value</th>
-        <th>Temperature unit</th>
-        <th>Sound Peak Decibel</th>
-        <th>Sound Avg Decibel</th>
-
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table> -->
-<!-- <br>
-<br>
-<br> -->
 <br>
 <br>
 <br>
@@ -127,7 +100,7 @@ body {
 }
 /* various containers */
 .container {
-  width: 200px;
+  width: 100%;
   margin: 0 auto;
 }
 .canvas-container {
@@ -175,7 +148,7 @@ body {
 
 @media only screen and (min-width:960px){
   .container {
-      width: 940px;
+      width: 100%;
   }
   .third {
       float: left;
@@ -194,19 +167,30 @@ body {
 }
 @media only screen and (min-width:1140px){
   .container {
-      width: 1120px;
+      width: 100%;
   }
 }
 @media only screen and (min-width:1360px){
   .container {
-      width: 1300px;
+      width: 100%;
   }
 }
 </style>
+    
+    
+    <div style="text-align: center;", id="footbar"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+    </body>
+</html>
+
+
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 <script src="app.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
+
