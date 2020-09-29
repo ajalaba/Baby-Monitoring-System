@@ -29,7 +29,7 @@
               </h2>
             <div class="ui relaxed divided list">             
                 <div class="ui info message" ng-repeat= "x in notlist">
-                    <i class="close icon" ng-click="deletenotification($index)"></i>
+                    <i class="close icon" id="close" ng-click="deletenotification($index)"></i>
                     <div class="header">
                         {{x.title}} 
                     </div>
@@ -98,5 +98,7 @@
 <div style="text-align: center;", id="footbar"></div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="/controllers/notify.js"></script>
 <script src="app.js"></script>
+
 </body>

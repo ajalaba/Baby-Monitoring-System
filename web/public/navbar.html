@@ -40,7 +40,7 @@
     const currentUser1 = localStorage.getItem('user');
     // const logoutElement = '<a class="nav-item nav-link" onClick="logout()">Logout</a>';
     // const loginElement = '<a class="nav-item nav-link"  href="/login">Login</a>';
-    const logoutElement = `<a class="ui inverted button" onClick="logout()">Logout</a> <p class="ui inverted button"><i class="ui user circle icon"></i>Username : ${currentUser1}</p>`;
+    const logoutElement = `<a class="ui inverted button" id="logout" onClick="logout()">Logout</a> <div id="usernamedisplay" class="ui inverted button"><i class="ui user circle icon"></i>Username : ${currentUser1}</div>`;
     const loginElement = `<a class="ui inverted button"  href="/login">Login</a> `;
     if (isAuthenticated1) {
     $('#auth-nav').append(logoutElement);
