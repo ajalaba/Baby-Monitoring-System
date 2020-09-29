@@ -722,6 +722,18 @@ client.on('message', (topic, message) => {
 }); 
 const n = 4;
 
+/**
+* @api {post} /api/send-command AllDevices Send Command
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { 
+*       "published new message"
+*   }
+* @apiErrorExample {json} Error-Response: 
+*   {
+*       "Command does not exist" 
+*   }
+*/
 app.post('/send-command', (req, res) => { 
     const { deviceId, command } = req.body; 
     cmd = command;
@@ -805,16 +817,19 @@ app.post('/send-command', (req, res) => {
         console.log("Turned IR Sensor off");
 
     }
-    
-     
-
-
-
 });
 
 
 const time = 3000;
 
+/**
+* @api {post} /sound-data Create Sound Data
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/
 app.post('/sound-data', (req, res) => { 
     //const { deviceId } = req.body;
 
@@ -833,26 +848,24 @@ app.post('/sound-data', (req, res) => {
             const topic = '/soundData';
             const message = JSON.stringify({ device_name, sound_body });
 
-
             client.publish(topic, message, () => { 
                 res.send('published new message');
-            }); 
-            
-            
+            });    
             sleep(time);
         //}
-        
-        
-    //}
-    
+    //} 
 });
 
-
+/**
+* @api {post} /temp-data Create Temp Data
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/
 app.post('/temp-data', (req, res) => { 
-    //const { deviceId } = req.body;
-
-    
-        
+    //const { deviceId } = req.body;  
             const temp_date = Date();
             const temp_value = rand(50,110); //min temp = 50; max temp = 110
             const temp_unit = "F";
@@ -867,12 +880,18 @@ app.post('/temp-data', (req, res) => {
             client.publish(topic, message, () => { 
                 res.send('published new message');
             }); 
-            sleep(time);
-        
-    
-    
+            sleep(time);  
 });
 
+
+/**
+* @api {post} /humid-data Create humid Data
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/
 app.post('/humid-data', (req, res) => { 
     //const { deviceId } = req.body;
 
@@ -892,10 +911,16 @@ app.post('/humid-data', (req, res) => {
                 res.send('published new message');
             }); 
             sleep(time);
-        
-
 });
 
+/**
+* @api {post} /accel-data Create Accel Data
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/
 app.post('/accel-data', (req, res) => { 
     //const { deviceId } = req.body;
 
@@ -922,7 +947,14 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-
+/**
+* @api {post} /ir-data Create IR Data
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/ 
 app.post('/ir-data', (req, res) => { 
     //const { deviceId } = req.body;
     
@@ -945,6 +977,15 @@ app.post('/ir-data', (req, res) => {
             sleep(time);
        
 });
+
+/**
+* @api {post} /airconditioner Turn on AC
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/ 
 app.post('/airconditioner', (req, res) => { 
     const { set_temp } = req.body;   
             const status="ON";
@@ -961,6 +1002,15 @@ app.post('/airconditioner', (req, res) => {
             sleep(time);
        
 });
+
+/**
+* @api {post} /offairconditioner Turn off AC
+* @apiGroup Device
+* @apiSuccessExample {json} Success-Response:
+*   { published new message }
+* @apiErrorExample {json} Error-Response:
+* { "deviceID does not exist" }
+*/ 
 app.post('/offairconditioner', (req, res) => { 
             const status="OFF";    
             const topic = '/airconditioner';
@@ -975,4 +1025,7 @@ app.post('/offairconditioner', (req, res) => {
 app.listen(port, () => { 
     console.log(`listening on port ${port}`);
 });
+
+
+
 
