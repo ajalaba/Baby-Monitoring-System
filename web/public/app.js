@@ -34,7 +34,7 @@ var accel_date_array = [];
 var humid_value_array = [];
 var humid_date_array = [];
 
-var notificationlist = [];
+
 // notificationlist.push(notification1);
 // notificationlist.push(notification2);
 // notificationlist.push(notification3);
@@ -74,14 +74,6 @@ try{
         notificationlist.push(BaseConfig[i]);  
     }
     console.log(BaseConfig);
-
-
-
-
-    
-    
-    
-    
     
 }
 catch(err)
@@ -160,11 +152,11 @@ if (currentUser) {
     <td>${device.patient_name}</td>
     <td>${device.device_name}</td>
             <td> 
-                <button class=\"sound\">Sound</button> 
-                <button class=\"temp\">Temp</button> 
-                <button class=\"infrared\">IR</button> 
-                <button class=\"accelerometer\">Accel</button> 
-                <button class=\"humid\">Humid</button> 
+                <button id="sound" class=\"sound\">Sound</button> 
+                <button id="temp" class=\"temp\">Temp</button> 
+                <button id="infrared" class=\"infrared\">IR</button> 
+                <button id="accelerometer"class=\"accelerometer\">Accel</button> 
+                <button id="humid" class=\"humid\">Humid</button> 
             </td>
             <td>
                 <div class="form-group"> 
@@ -394,7 +386,7 @@ if (currentUser) {
 
 
         .catch(error => {
-            console.error(`Error: ${error}`);
+            console.log(`Error: ${error}`);
         });
 }
 else {
@@ -412,176 +404,35 @@ else {
 
 
 
-var adddeviceapp = angular.module('adddeviceapp', []);
-adddeviceapp.controller('formCtrl', function ($scope) {
-    $scope.username = "";
-    $scope.name = "";
-    $scope.babyname="";
-    $scope.save = function () {
-        const user_name = $scope.username;
-        const device_name = $scope.name;
-        const patient_name = $scope.babyname;
-        console.log("username: " + user_name);
-        console.log("name: " + device_name);
-        console.log("Baby name: " + patient_name);
-        const sensor_data = [];
-        const body = {
-            device_name,
-            user_name,
-            patient_name,
-        };
-        $.post(`${API_URL}/devices`, body)
-            .then(response => {
-                location.href = '/';
-            })
-            .catch(error => {
-                console.error(`Error: ${error}`);
-            });
-
-
-    }
-});
 
 
 
 
 
-$('#send-command').on('click', function () {
-    const command = $('#command').val();
-    console.log(`command is: ${command}`);
-    const deviceId = $('#deviceId').val();
-    console.log("Attempting PUT");
-    $.post(`${MQTT_URL}/send-command`, { deviceId, command });
-    console.log("Attempted PUT " + deviceId);
 
-});
+// $('#send-command').on('click', function () {
+//     const command = $('#command').val();
+//     console.log(`command is: ${command}`);
+//     const deviceId = $('#deviceId').val();
+//     console.log("Attempting PUT");
+//     $.post(`${MQTT_URL}/send-command`, { deviceId, command });
+//     console.log("Attempted PUT " + deviceId);
 
-
-var sendcommandapp = angular.module('sendcommandapp', []);
-
-sendcommandapp.controller('formCtrl', function ($scope) {
-    $scope.deviceId = "";
-    $scope.command = "";
-    $scope.send = function () {
-        const deviceId = $scope.deviceId;
-        const command = $scope.command;
-        //console.log("send-commad entered "+deviceId+" "+command);
-    }
-
-    //$.post(`${MQTT_URL}/send-command`, { deviceId, command });
-});
+// });
 
 
 
-var loginapp = angular.module('loginapp', []);
-loginapp.controller('formCtrl', function ($scope, $http) {
-    $scope.username = "";
-    $scope.password = "";
-    $scope.bool = false;
-    $scope.submit = function () {
-        console.log("submit entered");
-        const user = $scope.username;
-        const password = $scope.password;
-        console.log("name: " + user);
-        console.log("password: " + password);
-        $.post(`${API_URL}/authenticate`, { "name": user, "password": password })
-            .then((response) => {
 
-                if (response.success) {
 
-                    localStorage.setItem('user', user);
-                    localStorage.setItem('isAdmin', response.isAdmin);
-                    localStorage.setItem('isAuthenticated', true);
-                    location.href = '/';
-                }
-                else {
-                    $scope.message = response;
-                    $scope.bool = true;
-                }
-            });
 
-    }
-});
+
 const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');
     location.href = '/login';
 };
 
-var registerapp = angular.module('registerapp', []);
-registerapp.directive('passwordvalidation', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attr, mCtrl) {
-            function myValidation(value) {
-                if (value.length >= 8) {
-                    mCtrl.$setValidity('charE', true);
-                } else {
-                    mCtrl.$setValidity('charE', false);
-                }
-                return value;
-            }
-            mCtrl.$parsers.push(myValidation);
-        }
-    };
-});
-registerapp.controller('formCtrl', function ($scope) {
-    $scope.username = "";
-    $scope.password = "";
-    $scope.confirm = "";
-    $scope.email = "";
-    var strength = "";
-    $scope.grade = function () {
-        var size = $scope.password.length;
-        if (size > 12) {
-            strength = 'strong';
-        } else if (size > 8) {
-            strength = 'medium';
-        } else {
-            strength = 'weak';
-        }
 
-        return strength;
-    }
-    $scope.register = function () {
-        const user = $scope.username;
-        const password = $scope.password;
-        const confirm = $scope.confirm;
-        const email_id = $scope.email;
-        $scope.bool = false;
-        const isAdmin = false;
-        console.log("name: " + user);
-        console.log("password: " + password);
-        console.log("confirm: " + confirm);
-        $.post(`${API_URL}/authenticate`, { "name": user, "password": password })
-            .then((response) => {
-                console.log("response");
-                console.log(response);
-                if (password != confirm) {
-                    $(".message").empty();
-                    $(".message").append("<p> Your Password and Confirm Password inputs do not match.</p>");
-                    //location.href = '/registration';
-                }
-                else {
-                    $.post(`${API_URL}/registration`, { "name": user, "password": password,"email_id":email_id, "isAdmin": isAdmin }).then((response) => {
-                        if (response.success) {
-
-                            $scope.bool = true;
-                            console.log("registration successfull");
-                            setTimeout(() => { location.href = '/login'; }, 2000);
-
-
-                            $('#message').append(`<p class="ui message"id="error" style="color: tomato;"> Registration Successfull</p>`);
-                        }
-                        else {
-                            $('#message').append(`<p class="alert alert-danger">${response}</p>`);
-                        }
-                    });
-
-                }
-            });
-    }
-});
 
 
 
@@ -606,39 +457,18 @@ var notification4 = {
 //console.log(BaseConfig[0]);
 //notificationlist.push(BaseConfig[0]);
 
-var notifyapp = angular.module('notifyapp', []);
-notifyapp.controller('formCtrl', function ($scope, $http) {
-    $scope.notlist = notificationlist;
-    $scope.deletenotification = function (index) {
-        // delete notificationlist[index];
-        // delete $scope.notlist[index];
-        $.post(`${API_URL}/users/${currentUser}/deletenotifications`, {index}).then((response)=>
-        {
-            if(response.success)
-            {
-                console.log("Deleted Successfully");
-            }
-            else
-            {
-                console.log("Error Occured");
-            }
-        });
-        notificationlist.splice(index, 1);
 
-        //$scope.notlist.splice(index,1);
-        //console.log(notificationlist);
-        //console.log($scope.notlist);
-    }
-});
 
-        $('#current tbody').append(`
-    <td>Baby ${device.patient_name}</td>
-    <td>${device.device_name}</td>
-            </tr>`
-                );
+    //     $('#current tbody').append(`
+    // <td>Baby ${device.patient_name}</td>
+    // <td>${device.device_name}</td>
+    //         </tr>`
+    //             );
 
     //console.log("Button Pressed");
     //console.log(buttonpressed);
     //console.log("sound_value_array");
     //console.log(sound_value_array);
     //console.log(sound_date_array);
+var devapp = angular.module('devapp', []);
+var getapp = angular.module('getapp', []);

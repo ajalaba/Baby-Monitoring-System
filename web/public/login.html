@@ -62,7 +62,7 @@
                     </div>
                   </div>
                 </div>
-                <button ng-click="submit()" class="ui fluid large teal submit button" id="login" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.password.$dirty && myForm.password.$invalid">Login</button>
+                <button ng-click="submit()" class="ui fluid large teal submit button" id="login" ng-disabled="myForm.username.$dirty && myForm.username.$invalid ||  myForm.password.$dirty && myForm.password.$invalid ||!username.length ||!password.length">Login</button>
                 <div class="ui error message"></div>
               </div>
             
@@ -80,5 +80,6 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="app.js"></script>
+    <script src="/controllers/login.js"></script>
     </body>
 </html>
