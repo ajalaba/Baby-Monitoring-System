@@ -17,10 +17,12 @@
     "express": "^4.17.1",
     "gulp": "^4.0.2",
     "gulp-install": "^1.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^4.0.1",
     "require": "^2.4.20"
   },
   "devDependencies": {
-    "karma": "^5.2.2",
+    "karma": "^5.2.3",
     "nodemon": "^2.0.4"
   },
   "description": ""

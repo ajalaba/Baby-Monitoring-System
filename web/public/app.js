@@ -386,7 +386,7 @@ if (currentUser) {
 
 
         .catch(error => {
-            console.error(`Error: ${error}`);
+            console.log(`Error: ${error}`);
         });
 }
 else {
@@ -470,3 +470,5 @@ var notification4 = {
     //console.log("sound_value_array");
     //console.log(sound_value_array);
     //console.log(sound_date_array);
+var devapp = angular.module('devapp', []);
+var getapp = angular.module('getapp', []);
