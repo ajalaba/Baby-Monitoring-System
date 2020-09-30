@@ -348,22 +348,39 @@ if (currentUser) {
                         })
                 }
                 //This has an error
-                else if (this.id == 'view') {
-                    $('.ui.modal').modal('show');
-                    
+                else if (this.id == 'view') {                    
                     console.log("working ");
                     var instruct_array = [];
-                    $.get(`${API_URL}/devices/${deviceId}/instructions`)
-                        .then(response => {
-                            response.map((instructions) => {
-                                $('#historyContent').append(`
-                            <tr>
-                            <td>${instructions.instruct}</td>
-                            </tr>
-                            `);
-                            });
+
+                    var notes = $.ajax({
+                        async: false,
+                        url: `${API_URL}/devices/${deviceId}/instructions`,
+                        type: 'get',
+                        data: { 'GetConfig': 'YES' },
+                        dataType: "JSON"
+                    }).responseJSON;
+                    console.log(notes);
+                    $('#historyContent').empty();
+                    for(var i=0;i<notes.length;i++)
+                    {
+                        
+                        $('#historyContent').append(`<tr><td class="collapsing">
+                        <i class="caret right icon"></i> ${notes[i].instruct}
+                      </td></tr>`);
+                    }
+
+
+                    // $.get(`${API_URL}/devices/${deviceId}/instructions`)
+                    //     .then(response => {
+                    //         response.map((instructions) => {
+                    //             $('#historyContent').append(`
+                    //         <tr>
+                    //         <td>${instructions.instruct}</td>
+                    //         </tr>
+                    //         `);
+                    //         });
                             
-                        });
+                    //     });
 
                     // var instruct_array =[];
 
@@ -377,7 +394,8 @@ if (currentUser) {
 
                     // })
                     // .catch(error => { console.error(`Error: ${error}`);
-                    // }); 
+                    // });
+                    $('.ui.modal').modal('show');
                 }
 
 
