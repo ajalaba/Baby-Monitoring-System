@@ -149,24 +149,23 @@ if (currentUser) {
 
                 $('#devices tbody').append(`
     <tr data-device-id=${device._id}>
-    <td>${device.patient_name}</td>
-    <td>${device.device_name}</td>
+    <td><button class="small ui black basic button">${device.patient_name}</button></td>
+    <td><button class="small ui black basic button">${device.device_name}</button></td>
             <td> 
-                <button id="sound" class=\"sound\">Sound</button> 
-                <button id="temp" class=\"temp\">Temp</button> 
-                <button id="infrared" class=\"infrared\">IR</button> 
-                <button id="accelerometer"class=\"accelerometer\">Accel</button> 
-                <button id="humid" class=\"humid\">Humid</button> 
+                <button id="sound" class="small ui blue button">Sound</button> 
+                <button id="temp" class="small ui olive button">Temp</button> 
+                <button id="infrared" class="small ui purple button">IR</button> 
+                <button id="accelerometer"class="small ui red button">Accel</button> 
+                <button id="humid" class="small ui orange button">Humid</button> 
             </td>
             <td>
-                <div class="form-group"> 
-                <input type="text" id="instruct" name="instruct" size="15">
-                <button id="add">Add</button>
+                <div class="ui mini action input">
+                    <input type="text" id="instruct" name="instruct" size="15" placeholder="Add....">
+                    <button id="add" class="ui teal button">ADD</button>
                 </div>
-                
             </td>
             <td> 
-                <button id="view">View</button> 
+                <button id="view" class="ui teal button">View</button> 
             </td>
             </tr>`
                 );
@@ -239,7 +238,6 @@ if (currentUser) {
         
             <h2>Baby ${currentDevice.patient_name}</h2>
             <div class="canvas-container">
-                
                 <p style="font-size:120%;"><b>Last sensor readings:</b></p>
                 <div style="background-color:cadetblue;color:black;padding:10px;">
                     Sound - <b>${sound_value} dB </b>
@@ -278,7 +276,7 @@ if (currentUser) {
                 //deviceId = e.currentTarget.getAttribute('data-device-id');
                 //var trid = $(this).attr('data-device-id'); 
                 //var trid = $(this).getAttribute('data-device-id');
-                var action = this.className;
+                var action = this.id;
 
 
                 if (action == 'sound') {
@@ -351,6 +349,9 @@ if (currentUser) {
                 }
                 //This has an error
                 else if (this.id == 'view') {
+                    $('.ui.modal').modal('show');
+                    
+                    console.log("working ");
                     var instruct_array = [];
                     $.get(`${API_URL}/devices/${deviceId}/instructions`)
                         .then(response => {
@@ -361,7 +362,7 @@ if (currentUser) {
                             </tr>
                             `);
                             });
-                            $('#historyModal').modal('show');
+                            
                         });
 
                     // var instruct_array =[];
