@@ -26,8 +26,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'adv.ace.2001@gmail.com',
-      pass: 'babymonitor'
+      user: process.env.GUSER,
+      pass: process.env.GPASS
     }
   });
 // var testAccount = nodemailer.createTestAccount();

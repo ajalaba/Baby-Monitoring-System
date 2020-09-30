@@ -4,7 +4,7 @@
   "main": "mqtt.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon mqtt.js"
+    "start": "nodemon -r dotenv/config mqtt.js"
   },
   "author": "",
   "license": "ISC",
