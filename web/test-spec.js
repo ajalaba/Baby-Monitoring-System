@@ -1,5 +1,6 @@
 describe('Protractor Baby Monitoring System register App testing',function(){
     it(' test all the error messages in regitseration page', function(){
+        browser.manage().window().maximize();
         browser.get('http://localhost:3000/registration');
         var username=element(by.model('username'));
         var password=element(by.model('password'));
@@ -23,7 +24,7 @@ describe('Protractor Baby Monitoring System register App testing',function(){
         browser.sleep(1000);
         expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/registration');
     });
-    it(' test all the register button diabled features when username is empty, password is empty, confirm is empty or password!=confirm or password is less than 8 characters. In all these cases register button should be disabled', function(){
+    it(' test all the register button diabled features when username is empty, password is empty, confirm is empty or password!=confirm or password is less than 8 characters.', function(){
         browser.get('http://localhost:3000/registration');
         var username=element(by.model('username'));
         var password=element(by.model('password'));
@@ -99,6 +100,7 @@ describe('Protractor Baby Monitoring System login App testing',function(){
         expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/login');
     });
     it('Login button should be disabled if username and Password field are empty ', function(){
+        browser.get('http://localhost:3000/login');
         browser.get('http://localhost:3000/login');
         var username=element(by.model('username'));
         var password=element(by.model('password'));
@@ -224,11 +226,12 @@ describe('Protractor Baby Monitoring System login App testing',function(){
         browser.sleep(1000);
         expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/send-command');
     });
-    it(' Send Command button should not work untill device name and command is filled and it should work after it is not empty and should Command Sent message after successfully save button click', function(){
+    it(' Send Command button should not work untill device name and command is filled and should ouput Command Sent message after successfully save button click', function(){
+        browser.manage().window().maximize();
         browser.get('http://localhost:3000/login');
         var username=element(by.model('username'));
         var password=element(by.model('password'));
-        username.sendKeys('test4');
+        username.sendKeys('test');
         password.sendKeys('12345678');
         var loginbutton=element(by.id('login'));
         loginbutton.click();
@@ -240,7 +243,7 @@ describe('Protractor Baby Monitoring System login App testing',function(){
         var sendbutton=element(by.id('send-command'));
         browser.sleep(1000);
         expect(sendbutton.isEnabled()).toBe(false);
-        name.sendKeys('123');
+        name.sendKeys('dev');
         expect(sendbutton.isEnabled()).toBe(false);
         command.sendKeys('Sound On');
         expect(sendbutton.isEnabled()).toBe(true);

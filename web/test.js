@@ -74,39 +74,36 @@ describe('sendcommandappController', function() {
 	  });
 	});
 });
-describe('notifyappController', function() {
-	beforeEach(module('notifyapp'));
+// describe('notifyappController', function() {
+// 	beforeEach(module('notifyapp'));
   
-	var $controller, $rootScope;
+// 	var $controller, $rootScope;
   
-	beforeEach(inject(function(_$controller_, _$rootScope_){
-	  // The injector unwraps the underscores (_) from around the parameter names when matching
-	  $controller = _$controller_;
-	  $rootScope = _$rootScope_;
-	}));
+// 	beforeEach(inject(function(_$controller_, _$rootScope_){
+// 	  // The injector unwraps the underscores (_) from around the parameter names when matching
+// 	  $controller = _$controller_;
+// 	  $rootScope = _$rootScope_;
+// 	}));
   
-	describe('$scope testing', function() {
-	  it('tests if the notlist is an empty array', function() {
-		var $scope = $rootScope.$new();
-		var controller = $controller('formCtrl', { $scope: $scope });
-		$scope.command="test4";
-		expect($scope.notlist).toEqual([]);
-	  });
-	  it('tests if the notifyapp controller is working without errors', function() {
-		var $scope = $rootScope.$new();
-		var controller = $controller('formCtrl', { $scope: $scope });
-		var notification1 = {
-			"title": "Baby Monitor Notifications",
-			"description": " Is this woaasd?"
-		};
-		$scope.notlist.push(notification1);
-		expect($scope.notlist).toEqual([{
-			"title": "Baby Monitor Notifications",
-			"description": " Is this woaasd?"
-		}]);
-	  });
-	});
-});
+// 	describe('$scope testing', function() {
+// 	  it('tests if the notlist is an empty array', function() {
+// 		var $scope = $rootScope.$new();
+// 		var controller = $controller('formCtrl', { $scope: $scope });
+// 		$scope.command="test4";
+// 		var notificationlist=[];
+// 		var x=notificationlist.length;
+// 		console.log(x);
+// 		var testlength=$scope.notlist.length;
+// 		console.log($scope.notlist.length);
+// 		console.log($scope.notlist);
+// 		expect(testlength).toEqual(0);
+// 	  });
+// 	});
+
+	
+// });
+
+
 
 describe('registerController', function() {
 	beforeEach(module('registerapp'));
@@ -143,5 +140,34 @@ describe('registerController', function() {
 		$scope.username="test4";
 		expect($scope.grade()).toEqual('strong');
 	  });
+	});
+});
+
+
+describe('notifyappController', function() {
+	beforeEach(module('notifyapp'));
+  
+	var $controller, $rootScope;
+  
+	beforeEach(inject(function(_$controller_, _$rootScope_){
+	  // The injector unwraps the underscores (_) from around the parameter names when matching
+	  $controller = _$controller_;
+	  $rootScope = _$rootScope_;
+	}));
+  
+	describe('$scope testing ', function() {
+		it('tests if the notifyapp controller is working without errors', function() {
+			var $scope = $rootScope.$new();
+			var controller = $controller('formCtrl', { $scope: $scope });
+			var notification1 = {
+				"title": "Baby Monitor Notifications",
+				"description": " Is this woaasd?"
+			};
+			$scope.notlist.push(notification1);
+			expect($scope.notlist).toEqual([{
+				"title": "Baby Monitor Notifications",
+				"description": " Is this woaasd?"
+			}]);
+		  });
 	});
 });
