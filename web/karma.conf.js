@@ -38,6 +38,30 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress'],
+    reporters: ["spec"],
+      specReporter: {
+
+        // When test faild - report it at the end of all tests 
+        lateReport:      true,
+
+        // Max Error log lines to display
+        maxLogLines:     5,
+
+        // Don't show faild tests
+        suppressFaild:   false,
+
+        // Don't show successful tests
+        suppressSuccess: false,
+
+        // Don't show skipped tests
+        suppressSkipped: false,
+
+        // Every test that is more slower than the slowest test is mark as slow
+        slowTestTime: 40,
+        fastTestTime: 20
+
+      },
+      
 
 
     // web server port
