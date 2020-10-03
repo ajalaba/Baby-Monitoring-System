@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="login.css">
+  
+<meta charset="utf-8" />
+<meta name="description" content="A frontend dashboard for the BabyMonitor application" />
+<meta name="ADV" content="ADV" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<title>Infrared Data</title>
+</head>
+<body>
+  <div class="container">
+    <div id="navbar"></div>
+  </div>
+  <br>
+  <br>
+  <div class="ui ui middle aligned center aligned container">
+    <div class="ui stacked secondary segment">
+      <div class="ui middle aligned center aligned container"> 
+        <h2 class="ui image header">
+          <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+          <i class="home icon"></i>
+          <div class="content">
+            Infrared Data
+          </div>
+        </h2>
+      </div>
+      <div class="ui vertical stripe segment">
+        <div class="ui text container">
+          <h3 class="ui header">What is Infrared Sensor?</h3>
+          <p>An infrared (IR) sensor is an electronic device that measures and detects infrared radiation in its surrounding environment.</p>
+          <p>There are two types of infrared sensors: Active and Passive.</p>
+          <p>Active infrared sensors both emit and detect infrared radiation.</p>
+          <p>Passive infrared (PIR) sensors only detect infrared radiation and do not emit it from an LED.</p>
+        
+          <div class ="img">
+            <img src="https://qtxasset.com/styles/breakpoint_xl_880px_w/s3/fierceelectronics/1564457936/pirsensordiagram.png/pirsensordiagram.png?gHEQBZ1ehR079vdYq1Ub3ZQ7RhWAyN4G" alt="infrared" style="width:500px;height:300px">
+          </div>
+        
+          <h4>Infrared Guide</h4>
+          <p>Used to detect the infrared radiation within the room.</p>
+          <p>This sensor is used to detect the baby's motion.</p>
+      </div>
+    </div>
+    </div>
+    </div>
+
+  <div class="ui container">
+    <form>
+        <p></p> 
+        <button style="background-color: blueviolet; border-color: blueviolet; color: white;" class="btn btn-success" onclick="updateChart()">Update</button>
+    </form>
+    <canvas id="IRChart"></canvas> 
+  </div>
+  
+  <style>
+    table {
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #cccccc;
+      padding: 8px;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:hover {
+      background-color: burlywood;
+      color: white;
+    }
+    div.text
+    {
+      text-align: center;
+    }
+  </style>
+
+<table id="table_ir" class="table">
+  <thead>
+  <tr>
+    <th>Time</th>
+    <th>Infrared Value</th>
+  </tr>
+  </thead>
+  <tbody id="ir1" ></tbody>
+</table>
+
+  <div style="text-align: center;", id="footbar"></div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    var arr2 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/infrared`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr2);
+    for (var i = 0; i < arr2.length; i++) {
+        ir_value_array.push(Number(arr2[i].ir_value));
+        ir_date_array.push(arr2[i].ir_date);
+    }
+
+    var ir_date_formatted = [];
+    for (var i = 0; i < ir_date_array.length; i++) {
+        var irDate = new Date(ir_date_array[i]);
+        ir_date_formatted[i] = irDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+
+    var i=0;
+    for (i=0;i<ir_value_array.length;i++)
+    {
+      console.log("-----------------------");
+      $('#ir1').append(`<tr><td>${ir_date_formatted[i]}</td><td>${ir_value_array[i]}</td></tr>`)
+    }
+
+    //Notes
+    //Only problem is that the data from table and graph is different
+    //Since it uses getData function which randomizes numbers
+    //Should be fixed when we use real data?
+    console.log(ir_value_array);
+    console.log(ir_date_array);
+    // function getData() { 
+    //   return Math.random() * 100;
+    // }
+
+    //Table Stuff
+    // let sortDirection = false;
+    // let infraredData = [
+    //     { day: 'Monday', percentages: getData() },
+    //     { day: 'Tuesday', percentages: getData() },
+    //     { day: 'Wednesday', percentages: getData() },
+    //     { day: 'Thursday', percentages: getData() },
+    //     { day: 'Friday', percentages: getData() },
+    //     { day: 'Saturday', percentages: getData() },
+    //     { day: 'Sunday', percentages: getData() },
+    // ];
+        
+    // window.onload = () => {
+    //   loadTableData(infraredData);
+    // }
+
+    // function loadTableData(infraredData) {
+    //   const tableBody = document.getElementById('tableData');
+    //   let dataHtml = '';
+    
+    //   for (let infrared of infraredData) {
+    //       dataHtml += `<tr><td>${infrared.day}</td><td>${infrared.percentages}</td></tr>`;
+    //   }
+    //   console.log(dataHtml);
+    //   tableBody.innerHTML = dataHtml;  
+    // }
+
+    // //When clicking on percentages header, sorts dynamically. Refreshing will undo
+    // function sortColumn(columnName) {
+    //   const dataType = typeof infraredData[0][columnName];
+    //   sortDirection = !sortDirection;
+
+    //   switch(dataType) {
+    //     case 'number':
+    //     sortNumberColumn(sortDirection, columnName);
+    //     break;
+    //   }
+
+    //   loadTableData(infraredData);
+    // }
+    // function sortNumberColumn(sort, columnName) {
+    //   infraredData = infraredData.sort((p1, p2) => {
+    //       return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+    //   });
+    // }
+
+
+
+    //Chart Stuff
+    let myChart = document.getElementById('IRChart').getContext('2d');
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#000';
+
+    let massPopChart = new Chart(IRChart, {
+      type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels: ir_date_formatted,//['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          datasets:[{
+            label:'Infrared Data',
+            data: ir_value_array,
+            // [
+            //   getData(), getData(),getData(),getData(),getData(),getData(),getData()
+            // ],
+          //backgroundColor:'green',
+          // backgroundColor:[
+          //   'rgba(0, 99, 132, 0.6)'
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)'
+          //],
+          borderWidth:3,
+          borderColor:[
+            'rgba(138, 43, 226, 0.6)'
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)'
+          ],
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        // scales: {
+        //   xAxes: [{
+        //     ticks: {
+        //       autoSkip: false
+        //     }
+        //   }]
+        // },
+        title:{
+          display:true,
+          text:'IR Sensor Data',
+          fontSize:25,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+
+    // function updateChart() {
+
+    //     chart.data.datasets.forEach((datasets) => {
+    //       datasets.data.push(getData());
+    //     })
+    //     chart.update();
+    // };
+
+  </script>
+</body>
+</html>
+

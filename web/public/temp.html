@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="login.css">
+  
+<meta charset="utf-8" />
+<meta name="description" content="A frontend dashboard for the BabyMonitor application" />
+<meta name="ADV" content="ADV" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<title>Temperature Data</title>
+</head>
+<body>
+  <div class="container">
+    <div id="navbar"></div>
+  </div>
+  <br>
+  <br>
+  <div class="ui ui middle aligned center aligned container">
+    <div class="ui stacked secondary segment">
+      <div class="ui middle aligned center aligned container"> 
+        <h2 class="ui image header">
+          <!-- <img src="./Login Example - Semantic_files/logo.png" class="image"> -->
+          <i class="home icon"></i>
+          <div class="content">
+            Temperature Data
+          </div>
+        </h2>
+      </div>
+      <div class="ui vertical stripe segment">
+        <div class="ui text container">
+          <h3 class="ui header">What is Temperature Sensor?</h3>
+    <p>Temperature is a measure of how hot or cold something is; specifically, a measure of the average kinetic energy of the particles in an object, which is a type of energy associated with motion.</p>
+    <p>It is essentially the measurement of how fast atoms and molecules of a substance are moving.</p>
+    <p>Temperature is generally measured in degrees on the Fahrenheit, Celsius, and Kelvin scales however, in this dataset the data will be recorded in Fahrenheit.</p>
+
+    <div class ="img">
+      <img src="https://images.ctfassets.net/q5lwz1whkyct/7f0kr7RVkaHgwKptgjCeHb/16c913704c668da104a5f55f73d3f76a/best-temperature-for-sleep_1-body-temp-by-age.png" alt="infrared" style="width:500px;height:300px">
+    </div>
+  
+    <h4>Temperature Guide</h4>
+    <p>Used to measure the current room temperature.</p>
+    <p>Ideal Temperature: 18-21°C or 65-70°F</p>
+      </div>
+    </div>
+    </div>
+    </div>
+
+
+  <div class="container">
+    <form>
+        <button style="background-color:chartreuse; border-color: chartreuse; color:black;" class="btn btn-success" onclick="updateChart()">Update</button>
+    </form>
+    <canvas id="IRChart"></canvas> 
+  </div>
+  
+  <style>
+    table {
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #cccccc;
+      padding: 8px;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:hover {
+      background-color: burlywood;
+      color: white;
+    }
+    div.text {
+      text-align: center;
+    }
+  </style>
+
+<table id="table_temp" class="table">
+  <thead>
+  <tr>
+    <th>Time</th>
+    <th>Temperature  Value</th>
+  </tr>
+  </thead>
+  <tbody id="temp1" ></tbody>
+</table>
+  
+  
+  <div style="text-align: center;", id="footbar"></div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    var arr1 = $.ajax({
+        async: false,
+        url: `${API_URL}/devices/${deviceId}/temperature`,
+        type: 'get',
+        data: { 'GetConfig': 'YES' },
+        dataType: "JSON"
+    }).responseJSON;
+    console.log(arr1);
+    for (var i = 0; i < arr1.length; i++) {
+        temp_value_array.push(Number(arr1[i].temp_value));
+        temp_date_array.push(arr1[i].temp_date);
+    }
+
+  
+    var temp_date_formatted = [];
+    for (var i = 0; i < temp_date_array.length; i++) {
+        var tempDate = new Date(temp_date_array[i]);
+        temp_date_formatted[i] = tempDate.toLocaleString("en-US", {timeZone: "Australia/Melbourne"});;
+    }
+
+    var i=0;
+    for (i=0;i<temp_value_array.length;i++)
+    {
+      console.log("-----------------------");
+      $('#temp1').append(`<tr><td>${temp_date_formatted[i]}</td><td>${temp_value_array[i]}</td></tr>`)
+    }
+
+    //Notes
+    //Only problem is that the data from table and graph is different
+    //Since it uses getData function which randomizes numbers
+    //Should be fixed when we use real data?
+    console.log(arr1);
+    console.log(temp_value_array);
+    console.log(temp_date_array);
+    console.log("formatted array");
+    console.log(temp_date_formatted);
+    // function getData() { 
+    //   return Math.random() * 100;
+    // }
+    
+    //Table Stuff
+    // let sortDirection = false;
+    // let tempData = [
+    //     { day: 'Monday', percentages: getData() },
+    //     { day: 'Tuesday', percentages: getData() },
+    //     { day: 'Wednesday', percentages: getData() },
+    //     { day: 'Thursday', percentages: getData() },
+    //     { day: 'Friday', percentages: getData() },
+    //     { day: 'Saturday', percentages: getData() },
+    //     { day: 'Sunday', percentages: getData() },
+    // ];
+        
+    // window.onload = () => {
+    //   loadTableData(tempData);
+    // }
+
+    // function loadTableData(tempData) {
+    //   const tableBody = document.getElementById('tableData');
+    //   let dataHtml = '';
+    
+    //   for (let temp of tempData) {
+    //       dataHtml += `<tr><td>${temp.day}</td><td>${temp.percentages}</td></tr>`;
+    //   }
+    //   console.log(dataHtml);
+    //   tableBody.innerHTML = dataHtml;  
+    // }
+
+    // //When clicking on percentages header, sorts dynamically. Refreshing will undo
+    // function sortColumn(columnName) {
+    //   const dataType = typeof tempData[0][columnName];
+    //   sortDirection = !sortDirection;
+
+    //   switch(dataType) {
+    //     case 'number':
+    //     sortNumberColumn(sortDirection, columnName);
+    //     break;
+    //   }
+
+    //   loadTableData(tempData);
+    // }
+    // function sortNumberColumn(sort, columnName) {
+    //   tempData = tempData.sort((p1, p2) => {
+    //       return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+    //   });
+    // }
+
+    //Chart stuff
+    let myChart = document.getElementById('IRChart').getContext('2d');
+    // function getTempValues() {
+    //   var tempData = temp;
+    //   var tempValues = [];
+    //   forEach((tempData) => {
+    //       tempValues.push(temp.temp_value);
+    //   });
+    //   console.log(tempValues[0]);
+    //   return tempValues;
+    // }
+
+    // function getTempDate() {
+    //   var tempData = temp;
+    //   var tempDates= [];
+    //   forEach((tempData) => {
+    //       tempDates.push(temp.temp_value);
+    //   });
+    //   console.log(tempValues[0]);
+    //   return tempDates;
+    // }
+
+    // function getTempDates() {
+    //   var temp = getTempData();
+    //   var tempDates = [];
+    //   forEach((temp) => {
+    //       tempDates.push(temp.temp_date);
+    //   });
+    //   console.log(tempDates[0]);
+    //   return tempDates;
+    // }
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#000';
+
+    let massPopChart = new Chart(IRChart, {
+      type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels: temp_date_formatted,//['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          datasets:[{
+            label:'Temperature Data',
+            data:
+            temp_value_array
+            //getTempValues()
+              //[getData(), getData(),getData(),getData(),getData(),getData(),getData()]
+            ,
+          //backgroundColor:'green',
+          // backgroundColor:[
+          //   'rgba(0, 99, 132, 0.6)'
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)'
+          //],
+          borderWidth:3,
+          borderColor:[
+            'rgba(127, 255, 0, 1)'
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)',
+            // 'rgba(0, 99, 132, 0.6)'
+          ],
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        // scales: {
+        //   xAxes: [{
+        //     ticks: {
+        //       autoSkip: false
+        //     }
+        //   }]
+        // },
+        title:{
+          display:true,
+          text:'Temperature Data',
+          fontSize:25,
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+
+    // function updateChart() {
+
+    //     chart.data.datasets.forEach((datasets) => {
+    //       datasets.data.push(getData);
+    //     })
+    //     chart.update();
+    // };
+
+  </script>
+</body>
+</html>
