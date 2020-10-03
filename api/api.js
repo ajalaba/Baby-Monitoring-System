@@ -1,8 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 //mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
-//mongoose.connect('mongodb+srv://adv:adv@cluster0.lpmrh.mongodb.net/BabyMonitor?retryWrites=true&w=majority');
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://adv:adv123@cluster0.lpmrh.mongodb.net/BabyMonitor', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //mongoose.connect('mongodb+srv://deolsatish:debarati@sit209.udjho.mongodb.net/test1');
 // To connect to mongo db dtabase using mongodb shell mongo "mongodb+srv://cluster0.lpmrh.mongodb.net/BabyMonitor>" --username adv
